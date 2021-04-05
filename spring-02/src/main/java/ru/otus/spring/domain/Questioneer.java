@@ -72,7 +72,6 @@ public class Questioneer {
             System.out.println();
             System.out.println("Congratulations " + studentFIO + "! You have passed the test!");
             System.out.println("Your result: " + rightAskCounter + " right answers.");
-            System.out.println("numberOfAnswersToPassTheTest: " + numberOfAnswersToPassTheTest);
         } else {
             System.out.println();
             System.out.println("You haven't passed test. Result:" + rightAskCounter);

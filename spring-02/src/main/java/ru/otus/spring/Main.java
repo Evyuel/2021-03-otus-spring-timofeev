@@ -12,8 +12,6 @@ public class Main {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
 
         QuestioneerService service = (QuestioneerService) context.getBean("questioneerServiceImpl");
-        service.askStudentName();
-        service.checkQuestions();
-        service.getResult();
+        service.runTheTest();
     }
 }

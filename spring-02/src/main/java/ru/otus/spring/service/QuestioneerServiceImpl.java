@@ -21,19 +21,16 @@ public class QuestioneerServiceImpl implements QuestioneerService {
         this.questioneer = questioneer;
     }
 
-    public void askStudentName() throws IOException {
+    public void runTheTest() throws IOException {
+        setStudentName();
+        questioneer.printQuestions();
+        questioneer.getResult();
+    }
+
+    public void setStudentName() throws IOException {
         System.out.println("What is your name ?");
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         questioneer.setStudentFIO(bf.readLine());
-    }
-
-    public void checkQuestions() throws IOException {
-
-        questioneer.printQuestions();
-    }
-
-    public void getResult() {
-        questioneer.getResult();
     }
 
 
