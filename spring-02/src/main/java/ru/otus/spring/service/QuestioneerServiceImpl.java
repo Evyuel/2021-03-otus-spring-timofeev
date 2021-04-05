@@ -2,7 +2,6 @@ package ru.otus.spring.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.otus.spring.dao.QuestionResourceDao;
 import ru.otus.spring.domain.Questioneer;
@@ -21,12 +20,14 @@ public class QuestioneerServiceImpl implements QuestioneerService {
         this.questioneer = questioneer;
     }
 
+    @Override
     public void runTheTest() throws IOException {
         setStudentName();
         questioneer.printQuestions();
         questioneer.getResult();
     }
 
+    @Override
     public void setStudentName() throws IOException {
         System.out.println("What is your name ?");
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
