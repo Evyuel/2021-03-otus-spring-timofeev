@@ -57,7 +57,7 @@ public class QuestionCSV implements Question {
         this.choices = choices;
     }
 
-    public String toString(){
+    public String toString() {
         return "Q: " + question + ", A: " + answer + ", Ch: " + choices;
     }
 }
