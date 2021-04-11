@@ -1,10 +1,12 @@
 package ru.otus.spring.service;
 
 
+import com.opencsv.exceptions.CsvException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.otus.spring.dao.QuestionResourceDao;
-import ru.otus.spring.domain.Questioneer;
+import ru.otus.spring.domain.QuestionCSV;
+import ru.otus.spring.domain.QuestioneerCSV;
 
 import java.io.*;
 
@@ -12,27 +14,46 @@ import java.io.*;
 public class QuestioneerServiceImpl implements QuestioneerService {
 
     private final QuestionResourceDao dao;
-    private final Questioneer questioneer;
+    private final QuestioneerCSV questioneerCSV;
 
     @Autowired
-    public QuestioneerServiceImpl(QuestionResourceDao dao, Questioneer questioneer) {
+    public QuestioneerServiceImpl(QuestionResourceDao dao, QuestioneerCSV questioneerCSV) {
         this.dao = dao;
-        this.questioneer = questioneer;
+        this.questioneerCSV = questioneerCSV;
     }
 
     @Override
-    public void runTheTest() throws IOException {
-        setStudentName();
-        questioneer.printQuestions();
-        questioneer.getResult();
+    public void runTheTest() throws IOException, CsvException {
+        setStudentFIO();
+        formQuestioneer();
+        askQuestions();
+        printResult();
     }
 
-    @Override
-    public void setStudentName() throws IOException {
-        System.out.println("What is your name ?");
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        questioneer.setStudentFIO(bf.readLine());
+    public void printResult() {
+        if (questioneerCSV.isTestPassed()) {
+            System.out.println();
+            System.out.println("Congratulations " + questioneerCSV.getStudentFIO() + "! You have passed the test!");
+            System.out.println("Your result: " + questioneerCSV.getRightAskCounter() + " right answers.");
+        } else {
+            System.out.println();
+            System.out.println("You haven't passed test. Result:" + questioneerCSV.getRightAskCounter());
+        }
     }
 
+    public void askQuestions() throws IOException {
+        for (QuestionCSV q : questioneerCSV.getAllQuestionCSV()) {
+            System.out.println(q.getQuestion());
+            System.out.println("Possible answers: " + q.getChoices());
+            questioneerCSV.checkAnswer(q.getAnswer());
+        }
+    }
 
+    public void setStudentFIO() throws IOException {
+        questioneerCSV.setStudentFIO();
+    }
+
+    public void formQuestioneer() throws IOException, CsvException {
+        questioneerCSV.formQuestioneer();
+    }
 }
