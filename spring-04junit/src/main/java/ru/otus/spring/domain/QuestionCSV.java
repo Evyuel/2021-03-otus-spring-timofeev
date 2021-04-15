@@ -6,58 +6,40 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 
-public class QuestionCSV implements Question {
-    private String question;
-    private String answer;
-    private String choices;
-    private final String[] stringForQuestion;
+public final class QuestionCSV implements Question {
+    private final String question;
+    private final String answer;
+    private final String choices;
+    private boolean isRightAnswer;
 
-
-    public QuestionCSV(String[] stringForQuestion) {
-        this.stringForQuestion = stringForQuestion;
-    }
-
-    public void formFields() {
-        for (int i = 0; i < stringForQuestion.length; i++) {
-            if (i == 0) {
-                question = stringForQuestion[i];
-            }
-            if (i == 1) {
-                answer = stringForQuestion[i];
-            }
-            if (i > 1) {
-                choices += "," + stringForQuestion[i];
-            }
-
-        }
-        choices = choices.substring(5);
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
+    public QuestionCSV(String question, String answer, String choices) {
         this.question = question;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
         this.answer = answer;
-    }
-
-    public String getChoices() {
-        return choices;
-    }
-
-    public void setChoices(String choices) {
         this.choices = choices;
     }
 
+    @Override
+    public String getQuestion() {
+        return question;
+    }
+    @Override
+    public String getAnswer() {
+        return answer;
+    }
+    @Override
+    public String getChoices() {
+        return choices;
+    }
+    @Override
     public String toString() {
         return "Q: " + question + ", A: " + answer + ", Ch: " + choices;
+    }
+    @Override
+    public boolean isRightAnswer() {
+        return isRightAnswer;
+    }
+    @Override
+    public void setRightAnswer(boolean rightAnswer) {
+        isRightAnswer = rightAnswer;
     }
 }
