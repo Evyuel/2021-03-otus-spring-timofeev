@@ -22,22 +22,27 @@ public final class QuestionCSV implements Question {
     public String getQuestion() {
         return question;
     }
+
     @Override
     public String getAnswer() {
         return answer;
     }
+
     @Override
     public String getChoices() {
         return choices;
     }
+
     @Override
     public String toString() {
         return "Q: " + question + ", A: " + answer + ", Ch: " + choices;
     }
+
     @Override
     public boolean isRightAnswer() {
         return isRightAnswer;
     }
+
     @Override
     public void setRightAnswer(boolean rightAnswer) {
         isRightAnswer = rightAnswer;

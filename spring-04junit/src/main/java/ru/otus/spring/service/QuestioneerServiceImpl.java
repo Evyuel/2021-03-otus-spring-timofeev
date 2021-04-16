@@ -32,19 +32,22 @@ public class QuestioneerServiceImpl implements QuestioneerService {
         askQuestions();
         printResult();
     }
+
     @Override
     public void askStudentFIO() throws IOException {
         System.out.println("What is your name ?");
         student.setFio(readConsole());
     }
+
     @Override
     public void askQuestions() throws IOException, CsvException {
-        for (Question q : dao.getAllQuestions()){
+        for (Question q : dao.getAllQuestions()) {
             System.out.println(q.getQuestion());
             System.out.println("Possible answers: " + q.getChoices());
             readAnswer(q);
         }
     }
+
     @Override
     public void printResult() throws IOException, CsvException {
         System.out.println(isTestPassed());
@@ -56,20 +59,22 @@ public class QuestioneerServiceImpl implements QuestioneerService {
             System.out.println("You haven't passed test. ");
         }
     }
+
     @Override
     public String readConsole() throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         return bf.readLine();
     }
+
     @Override
     public boolean isTestPassed() throws IOException, CsvException {
         int rightAnswersCnt = 0;
-        for (Question q : dao.getAllQuestions()){
-            if (q.isRightAnswer()){
+        for (Question q : dao.getAllQuestions()) {
+            if (q.isRightAnswer()) {
                 rightAnswersCnt++;
             }
         }
-        return rightAnswersCnt>=numberOfAnswersToPassTheTest;
+        return rightAnswersCnt >= numberOfAnswersToPassTheTest;
     }
 
     public void readAnswer(Question q) throws IOException {
