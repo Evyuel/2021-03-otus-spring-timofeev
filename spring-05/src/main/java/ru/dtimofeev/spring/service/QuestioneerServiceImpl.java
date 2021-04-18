@@ -51,7 +51,6 @@ public class QuestioneerServiceImpl implements QuestioneerService {
 
     @Override
     public void printResult() throws IOException, CsvException {
-        System.out.println(isTestPassed());
         if (isTestPassed()) {
             System.out.println();
             System.out.println("Congratulations " + student.getFio() + "! You have passed the test!");
