@@ -26,14 +26,6 @@ public class QuestioneerServiceImpl implements QuestioneerService {
         this.student = student;
     }
 
-    public Person getStudent() {
-        return student;
-    }
-
-    public QuestionResourceDao getDao() {
-        return dao;
-    }
-
     @Override
     public void runTheTest() throws IOException, CsvException {
         askStudentFIO();
