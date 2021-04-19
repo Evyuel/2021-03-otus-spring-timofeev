@@ -7,11 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import ru.dtimofeev.spring.config.Config;
 import ru.dtimofeev.spring.dao.QuestionResourceDaoCSV;
 import ru.dtimofeev.spring.domain.Question;
@@ -26,7 +21,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -42,14 +36,14 @@ class QuestioneerServiceImplTest {
     @InjectMocks
     QuestioneerServiceImpl questioneerService;
 
-    List<Question> questionArray = new ArrayList<>(Arrays.asList(new QuestionCSV("1","2","3"),new QuestionCSV("2","3","4")));
+    List<Question> questionArray = new ArrayList<>(Arrays.asList(new QuestionCSV("1", "2", "3"), new QuestionCSV("2", "3", "4")));
 
     @DisplayName("Должен подтвердить пройденный тест на минимум")
     @Test
     void shouldPass_Minimum() throws IOException, CsvException {
         when(questionResourceDao.getAllQuestions()).thenReturn(questionArray);
 
-        for (Question q : questionResourceDao.getAllQuestions()){
+        for (Question q : questionResourceDao.getAllQuestions()) {
             q.setRightAnswer(true);
         }
         questioneerService.setNumberOfAnswersToPassTheTest(2);
@@ -60,7 +54,7 @@ class QuestioneerServiceImplTest {
     @Test
     void shouldPass_Norm() throws IOException, CsvException {
         when(questionResourceDao.getAllQuestions()).thenReturn(questionArray);
-        for (Question q : questionResourceDao.getAllQuestions()){
+        for (Question q : questionResourceDao.getAllQuestions()) {
             q.setRightAnswer(true);
         }
         questioneerService.setNumberOfAnswersToPassTheTest(1);
@@ -71,7 +65,7 @@ class QuestioneerServiceImplTest {
     @Test
     void shouldFailTest() throws IOException, CsvException {
         when(questionResourceDao.getAllQuestions()).thenReturn(questionArray);
-        for (Question q : questionResourceDao.getAllQuestions()){
+        for (Question q : questionResourceDao.getAllQuestions()) {
             q.setRightAnswer(true);
         }
         questioneerService.setNumberOfAnswersToPassTheTest(3);
@@ -81,7 +75,7 @@ class QuestioneerServiceImplTest {
     @DisplayName("Должен корректно проставлять признак верного ответа")
     @Test
     void shouldCorrectSetRightAnswerSign() throws IOException, CsvException {
-        QuestionCSV q = new QuestionCSV("This is a question","This is an answer","choices 1 2 3");
+        QuestionCSV q = new QuestionCSV("This is a question", "This is an answer", "choices 1 2 3");
 
         String inputRightAnswer = "This is an answer";
         InputStream in = new ByteArrayInputStream(inputRightAnswer.getBytes());
@@ -95,7 +89,7 @@ class QuestioneerServiceImplTest {
     @DisplayName("Должен корректно проставлять признак неверного ответа")
     @Test
     void shouldCorrectSetWrongAnswerSign() throws IOException, CsvException {
-        QuestionCSV q = new QuestionCSV("This is a question","This is an answer","choices 1 2 3");
+        QuestionCSV q = new QuestionCSV("This is a question", "This is an answer", "choices 1 2 3");
 
         String inputRightAnswer = "This is NOT an answer";
         InputStream in = new ByteArrayInputStream(inputRightAnswer.getBytes());

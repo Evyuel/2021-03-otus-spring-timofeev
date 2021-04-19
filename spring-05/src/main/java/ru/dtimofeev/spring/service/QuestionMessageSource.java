@@ -1,12 +1,10 @@
 package ru.dtimofeev.spring.service;
 
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import ru.dtimofeev.spring.domain.QuestionLocaleResolver;
 
-import java.util.Locale;
 
 @Component
 public class QuestionMessageSource {
