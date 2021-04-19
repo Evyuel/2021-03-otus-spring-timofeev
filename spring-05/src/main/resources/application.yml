@@ -1,0 +1,8 @@
+CSV-Source-File-Name:
+    src/main/resources/Questions.csv
+Number-Of-Answers-To-Pass-The-Test:
+  4
+spring:
+  messages:
+    basename:
+      i18n/messages

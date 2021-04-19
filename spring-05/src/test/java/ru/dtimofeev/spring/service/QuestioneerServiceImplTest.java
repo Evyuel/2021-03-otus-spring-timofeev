@@ -7,6 +7,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import ru.dtimofeev.spring.config.Config;
 import ru.dtimofeev.spring.dao.QuestionResourceDaoCSV;
 import ru.dtimofeev.spring.domain.Question;
 import ru.dtimofeev.spring.domain.QuestionCSV;
@@ -20,10 +26,15 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("Класс QuestioneerServiceImplTest")
 class QuestioneerServiceImplTest {
+
+    @Mock
+    Config config;
 
     @Mock
     QuestionResourceDaoCSV questionResourceDao;
@@ -37,6 +48,7 @@ class QuestioneerServiceImplTest {
     @Test
     void shouldPass_Minimum() throws IOException, CsvException {
         when(questionResourceDao.getAllQuestions()).thenReturn(questionArray);
+
         for (Question q : questionResourceDao.getAllQuestions()){
             q.setRightAnswer(true);
         }

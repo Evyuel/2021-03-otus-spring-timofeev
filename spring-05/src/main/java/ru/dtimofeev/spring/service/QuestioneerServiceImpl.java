@@ -3,9 +3,11 @@ package ru.dtimofeev.spring.service;
 
 import com.opencsv.exceptions.CsvException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
+import ru.dtimofeev.spring.config.Config;
 import ru.dtimofeev.spring.dao.QuestionResourceDao;
+import ru.dtimofeev.spring.domain.QuestionLocaleResolver;
 import ru.dtimofeev.spring.domain.Person;
 import ru.dtimofeev.spring.domain.Question;
 
@@ -18,13 +20,15 @@ public class QuestioneerServiceImpl implements QuestioneerService {
 
     private final QuestionResourceDao dao;
     private final Person student;
-    @Value("${NumberOfAnswersToPassTheTest}")
+    private final QuestionMessageSource questionMessageSource;
     private int numberOfAnswersToPassTheTest;
 
     @Autowired
-    public QuestioneerServiceImpl(QuestionResourceDao dao, Person student) {
+    public QuestioneerServiceImpl(QuestionResourceDao dao, Person student, Config config, QuestionMessageSource questionMessageSource) {
         this.dao = dao;
         this.student = student;
+        this.numberOfAnswersToPassTheTest = config.getNumberOfAnswersToPassTheTest();
+        this.questionMessageSource = questionMessageSource;
     }
 
     @Override
@@ -36,7 +40,7 @@ public class QuestioneerServiceImpl implements QuestioneerService {
 
     @Override
     public void askStudentFIO() throws IOException {
-        System.out.println("What is your name ?");
+        System.out.println(questionMessageSource.getMessage("start.ask.name"));
         student.setFio(readConsole());
     }
 
@@ -44,7 +48,7 @@ public class QuestioneerServiceImpl implements QuestioneerService {
     public void askQuestions() throws IOException, CsvException {
         for (Question q : dao.getAllQuestions()) {
             System.out.println(q.getQuestion());
-            System.out.println("Possible answers: " + q.getChoices());
+            System.out.println(questionMessageSource.getMessage("running.possible.answers") + " " + q.getChoices());
             readAnswer(q);
         }
     }
@@ -53,10 +57,10 @@ public class QuestioneerServiceImpl implements QuestioneerService {
     public void printResult() throws IOException, CsvException {
         if (isTestPassed()) {
             System.out.println();
-            System.out.println("Congratulations " + student.getFio() + "! You have passed the test!");
+            System.out.println(questionMessageSource.getMessage("result.passed.congratulation") + " " + student.getFio() + "! " + questionMessageSource.getMessage("result.passed"));
         } else {
             System.out.println();
-            System.out.println("You haven't passed test. ");
+            System.out.println(questionMessageSource.getMessage("result.failed"));
         }
     }
 
