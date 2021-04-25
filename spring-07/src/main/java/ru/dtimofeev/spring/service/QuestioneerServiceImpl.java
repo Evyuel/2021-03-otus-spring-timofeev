@@ -31,15 +31,9 @@ public class QuestioneerServiceImpl implements QuestioneerService {
 
     @Override
     public void runTheTest() {
-        askStudentFIO();
+        welcome();
         askQuestions();
         printResult();
-    }
-
-    @Override
-    public void askStudentFIO(){
-        System.out.println(questionMessageSource.getMessage("start.ask.name"));
-        student.setFio(readConsole());
     }
 
     @Override
@@ -83,6 +77,11 @@ public class QuestioneerServiceImpl implements QuestioneerService {
             }
         }
         return rightAnswersCnt >= numberOfAnswersToPassTheTest;
+    }
+
+    private void welcome(){
+        System.out.println("Добро пожаловать " + student.getFio() + "!");
+        System.out.println();
     }
 
     public void readAnswer(Question q){
