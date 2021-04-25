@@ -28,10 +28,10 @@ class DataReaderCSVTest {
         int i = 0;
         for (String[] s : dataReaderCSV.read()) {
             if (i == 0) {
-                assertArrayEquals(new String[]{"1) How much will 5+5 ?", "10", "10", "11", "12"}, s);
+                assertArrayEquals(new String[]{"1) How much will 5+5 ?", "1) Сколько будет 5+5 ?", "10", "10", "11", "12"}, s);
             }
             if (i == 1) {
-                assertArrayEquals(new String[]{"2) How much will 3+3 ?", "6", "5", "6", "9"}, s);
+                assertArrayEquals(new String[]{"2) How much will 3+3 ?","2) Сколько будет 3+3 ?", "6", "5", "6", "9"}, s);
             }
             i++;
         }
