@@ -23,7 +23,7 @@ class DataReaderCSVTest {
 
     @DisplayName("Должен корректно считывать CSV файл")
     @Test
-    void shouldReadCSVFile() throws IOException, CsvException {
+    void shouldReadCSVFile() {
         DataReaderCSV dataReaderCSV = new DataReaderCSV(config);
         int i = 0;
         for (String[] s : dataReaderCSV.read()) {

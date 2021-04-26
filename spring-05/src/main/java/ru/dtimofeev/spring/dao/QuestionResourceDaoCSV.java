@@ -3,11 +3,9 @@ package ru.dtimofeev.spring.dao;
 import com.opencsv.exceptions.CsvException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.dtimofeev.spring.domain.Question;
 import ru.dtimofeev.spring.domain.QuestionCSV;
 import ru.dtimofeev.spring.domain.QuestionLocaleResolver;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -18,7 +16,7 @@ public class QuestionResourceDaoCSV implements QuestionResourceDao {
 
     private final DataReader dataReader;
     private final QuestionLocaleResolver questionLocaleResolver;
-    private List<Question> allQuestions = new ArrayList<>();
+    private List<QuestionCSV> allQuestions = new ArrayList<>();
 
     @Autowired
     public QuestionResourceDaoCSV(DataReader dataReader, QuestionLocaleResolver questionLocaleResolver) {
@@ -27,14 +25,14 @@ public class QuestionResourceDaoCSV implements QuestionResourceDao {
     }
 
     @Override
-    public List<Question> getAllQuestions() {
+    public List<QuestionCSV> getAllQuestions() {
         for (String[] l : dataReader.read()) {
             allQuestions.add(parseQuestion(l));
         }
         return allQuestions;
     }
 
-    public QuestionCSV parseQuestion(String[] s) {
+    private QuestionCSV parseQuestion(String[] s) {
         String question = "";
         String answer = "";
         String choices = "";

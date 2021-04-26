@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import ru.dtimofeev.spring.config.Config;
-import ru.dtimofeev.spring.domain.Question;
+import ru.dtimofeev.spring.domain.QuestionCSV;
 import ru.dtimofeev.spring.domain.QuestionLocaleResolver;
 
 import java.io.IOException;
@@ -35,7 +35,7 @@ class QuestionCSVResourceDaoCSVTest {
         when(questionLocaleResolver.getActualLocale()).thenReturn(Locale.forLanguageTag("en-US"));
         QuestionResourceDao questionResourceDao = new QuestionResourceDaoCSV(dataReaderCSV, questionLocaleResolver);
         int i = 0;
-        for (Question q : questionResourceDao.getAllQuestions()) {
+        for (QuestionCSV q : questionResourceDao.getAllQuestions()) {
             if (i == 0) {
                 assertEquals("1) How much will 5+5 ?", q.getQuestion());
                 assertEquals("10", q.getAnswer());
@@ -54,12 +54,12 @@ class QuestionCSVResourceDaoCSVTest {
 
     @DisplayName("Должен корректно возвращать лист с вопросами ru-RU")
     @Test
-    void shouldParseTheQuestionRuRU() throws IOException, CsvException {
+    void shouldParseTheQuestionRuRU() {
         DataReaderCSV dataReaderCSV = new DataReaderCSV(config);
         when(questionLocaleResolver.getActualLocale()).thenReturn(Locale.forLanguageTag("ru-RU"));
         QuestionResourceDao questionResourceDao = new QuestionResourceDaoCSV(dataReaderCSV, questionLocaleResolver);
         int i = 0;
-        for (Question q : questionResourceDao.getAllQuestions()) {
+        for (QuestionCSV q : questionResourceDao.getAllQuestions()) {
             if (i == 0) {
                 assertEquals("1) Сколько будет 5+5 ?", q.getQuestion());
                 assertEquals("10", q.getAnswer());
