@@ -14,12 +14,12 @@ public class Config {
         return csvSourceFileName;
     }
 
-    public void setCsvSourceFileName(String csvSourceFileName) {
-        this.csvSourceFileName = csvSourceFileName;
-    }
-
     public int getNumberOfAnswersToPassTheTest() {
         return numberOfAnswersToPassTheTest;
+    }
+
+    public void setCsvSourceFileName(String csvSourceFileName) {
+        this.csvSourceFileName = csvSourceFileName;
     }
 
     public void setNumberOfAnswersToPassTheTest(int numberOfAnswersToPassTheTest) {

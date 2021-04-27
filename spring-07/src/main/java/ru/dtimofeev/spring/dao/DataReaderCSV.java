@@ -30,12 +30,4 @@ public class DataReaderCSV implements DataReader {
         }
         return arrayList;
     }
-
-    public String getCsvFilePath() {
-        return csvSourceFileName;
-    }
-
-    public void setCsvFilePath(String csvFilePath) {
-        this.csvSourceFileName = csvFilePath;
-    }
 }

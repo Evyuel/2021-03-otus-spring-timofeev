@@ -8,7 +8,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
 import org.springframework.test.context.ActiveProfiles;
-import ru.dtimofeev.spring.domain.Question;
+import ru.dtimofeev.spring.domain.QuestionCSV;
 
 import java.util.Locale;
 
@@ -31,7 +31,7 @@ class QuestionCSVResourceDaoCSVTest {
         LocaleContextHolder.setLocale(Locale.forLanguageTag("en-US"));
         System.out.println(LocaleContextHolder.getLocale());
         int i = 0;
-        for (Question q : questionResourceDao.getAllQuestions()) {
+        for (QuestionCSV q : questionResourceDao.getAllQuestions()) {
             if (i == 0) {
                 assertEquals("1) How much will 5+5 ?", q.getQuestion());
                 assertEquals("10", q.getAnswer());
@@ -55,7 +55,7 @@ class QuestionCSVResourceDaoCSVTest {
         LocaleContextHolder.setLocale(Locale.forLanguageTag("ru-RU"));
         System.out.println(LocaleContextHolder.getLocale());
         int i = 0;
-        for (Question q : questionResourceDao.getAllQuestions()) {
+        for (QuestionCSV q : questionResourceDao.getAllQuestions()) {
             if (i == 0) {
                 assertEquals("1) Сколько будет 5+5 ?", q.getQuestion());
                 assertEquals("10", q.getAnswer());

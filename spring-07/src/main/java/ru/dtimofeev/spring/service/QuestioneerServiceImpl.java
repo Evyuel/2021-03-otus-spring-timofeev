@@ -1,12 +1,11 @@
 package ru.dtimofeev.spring.service;
 
 
-import com.opencsv.exceptions.CsvException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.dtimofeev.spring.config.Config;
 import ru.dtimofeev.spring.dao.QuestionResourceDao;
-import ru.dtimofeev.spring.domain.Question;
+import ru.dtimofeev.spring.domain.QuestionCSV;
 import ru.dtimofeev.spring.domain.Student;
 
 import java.io.BufferedReader;
@@ -18,15 +17,15 @@ public class QuestioneerServiceImpl implements QuestioneerService {
 
     private final QuestionResourceDao dao;
     private final Student student;
-    private final QuestionMessageSource questionMessageSource;
+    private final QuestionMessageSourceImpl questionMessageSourceImpl;
     private int numberOfAnswersToPassTheTest;
 
     @Autowired
-    public QuestioneerServiceImpl(QuestionResourceDao dao, Student student, Config config, QuestionMessageSource questionMessageSource) {
+    public QuestioneerServiceImpl(QuestionResourceDao dao, Student student, Config config, QuestionMessageSourceImpl questionMessageSourceImpl) {
         this.dao = dao;
         this.student = student;
         this.numberOfAnswersToPassTheTest = config.getNumberOfAnswersToPassTheTest();
-        this.questionMessageSource = questionMessageSource;
+        this.questionMessageSourceImpl = questionMessageSourceImpl;
     }
 
     @Override
@@ -36,28 +35,25 @@ public class QuestioneerServiceImpl implements QuestioneerService {
         printResult();
     }
 
-    @Override
-    public void askQuestions(){
-        for (Question q : dao.getAllQuestions()) {
+    private void askQuestions(){
+        for (QuestionCSV q : dao.getAllQuestions()) {
             System.out.println(q.getQuestion());
-            System.out.println(questionMessageSource.getMessage("running.possible.answers") + " " + q.getChoices());
+            System.out.println(questionMessageSourceImpl.getMessage("running.possible.answers") + " " + q.getChoices());
             readAnswer(q);
         }
     }
 
-    @Override
-    public void printResult(){
+    private void printResult(){
         if (isTestPassed()) {
             System.out.println();
-            System.out.println(questionMessageSource.getMessage("result.passed.congratulation") + " " + student.getFio() + "! " + questionMessageSource.getMessage("result.passed"));
+            System.out.println(questionMessageSourceImpl.getMessage("result.passed.congratulation") + " " + student.getFio() + "! " + questionMessageSourceImpl.getMessage("result.passed"));
         } else {
             System.out.println();
-            System.out.println(questionMessageSource.getMessage("result.failed"));
+            System.out.println(questionMessageSourceImpl.getMessage("result.failed"));
         }
     }
 
-    @Override
-    public String readConsole(){
+    private String readConsole(){
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         String s = null;
         try {
@@ -68,10 +64,9 @@ public class QuestioneerServiceImpl implements QuestioneerService {
         return s;
     }
 
-    @Override
     public boolean isTestPassed(){
         int rightAnswersCnt = 0;
-        for (Question q : dao.getAllQuestions()) {
+        for (QuestionCSV q : dao.getAllQuestions()) {
             if (q.isRightAnswer()) {
                 rightAnswersCnt++;
             }
@@ -84,15 +79,7 @@ public class QuestioneerServiceImpl implements QuestioneerService {
         System.out.println();
     }
 
-    public void readAnswer(Question q){
+    public void readAnswer(QuestionCSV q){
         q.setRightAnswer(readConsole().equals(q.getAnswer()));
-    }
-
-    public int getNumberOfAnswersToPassTheTest() {
-        return numberOfAnswersToPassTheTest;
-    }
-
-    public void setNumberOfAnswersToPassTheTest(int numberOfAnswersToPassTheTest) {
-        this.numberOfAnswersToPassTheTest = numberOfAnswersToPassTheTest;
     }
 }

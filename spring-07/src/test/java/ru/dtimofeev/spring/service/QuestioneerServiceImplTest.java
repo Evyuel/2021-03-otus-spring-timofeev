@@ -8,7 +8,6 @@ import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
 import org.springframework.test.context.ActiveProfiles;
 import ru.dtimofeev.spring.dao.QuestionResourceDaoCSV;
-import ru.dtimofeev.spring.domain.Question;
 import ru.dtimofeev.spring.domain.QuestionCSV;
 
 import java.io.ByteArrayInputStream;
@@ -36,7 +35,7 @@ class QuestioneerServiceImplTest {
     @Test
     void shouldPass_Minimum() {
         int i=0;
-        for (Question q : questionResourceDao.getAllQuestions()) {
+        for (QuestionCSV q : questionResourceDao.getAllQuestions()) {
             if (i==0){q.setRightAnswer(true);}
             i++;
         }
@@ -46,7 +45,7 @@ class QuestioneerServiceImplTest {
     @DisplayName(" подтвердить пройденный тест более чем на минимум")
     @Test
     void shouldPass_Norm() {
-        for (Question q : questionResourceDao.getAllQuestions()) {
+        for (QuestionCSV q : questionResourceDao.getAllQuestions()) {
             q.setRightAnswer(true);
         }
         assertTrue(questioneerService.isTestPassed());
