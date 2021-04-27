@@ -1,30 +1,29 @@
 package ru.dtimofeev.spring.dao;
 
-import com.opencsv.exceptions.CsvException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.shell.jline.InteractiveShellApplicationRunner;
+import org.springframework.shell.jline.ScriptShellApplicationRunner;
 import org.springframework.test.context.ActiveProfiles;
-import ru.dtimofeev.spring.config.Config;
-
-import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 
-@SpringBootTest
+@SpringBootTest(properties =
+        {InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
+                ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"})
 @ActiveProfiles("test")
-@DisplayName("Класс DataReaderCSVTest")
+@DisplayName("Класс DataReaderCSVTest должен")
 class DataReaderCSVTest {
 
     @Autowired
-    Config config;
+    DataReaderCSV dataReaderCSV;
 
-    @DisplayName("Должен корректно считывать CSV файл")
+    @DisplayName(" корректно считывать CSV файл")
     @Test
-    void shouldReadCSVFile() throws IOException, CsvException {
-        DataReaderCSV dataReaderCSV = new DataReaderCSV(config);
+    void shouldReadCSVFile()  {
         int i = 0;
         for (String[] s : dataReaderCSV.read()) {
             if (i == 0) {

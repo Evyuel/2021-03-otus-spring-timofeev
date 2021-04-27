@@ -1,11 +1,15 @@
 package ru.dtimofeev.spring.dao;
 
 import com.opencsv.exceptions.CsvException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
 import org.springframework.test.context.ActiveProfiles;
@@ -23,21 +27,18 @@ import static org.mockito.Mockito.when;
         {InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
                 ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"})
 @ActiveProfiles("test")
-@DisplayName("Класс QuestionResourceDaoCSV")
+@DisplayName("Класс QuestionResourceDaoCSV должен")
 class QuestionCSVResourceDaoCSVTest {
 
     @Autowired
-    Config config;
+    QuestionResourceDao questionResourceDao;
 
-    @Mock
-    QuestionLocaleResolver questionLocaleResolver;
-
-    @DisplayName("Должен корректно возвращать лист с вопросами дефолтно для локали en-US")
+    @DisplayName(" корректно возвращать лист с вопросами дефолтно для локали en-US")
     @Test
-    void shouldParseTheQuestionDefaultEnUS() throws IOException, CsvException {
-        DataReaderCSV dataReaderCSV = new DataReaderCSV(config);
-        when(questionLocaleResolver.getActualLocale()).thenReturn(Locale.forLanguageTag("en-US"));
-        QuestionResourceDao questionResourceDao = new QuestionResourceDaoCSV(dataReaderCSV, questionLocaleResolver);
+    void shouldParseTheQuestionDefaultEnUS() {
+        System.out.println(LocaleContextHolder.getLocale());
+        LocaleContextHolder.setLocale(Locale.forLanguageTag("en-US"));
+        System.out.println(LocaleContextHolder.getLocale());
         int i = 0;
         for (Question q : questionResourceDao.getAllQuestions()) {
             if (i == 0) {
@@ -56,12 +57,12 @@ class QuestionCSVResourceDaoCSVTest {
         }
     }
 
-    @DisplayName("Должен корректно возвращать лист с вопросами ru-RU")
+    @DisplayName(" корректно возвращать лист с вопросами ru-RU")
     @Test
-    void shouldParseTheQuestionRuRU() throws IOException, CsvException {
-        DataReaderCSV dataReaderCSV = new DataReaderCSV(config);
-        when(questionLocaleResolver.getActualLocale()).thenReturn(Locale.forLanguageTag("ru-RU"));
-        QuestionResourceDao questionResourceDao = new QuestionResourceDaoCSV(dataReaderCSV, questionLocaleResolver);
+    void shouldParseTheQuestionRuRU(){
+        System.out.println(LocaleContextHolder.getLocale());
+        LocaleContextHolder.setLocale(Locale.forLanguageTag("ru-RU"));
+        System.out.println(LocaleContextHolder.getLocale());
         int i = 0;
         for (Question q : questionResourceDao.getAllQuestions()) {
             if (i == 0) {

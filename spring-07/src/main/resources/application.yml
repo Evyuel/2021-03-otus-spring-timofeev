@@ -6,3 +6,6 @@ spring:
   messages:
     basename:
       i18n/messages
+  shell:
+    interactive:
+      enabled: true
