@@ -82,4 +82,8 @@ public class QuestioneerServiceImpl implements QuestioneerService {
     public void readAnswer(QuestionCSV q){
         q.setRightAnswer(readConsole().equals(q.getAnswer()));
     }
+
+    public void setNumberOfAnswersToPassTheTest(int numberOfAnswersToPassTheTest) {
+        this.numberOfAnswersToPassTheTest = numberOfAnswersToPassTheTest;
+    }
 }

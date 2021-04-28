@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import ru.dtimofeev.spring.dao.QuestionResourceDaoCSV;
 import ru.dtimofeev.spring.domain.QuestionCSV;
@@ -33,27 +34,31 @@ class QuestioneerServiceImplTest {
 
     @DisplayName(" подтвердить пройденный тест на минимум")
     @Test
+    @DirtiesContext
     void shouldPass_Minimum() {
-        int i=0;
         for (QuestionCSV q : questionResourceDao.getAllQuestions()) {
-            if (i==0){q.setRightAnswer(true);}
-            i++;
+            q.setRightAnswer(true);
         }
+        questioneerService.setNumberOfAnswersToPassTheTest(2);
         assertTrue(questioneerService.isTestPassed());
     }
 
     @DisplayName(" подтвердить пройденный тест более чем на минимум")
     @Test
+    @DirtiesContext
     void shouldPass_Norm() {
         for (QuestionCSV q : questionResourceDao.getAllQuestions()) {
             q.setRightAnswer(true);
         }
+        questioneerService.setNumberOfAnswersToPassTheTest(1);
         assertTrue(questioneerService.isTestPassed());
     }
 
     @DisplayName(" подтвердить зафейленный тест")
     @Test
+    @DirtiesContext
     void shouldFailTest() {
+        questioneerService.setNumberOfAnswersToPassTheTest(4);
         assertFalse(questioneerService.isTestPassed());
     }
 
