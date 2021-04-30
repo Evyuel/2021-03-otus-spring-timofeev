@@ -8,8 +8,8 @@ import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import ru.dtimofeev.spring.dao.QuestionResourceDaoCSV;
 import ru.dtimofeev.spring.domain.QuestionCSV;
+import ru.dtimofeev.spring.service.processing.FormQuestioneer;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -25,18 +25,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class QuestioneerServiceImplTest {
 
     @Autowired
-    QuestionResourceDaoCSV questionResourceDao;
+    FormQuestioneer formQuestioneer;
 
     @Autowired
     QuestioneerServiceImpl questioneerService;
 
-    QuestionCSV q = new QuestionCSV("This is a question", "This is an answer", "choices 1 2 3");
+    QuestionCSV q = new QuestionCSV(1,"This is a question", "This is an answer", "choices 1 2 3");
 
     @DisplayName(" подтвердить пройденный тест на минимум")
     @Test
     @DirtiesContext
     void shouldPass_Minimum() {
-        for (QuestionCSV q : questionResourceDao.getAllQuestions()) {
+        for (QuestionCSV q : formQuestioneer.getAllQuestions()) {
             q.setRightAnswer(true);
         }
         questioneerService.setNumberOfAnswersToPassTheTest(2);
@@ -47,7 +47,7 @@ class QuestioneerServiceImplTest {
     @Test
     @DirtiesContext
     void shouldPass_Norm() {
-        for (QuestionCSV q : questionResourceDao.getAllQuestions()) {
+        for (QuestionCSV q : formQuestioneer.getAllQuestions()) {
             q.setRightAnswer(true);
         }
         questioneerService.setNumberOfAnswersToPassTheTest(1);

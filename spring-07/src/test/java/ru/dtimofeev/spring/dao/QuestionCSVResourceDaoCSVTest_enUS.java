@@ -4,14 +4,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import ru.dtimofeev.spring.domain.QuestionCSV;
+import ru.dtimofeev.spring.service.processing.FormQuestioneer;
 
 import javax.annotation.PostConstruct;
 import java.util.Locale;
@@ -33,13 +32,13 @@ class QuestionCSVResourceDaoCSVTest_enUS {
     }
 
     @Autowired
-    QuestionResourceDao questionResourceDao;
+    FormQuestioneer formQuestioneer;
 
     @DisplayName(" корректно возвращать лист с вопросами дефолтно для локали en-US")
     @Test
     void shouldParseTheQuestionDefaultEnUS() {
         int i = 0;
-        for (QuestionCSV q : questionResourceDao.getAllQuestions()) {
+        for (QuestionCSV q : formQuestioneer.getAllQuestions()) {
             if (i == 0) {
                 assertEquals("1) How much will 5+5 ?", q.getQuestion());
                 assertEquals("10", q.getAnswer());

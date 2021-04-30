@@ -1,9 +1,8 @@
-package ru.dtimofeev.spring.service;
+package ru.dtimofeev.spring.service.localization;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
-import ru.dtimofeev.spring.domain.QuestionLocaleResolver;
 
 
 @Component

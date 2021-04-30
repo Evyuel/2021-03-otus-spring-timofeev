@@ -2,12 +2,14 @@ package ru.dtimofeev.spring.domain;
 
 
 public final class QuestionCSV {
+    private final int orderNum;
     private final String question;
     private final String answer;
     private final String choices;
     private boolean isRightAnswer;
 
-    public QuestionCSV(String question, String answer, String choices) {
+    public QuestionCSV(int orderNum, String question, String answer, String choices) {
+        this.orderNum = orderNum;
         this.question = question;
         this.answer = answer;
         this.choices = choices;
@@ -35,5 +37,9 @@ public final class QuestionCSV {
 
     public void setRightAnswer(boolean rightAnswer) {
         isRightAnswer = rightAnswer;
+    }
+
+    public int getOrderNum() {
+        return orderNum;
     }
 }

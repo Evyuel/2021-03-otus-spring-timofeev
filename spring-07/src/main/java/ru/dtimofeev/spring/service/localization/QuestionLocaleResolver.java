@@ -1,4 +1,4 @@
-package ru.dtimofeev.spring.domain;
+package ru.dtimofeev.spring.service.localization;
 
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;

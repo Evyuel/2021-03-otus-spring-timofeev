@@ -2,6 +2,7 @@ package ru.dtimofeev.spring.dao;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.dtimofeev.spring.config.Config;
 
@@ -15,6 +16,7 @@ public class DataReaderCSV implements DataReader {
 
     private String csvSourceFileName;
 
+    @Autowired
     public DataReaderCSV(Config config) {
         this.csvSourceFileName = config.getCsvSourceFileName();
     }
