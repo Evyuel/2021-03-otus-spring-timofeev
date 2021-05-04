@@ -3,6 +3,7 @@ package ru.dtimofeev.spring.service.localization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 
 @Component
@@ -15,7 +16,6 @@ public class QuestionMessageSourceImpl implements QuestionMessageSource {
         this.questionLocaleResolver = questionLocaleResolver;
         this.messageSource = messageSource;
     }
-
     @Override
     public String getMessage(String bundle) {
         return messageSource.getMessage(bundle, null, questionLocaleResolver.getActualLocale());

@@ -1,32 +1,35 @@
-package ru.dtimofeev.spring.service;
+package ru.dtimofeev.spring.service.component;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.dtimofeev.spring.config.Config;
-import ru.dtimofeev.spring.domain.QuestionCSV;
+import ru.dtimofeev.spring.domain.Question;
+import ru.dtimofeev.spring.service.IOService;
 import ru.dtimofeev.spring.service.localization.QuestionMessageSource;
 @Component
 public class TestRunningServiceImpl implements TestRunningService {
 
     private final QuestionMessageSource questionMessageSource;
     private final int numberOfAnswersToPassTheTest;
+    private final IOService io;
     private int rightAnswersCnt;
 
     @Autowired
-    public TestRunningServiceImpl(QuestionMessageSource questionMessageSource, Config config) {
+    public TestRunningServiceImpl(Config config,QuestionMessageSource questionMessageSource, IOService io) {
         this.questionMessageSource = questionMessageSource;
-        this.numberOfAnswersToPassTheTest=config.getNumberOfAnswersToPassTheTest();
+        this.numberOfAnswersToPassTheTest = config.getNumberOfAnswersToPassTheTest();
+        this.io = io;
     }
 
     @Override
-    public void askQuestion(QuestionCSV q) {
-        System.out.println(q.getQuestion());
-        System.out.println(questionMessageSource.getMessage("running.possible.answers") + " " + q.getChoices());
+    public void askQuestion(Question q) {
+        io.out(q.getQuestion());
+        io.out(questionMessageSource.getMessage("running.possible.answers") + " " + q.getChoices());
     }
 
     @Override
-    public void readAndCheckAnswer(QuestionCSV q) {
-        if (new ReadingConsoleImpl().equals(q.getAnswer())){
+    public void readAndCheckAnswer(Question q) {
+        if (io.read().equals(q.getAnswer())){
             q.setRightAnswer(true);
             rightAnswersCnt++;
         }

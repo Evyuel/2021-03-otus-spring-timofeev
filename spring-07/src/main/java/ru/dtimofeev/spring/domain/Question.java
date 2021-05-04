@@ -1,14 +1,14 @@
 package ru.dtimofeev.spring.domain;
 
 
-public final class QuestionCSV {
+public final class Question {
     private final int orderNum;
     private final String question;
     private final String answer;
     private final String choices;
     private boolean isRightAnswer;
 
-    public QuestionCSV(int orderNum, String question, String answer, String choices) {
+    public Question(int orderNum, String question, String answer, String choices) {
         this.orderNum = orderNum;
         this.question = question;
         this.answer = answer;

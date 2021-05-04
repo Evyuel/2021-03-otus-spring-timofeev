@@ -1,62 +1,68 @@
 package ru.dtimofeev.spring.shell;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
 import ru.dtimofeev.spring.dao.DataReaderCSV;
-import ru.dtimofeev.spring.domain.Student;
-import ru.dtimofeev.spring.service.QuestionIteratorImpl;
-import ru.dtimofeev.spring.service.RunService;
-import ru.dtimofeev.spring.service.LoginTestService;
+import ru.dtimofeev.spring.service.component.QuestionsListCreatorImpl;
+import ru.dtimofeev.spring.service.RunTest;
 
 @ShellComponent
 @RequiredArgsConstructor
 public class ApplicationCommands {
 
-    private final RunService runService;
-    private final Student student;
-    private final LoginTestService loginTestService;
+    private final RunTest runTest;
     private final DataReaderCSV dataReaderCSV;
-    private final QuestionIteratorImpl questionIterator;
+    private final QuestionsListCreatorImpl questionIterator;
+    private final ConfigurableApplicationContext configurableApplicationContext;
 
     @ShellMethod(value = "Run the test",key = "r")
-    @ShellMethodAvailability(value = "isUserDefined")
     public void runTest(){
-        runService.runTest();
+        runTest.run();
     }
+
 
     @ShellMethod(value = "Finish test",key = "f")
-    @ShellMethodAvailability(value = "isUserDefined")
     public void finishTest(){
-        runService.finishTest();
+        runTest.finish();
     }
 
-    @ShellMethod(value = "Login command",key = {"l","login"})
+    @ShellMethod(value = "Login command",key = {"l"})
     public void login(String name){
-        loginTestService.login(name);
-    }
-
-    @ShellMethod(value = "Login command",key = {"test"})
-    public void test(){
-        System.out.println(dataReaderCSV.read());
+        runTest.greetings(name);
     }
 
 
-    @ShellMethod(value = "Login command",key = {"test2"})
-    public void test2(){
-        System.out.println(questionIterator.getAllQuestions());
+    @ShellMethodAvailability("r")
+    public Availability forRunTest(){
+        if (isUserDefined()){
+            return Availability.unavailable("Сначала необходимо залогиниться");
+        }
+        else if (isTestFinished()){
+            return Availability.unavailable("Тестирование уже пройдено");
+        }
+        return Availability.available();
     }
 
-
-    private Availability isUserDefined(){
-        return student.getFio() == null ?Availability.unavailable("Сначала необходимо залогиниться") : Availability.available();
+    @ShellMethodAvailability("f")
+    public Availability forFinishTest(){
+        if (isUserDefined()){
+            return Availability.unavailable("Сначала необходимо залогиниться");
+        }
+        else if (!isTestFinished()){
+            return Availability.unavailable("Тестирование еще не пройдено");
+        }
+        return Availability.available();
     }
-//
-//    @ShellMethod(value = "Run the test",key = {"run-test"})
-//    @ShellMethodAvailability(value = "isUserDefined")
-//    public void runTest(){
-//        questioneerService.runTest();
-//    }
+
+    public boolean isUserDefined(){
+        return runTest.getStudent().getFio() == null;
+    }
+
+    private boolean isTestFinished(){
+        return runTest.isTestHasBeenPassed();
+    }
 }

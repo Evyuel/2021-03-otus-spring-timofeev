@@ -2,22 +2,22 @@ package ru.dtimofeev.spring.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.dtimofeev.spring.domain.QuestionCSV;
+import ru.dtimofeev.spring.domain.Question;
 import ru.dtimofeev.spring.service.localization.QuestionLocaleResolver;
 
 import java.util.Locale;
 @Component
-public class QuestionParserCSV implements QuestionParser {
+public class QuestionCSV implements QuestionDao {
 
     private final QuestionLocaleResolver questionLocaleResolver;
 
     @Autowired
-    public QuestionParserCSV(QuestionLocaleResolver questionLocaleResolver) {
+    public QuestionCSV(QuestionLocaleResolver questionLocaleResolver) {
         this.questionLocaleResolver = questionLocaleResolver;
     }
 
     @Override
-    public QuestionCSV parseQuestion(String[] s) {
+    public Question getQuestion(String[] s) {
         int orderNum = 0;
         String question = "";
         String answer = "";
@@ -43,6 +43,6 @@ public class QuestionParserCSV implements QuestionParser {
             }
 
         }
-        return new QuestionCSV(orderNum,question, answer, choices);
+        return new Question(orderNum,question, answer, choices);
     }
 }
