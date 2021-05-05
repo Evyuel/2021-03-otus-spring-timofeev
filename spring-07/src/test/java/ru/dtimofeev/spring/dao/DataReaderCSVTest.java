@@ -4,9 +4,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+
+import javax.annotation.PostConstruct;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
@@ -16,21 +21,30 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
                 ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"})
 @ActiveProfiles("test")
 @DisplayName("Класс DataReaderCSVTest должен")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 class DataReaderCSVTest {
+
+    @PostConstruct
+    void setLocale(){
+        LocaleContextHolder.setLocale(Locale.forLanguageTag("en-US"));
+    }
 
     @Autowired
     DataReaderCSV dataReaderCSV;
 
+
     @DisplayName(" корректно считывать CSV файл")
     @Test
     void shouldReadCSVFile()  {
+        System.out.println(LocaleContextHolder.getLocale());
+        System.out.println();
         int i = 0;
         for (String[] s : dataReaderCSV.read()) {
             if (i == 0) {
-                assertArrayEquals(new String[]{"1) How much will 5+5 ?", "1) Сколько будет 5+5 ?", "10", "10", "11", "12"}, s);
+                assertArrayEquals(new String[]{"1","How much will 5+5 ?", "10", "10", "11", "12"}, s);
             }
             if (i == 1) {
-                assertArrayEquals(new String[]{"2) How much will 3+3 ?","2) Сколько будет 3+3 ?", "6", "5", "6", "9"}, s);
+                assertArrayEquals(new String[]{"2","How much will 3+3 ?", "6", "5", "6", "9"}, s);
             }
             i++;
         }

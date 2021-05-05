@@ -10,7 +10,7 @@ public interface RunTest {
 
     void finish();
 
-    boolean isTestHasBeenPassed();
+    boolean isTestEverBeenRun();
 
     Student getStudent();
 }

@@ -1,13 +1,10 @@
 package ru.dtimofeev.spring.shell;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
-import ru.dtimofeev.spring.dao.DataReaderCSV;
-import ru.dtimofeev.spring.service.component.QuestionsListCreatorImpl;
 import ru.dtimofeev.spring.service.RunTest;
 
 @ShellComponent
@@ -15,9 +12,6 @@ import ru.dtimofeev.spring.service.RunTest;
 public class ApplicationCommands {
 
     private final RunTest runTest;
-    private final DataReaderCSV dataReaderCSV;
-    private final QuestionsListCreatorImpl questionIterator;
-    private final ConfigurableApplicationContext configurableApplicationContext;
 
     @ShellMethod(value = "Run the test",key = "r")
     public void runTest(){
@@ -34,7 +28,6 @@ public class ApplicationCommands {
     public void login(String name){
         runTest.greetings(name);
     }
-
 
     @ShellMethodAvailability("r")
     public Availability forRunTest(){
@@ -63,6 +56,6 @@ public class ApplicationCommands {
     }
 
     private boolean isTestFinished(){
-        return runTest.isTestHasBeenPassed();
+        return runTest.isTestEverBeenRun();
     }
 }

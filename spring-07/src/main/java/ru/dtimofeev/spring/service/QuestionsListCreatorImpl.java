@@ -1,4 +1,4 @@
-package ru.dtimofeev.spring.service.component;
+package ru.dtimofeev.spring.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,14 +3,16 @@ package ru.dtimofeev.spring.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.Locale;
+
 @ConfigurationProperties
 @Component
 public class Config {
 
-    private String csvSourceFileName;
     private int numberOfAnswersToPassTheTest;
+    private FileLocations csvSourceFileName;
 
-    public String getCsvSourceFileName() {
+    public FileLocations getCsvSourceFileName() {
         return csvSourceFileName;
     }
 
@@ -18,11 +20,32 @@ public class Config {
         return numberOfAnswersToPassTheTest;
     }
 
-    public void setCsvSourceFileName(String csvSourceFileName) {
+    public void setCsvSourceFileName(FileLocations csvSourceFileName) {
         this.csvSourceFileName = csvSourceFileName;
     }
 
     public void setNumberOfAnswersToPassTheTest(int numberOfAnswersToPassTheTest) {
         this.numberOfAnswersToPassTheTest = numberOfAnswersToPassTheTest;
+    }
+
+    public static class FileLocations {
+        private String En;
+        private String Ru;
+
+        public String getEn() {
+            return En;
+        }
+
+        public void setEn(String en) {
+            En = en;
+        }
+
+        public String getRu() {
+            return Ru;
+        }
+
+        public void setRu(String ru) {
+            Ru = ru;
+        }
     }
 }

@@ -1,2 +1,5 @@
 CSV-Source-File-Name:
-  src/test/resources/QuestionsTest.csv
+  En:
+    src/test/resources/QuestionsTest.csv
+  Ru:
+    src/test/resources/QuestionsTestRU.csv
