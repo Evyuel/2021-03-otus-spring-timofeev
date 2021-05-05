@@ -2,11 +2,15 @@ package ru.dtimofeev.spring.dao;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import ru.dtimofeev.spring.config.TestLocaleResolver;
 import ru.dtimofeev.spring.domain.Question;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,6 +32,7 @@ class QuestionCSVTest {
     @DisplayName(" корректно парсить номер вопроса")
     @Test
     void shoultCorrectParseOrderNum(){
+        System.out.println(LocaleContextHolder.getLocale());
         assertEquals(2,getTestQuestion().getOrderNum());
     }
 

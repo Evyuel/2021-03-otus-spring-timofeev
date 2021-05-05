@@ -27,16 +27,16 @@ public final class Question {
         return choices;
     }
 
-    public String toString() {
-        return "Q: " + question + ", A: " + answer + ", Ch: " + choices;
-    }
+    //public String toString() {
+    //    return "Q: " + question + ", A: " + answer + ", Ch: " + choices;
+    //}
 
     public boolean isRightAnswer() {
         return isRightAnswer;
     }
 
     public void setRightAnswer(boolean rightAnswer) {
-        isRightAnswer = rightAnswer;
+        this.isRightAnswer = rightAnswer;
     }
 
     public int getOrderNum() {

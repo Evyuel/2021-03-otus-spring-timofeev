@@ -5,21 +5,21 @@ import org.springframework.stereotype.Component;
 import ru.dtimofeev.spring.domain.Question;
 import ru.dtimofeev.spring.domain.Student;
 
+import java.util.List;
+
 @Component
 public class RunTestImpl implements RunTest {
 
-    private final QuestionsListCreator questionsListCreator;
+    private final List<Question> listOfQuestions;
     private final TestRunningService testRunningService;
     private final QuestionMessageSource questionMessageSource;
-    private final CheckResult checkResult;
     private final IOService io;
     private final Student student = new Student();
     private boolean isTestEverBeenRun = false;
 
     @Autowired
-    public RunTestImpl(CheckResult checkResult,IOService io, QuestionsListCreator questionsListCreator, TestRunningService testRunningService, QuestionMessageSource questionMessageSource) {
-        this.checkResult=checkResult;
-        this.questionsListCreator = questionsListCreator;
+    public RunTestImpl(IOService io, QuestionsListCreator questionsListCreator, TestRunningService testRunningService, QuestionMessageSource questionMessageSource) {
+        this.listOfQuestions = questionsListCreator.getAllQuestions();
         this.testRunningService = testRunningService;
         this.questionMessageSource=questionMessageSource;
         this.io=io;
@@ -34,7 +34,7 @@ public class RunTestImpl implements RunTest {
     @Override
     public void run() {
         isTestEverBeenRun = true;
-        for (Question q : questionsListCreator.getAllQuestions()){
+        for (Question q : listOfQuestions){
             testRunningService.askQuestion(q);
             testRunningService.readAndCheckAnswer(q);
         }
@@ -42,7 +42,7 @@ public class RunTestImpl implements RunTest {
 
     @Override
     public void finish(){
-        if (checkResult.isTestPassed()) {
+        if (testRunningService.isTestPassed(listOfQuestions)) {
             io.out("");
             io.out(questionMessageSource.getMessage("result.passed.congratulation") + " " + student.getFio() + "! " + questionMessageSource.getMessage("result.passed"));
         } else {

@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Locale;
@@ -18,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
                 ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"}
 )
 @DisplayName("Класс TestLocaleResolverTest должен")
+@DirtiesContext
 class TestLocaleResolverTest {
 
     @Autowired
@@ -26,6 +28,7 @@ class TestLocaleResolverTest {
     @DisplayName(" корректно возвращать локаль пользователя")
     @Test
     void shouldReturnCorrectLocale() {
+        System.out.println(LocaleContextHolder.getLocale());
         LocaleContextHolder.setLocale(Locale.forLanguageTag("ru-RU"));
         assertEquals(Locale.forLanguageTag("ru-RU"), testLocaleResolver.getActualLocale());
     }
@@ -33,6 +36,7 @@ class TestLocaleResolverTest {
     @DisplayName(" корректно возвращать дефолтную локаль en-US")
     @Test
     void shouldReturnDefaultEnUSLocale() {
+        System.out.println(LocaleContextHolder.getLocale());
         LocaleContextHolder.setLocale(Locale.forLanguageTag("de-DE"));
         assertEquals(Locale.forLanguageTag("en-US"), testLocaleResolver.getActualLocale());
     }

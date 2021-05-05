@@ -17,8 +17,8 @@ public class DataReaderCSV implements DataReader {
     private String csvFilePath;
 
     @Autowired
-    public DataReaderCSV(TestLocaleResolver TestLocaleResolver) {
-        this.csvFilePath = TestLocaleResolver.getCSVFilePath();
+    public DataReaderCSV(TestLocaleResolver testLocaleResolver) {
+        this.csvFilePath = testLocaleResolver.getCSVFilePath();
     }
 
     @Override
