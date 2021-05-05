@@ -8,13 +8,14 @@ import java.util.Scanner;
 public class IOServiceImpl implements IOService {
 
     Scanner sc = new Scanner(System.in);
+
     @Override
-    public void out(String message){
+    public void out(String message) {
         System.out.println(message);
     }
 
     @Override
-    public String read(){
+    public String read() {
         return sc.nextLine();
     }
 }

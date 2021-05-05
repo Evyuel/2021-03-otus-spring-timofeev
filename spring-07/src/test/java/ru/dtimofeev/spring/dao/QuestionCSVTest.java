@@ -14,10 +14,11 @@ import ru.dtimofeev.spring.config.TestLocaleResolver;
 import ru.dtimofeev.spring.domain.Question;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest(properties =
         {InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
                 ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"}
-                )
+)
 @ActiveProfiles("test")
 @DisplayName("Класс QuestionCSVTest должен")
 class QuestionCSVTest {
@@ -25,33 +26,33 @@ class QuestionCSVTest {
     @Autowired
     QuestionCSV questionCSV;
 
-    private Question getTestQuestion(){
+    private Question getTestQuestion() {
         return questionCSV.getQuestion(new String[]{"2", "How much will 3+3 ?", "6", "5", "6", "9"});
     }
 
     @DisplayName(" корректно парсить номер вопроса")
     @Test
-    void shoultCorrectParseOrderNum(){
+    void shoultCorrectParseOrderNum() {
         System.out.println(LocaleContextHolder.getLocale());
-        assertEquals(2,getTestQuestion().getOrderNum());
+        assertEquals(2, getTestQuestion().getOrderNum());
     }
 
     @DisplayName(" корректно парсить текст вопроса")
     @Test
-    void shoultCorrectParseQuestionText(){
-        assertEquals("How much will 3+3 ?",getTestQuestion().getQuestion());
+    void shoultCorrectParseQuestionText() {
+        assertEquals("How much will 3+3 ?", getTestQuestion().getQuestion());
     }
 
     @DisplayName(" корректно парсить правильный ответ вопроса")
     @Test
-    void shoultCorrectParseRightAnswer(){
-        assertEquals("6",getTestQuestion().getAnswer());
+    void shoultCorrectParseRightAnswer() {
+        assertEquals("6", getTestQuestion().getAnswer());
     }
 
     @DisplayName(" корректно парсить варианты ответа")
     @Test
-    void shoultCorrectParseChoices(){
-        assertEquals("5,6,9",getTestQuestion().getChoices());
+    void shoultCorrectParseChoices() {
+        assertEquals("5,6,9", getTestQuestion().getChoices());
     }
 
 }

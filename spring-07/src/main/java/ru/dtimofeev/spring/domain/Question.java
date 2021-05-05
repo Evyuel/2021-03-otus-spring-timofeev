@@ -27,9 +27,10 @@ public final class Question {
         return choices;
     }
 
-    //public String toString() {
-    //    return "Q: " + question + ", A: " + answer + ", Ch: " + choices;
-    //}
+    @Override
+    public String toString() {
+        return "Q: " + question + ", A: " + answer + ", Ch: " + choices;
+    }
 
     public boolean isRightAnswer() {
         return isRightAnswer;

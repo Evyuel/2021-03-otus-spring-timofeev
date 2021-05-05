@@ -9,6 +9,7 @@ import ru.dtimofeev.spring.domain.Question;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Component
 public class QuestionsListCreatorImpl implements QuestionsListCreator {
 

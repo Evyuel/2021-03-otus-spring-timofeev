@@ -21,27 +21,27 @@ public class RunTestImpl implements RunTest {
     public RunTestImpl(IOService io, QuestionsListCreator questionsListCreator, TestRunningService testRunningService, QuestionMessageSource questionMessageSource) {
         this.listOfQuestions = questionsListCreator.getAllQuestions();
         this.testRunningService = testRunningService;
-        this.questionMessageSource=questionMessageSource;
-        this.io=io;
+        this.questionMessageSource = questionMessageSource;
+        this.io = io;
     }
 
     @Override
-    public void greetings(String name){
+    public void greetings(String name) {
         student.setFio(name);
-        io.out(questionMessageSource.getMessage("start.greetings") +", " + student.getFio() + "!");
+        io.out(questionMessageSource.getMessage("start.greetings") + ", " + student.getFio() + "!");
     }
 
     @Override
     public void run() {
         isTestEverBeenRun = true;
-        for (Question q : listOfQuestions){
+        for (Question q : listOfQuestions) {
             testRunningService.askQuestion(q);
             testRunningService.readAndCheckAnswer(q);
         }
     }
 
     @Override
-    public void finish(){
+    public void finish() {
         if (testRunningService.isTestPassed(listOfQuestions)) {
             io.out("");
             io.out(questionMessageSource.getMessage("result.passed.congratulation") + " " + student.getFio() + "! " + questionMessageSource.getMessage("result.passed"));

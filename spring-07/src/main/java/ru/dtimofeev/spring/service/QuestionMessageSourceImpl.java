@@ -16,6 +16,7 @@ public class QuestionMessageSourceImpl implements QuestionMessageSource {
         this.TestLocaleResolver = TestLocaleResolver;
         this.messageSource = messageSource;
     }
+
     @Override
     public String getMessage(String bundle) {
         return messageSource.getMessage(bundle, null, TestLocaleResolver.getActualLocale());

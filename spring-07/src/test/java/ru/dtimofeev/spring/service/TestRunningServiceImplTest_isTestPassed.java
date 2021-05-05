@@ -35,12 +35,12 @@ class TestRunningServiceImplTest_isTestPassed {
 
     @Test
     @DisplayName(" корретно отмечать тест как сданный")
-    void shouldCorrectPassTest_min(){
+    void shouldCorrectPassTest_min() {
         List<Question> l = new ArrayList<>(Arrays.asList(
-                new Question(-1,"This is a question","This is answer","1,2,3"),
-                new Question(-2,"This is a question 2","This is answer 2","2,3,4")
+                new Question(-1, "This is a question", "This is answer", "1,2,3"),
+                new Question(-2, "This is a question 2", "This is answer 2", "2,3,4")
         ));
-        for (Question q : l){
+        for (Question q : l) {
             q.setRightAnswer(true);
         }
         assertTrue(testRunningService.isTestPassed(l));
@@ -48,10 +48,10 @@ class TestRunningServiceImplTest_isTestPassed {
 
     @Test
     @DisplayName(" корретно отмечать тест как несданный")
-    void shouldCorrectFailTest(){
+    void shouldCorrectFailTest() {
         List<Question> l = new ArrayList<>(Arrays.asList(
-                new Question(-1,"This is a question","This is answer","1,2,3"),
-                new Question(-2,"This is a question 2","This is answer 2","2,3,4")
+                new Question(-1, "This is a question", "This is answer", "1,2,3"),
+                new Question(-2, "This is a question 2", "This is answer 2", "2,3,4")
         ));
         assertFalse(testRunningService.isTestPassed(l));
     }

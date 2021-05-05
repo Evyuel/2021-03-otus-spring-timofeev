@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.concurrent.locks.Condition;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @DisplayName("Класс TestRunningServiceImplTest")
 @ExtendWith(MockitoExtension.class)
-
 class TestRunningServiceImplTest {
 
     @Mock
@@ -40,8 +40,8 @@ class TestRunningServiceImplTest {
 
     @Test
     @DisplayName(" должен корректно помечать ответ правильным")
-    void shouldCorrectSetRightAnswer(){
-        Question q = new Question(-1,"This is a question","This is answer","1,2,3");
+    void shouldCorrectSetRightAnswer() {
+        Question q = new Question(-1, "This is a question", "This is answer", "1,2,3");
         Mockito.when(ioService.read()).thenReturn("This is answer");
         testRunningService.readAndCheckAnswer(q);
         assertTrue(q.isRightAnswer());
@@ -49,23 +49,22 @@ class TestRunningServiceImplTest {
 
     @Test
     @DisplayName(" должен корректно помечать ответ неправильным")
-    void shouldCorrectSetWrongAnswer(){
-        Question q = new Question(-1,"This is a question","This is answer","1,2,3");
+    void shouldCorrectSetWrongAnswer() {
+        Question q = new Question(-1, "This is a question", "This is answer", "1,2,3");
         Mockito.when(ioService.read()).thenReturn("This is wrong answer");
         testRunningService.readAndCheckAnswer(q);
         assertFalse(q.isRightAnswer());
     }
 
 
-
     @Test
     @DisplayName(" корретно отмечать тест как сданный на минимум")
-    void shouldCorrectPassTest_min(){
+    void shouldCorrectPassTest_min() {
         List<Question> l = new ArrayList<>(Arrays.asList(
-                new Question(-1,"This is a question","This is answer","1,2,3"),
-                new Question(-2,"This is a question 2","This is answer 2","2,3,4")
+                new Question(-1, "This is a question", "This is answer", "1,2,3"),
+                new Question(-2, "This is a question 2", "This is answer 2", "2,3,4")
         ));
-        for (Question q : l){
+        for (Question q : l) {
             q.setRightAnswer(true);
         }
         assertTrue(testRunningService.isTestPassed(l));

@@ -15,7 +15,7 @@ public class TestRunningServiceImpl implements TestRunningService {
     private final IOService io;
 
     @Autowired
-    public TestRunningServiceImpl(Config config,QuestionMessageSource questionMessageSource, IOService io) {
+    public TestRunningServiceImpl(Config config, QuestionMessageSource questionMessageSource, IOService io) {
         this.questionMessageSource = questionMessageSource;
         this.numberOfAnswersToPassTheTest = config.getNumberOfAnswersToPassTheTest();
         this.io = io;
@@ -29,7 +29,7 @@ public class TestRunningServiceImpl implements TestRunningService {
 
     @Override
     public void readAndCheckAnswer(Question q) {
-        if (io.read().equals(q.getAnswer())){
+        if (io.read().equals(q.getAnswer())) {
             q.setRightAnswer(true);
         }
     }
@@ -42,7 +42,7 @@ public class TestRunningServiceImpl implements TestRunningService {
                 cntRightAnswers++;
             }
         }
-        return numberOfAnswersToPassTheTest<=cntRightAnswers;
+        return numberOfAnswersToPassTheTest <= cntRightAnswers;
     }
 
 }
