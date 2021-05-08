@@ -1,0 +1,7 @@
+CSV-Source-File-Name:
+  En:
+    src/test/resources/QuestionsTest.csv
+  Ru:
+    src/test/resources/QuestionsTestRU.csv
+Number-Of-Answers-To-Pass-The-Test:
+  2

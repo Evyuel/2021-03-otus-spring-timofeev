@@ -1,0 +1,14 @@
+CSV-Source-File-Name:
+  En:
+    src/main/resources/Questions.csv
+  Ru:
+    src/main/resources/QuestionsRU.csv
+Number-Of-Answers-To-Pass-The-Test:
+  4
+spring:
+  messages:
+    basename:
+      i18n/messages
+  shell:
+    interactive:
+      enabled: true
