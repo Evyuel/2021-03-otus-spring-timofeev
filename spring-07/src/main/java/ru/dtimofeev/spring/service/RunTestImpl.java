@@ -17,7 +17,6 @@ public class RunTestImpl implements RunTest {
     private final Student student = new Student();
     private boolean isTestEverBeenRun = false;
 
-    @Autowired
     public RunTestImpl(IOService io, QuestionsListCreator questionsListCreator, TestRunningService testRunningService, QuestionMessageSource questionMessageSource) {
         this.listOfQuestions = questionsListCreator.getAllQuestions();
         this.testRunningService = testRunningService;
