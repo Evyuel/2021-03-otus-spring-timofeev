@@ -49,12 +49,24 @@ public class AuthorJdbc implements AuthorDao {
     public Author getById(long id){
         final Map<String,Object> params = new HashMap<>();
         params.put("id",id);
-        return namedParameterJdbcOperations.queryForObject("select id,fullName from author where id=:id",params,new AuthorMapper());
+        return namedParameterJdbcOperations.queryForObject("select * from author where id=:id",params,new AuthorMapper());
+    }
+
+    @Override
+    public Author getByFullName(String fullName){
+        final Map<String,Object> params = new HashMap<>();
+        params.put("fullName",fullName);
+        return namedParameterJdbcOperations.queryForObject("select * from author where fullName=:fullName",params,new AuthorMapper());
     }
 
     @Override
     public List<Author> getAll(){
-        return jdbcOperations.query("select id,name from book",new AuthorMapper());
+        return jdbcOperations.query("select * from author",new AuthorMapper());
+    }
+
+    @Override
+    public int getNextSequenceVal(){
+        return jdbcOperations.queryForObject("select author_sq.nextval from dual",Integer.class);
     }
 
     private static class AuthorMapper implements RowMapper<Author> {

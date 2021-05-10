@@ -13,5 +13,9 @@ public interface AuthorDao {
 
     Author getById(long id);
 
+    Author getByFullName(String fullName);
+
     List<Author> getAll();
+
+    int getNextSequenceVal();
 }

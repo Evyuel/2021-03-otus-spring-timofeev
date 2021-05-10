@@ -13,5 +13,11 @@ public interface BookDao {
 
     Book getById(long id);
 
+    List<Book> getByGenreID(long id);
+
+    Book getByName(String name);
+
+    int getNextSequenceVal();
+
     List<Book> getAll();
 }

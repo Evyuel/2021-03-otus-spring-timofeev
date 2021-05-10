@@ -3,10 +3,14 @@ package ru.dtimofeev.spring.domain;
 public class Book {
     private final long id;
     private final String name;
+    private final long AuthorID;
+    private final long GenreID;
 
-    public Book(long id, String name) {
+    public Book(long id, String name, long authorID, long genreID) {
         this.id = id;
         this.name = name;
+        AuthorID = authorID;
+        GenreID = genreID;
     }
 
     @Override
@@ -20,5 +24,13 @@ public class Book {
 
     public String getName() {
         return name;
+    }
+
+    public long getAuthorID() {
+        return AuthorID;
+    }
+
+    public long getGenreID() {
+        return GenreID;
     }
 }

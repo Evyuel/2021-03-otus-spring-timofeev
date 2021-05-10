@@ -15,3 +15,7 @@ spring:
 
   flyway:
     enabled: true
+
+  shell:
+    interactive:
+      enabled: true

@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
-import ru.dtimofeev.spring.domain.Book;
 import ru.dtimofeev.spring.domain.Genre;
 
 import java.sql.ResultSet;
@@ -50,12 +49,24 @@ public class GenreJdbc implements GenreDao {
     public Genre getById(long id){
         final Map<String,Object> params = new HashMap<>();
         params.put("id",id);
-        return namedParameterJdbcOperations.queryForObject("select id,name from genre where id=:id",params,new GenreMapper());
+        return namedParameterJdbcOperations.queryForObject("select * from genre where id=:id",params,new GenreMapper());
+    }
+
+    @Override
+    public Genre getByName(String name){
+        final Map<String,Object> params = new HashMap<>();
+        params.put("name",name);
+        return namedParameterJdbcOperations.queryForObject("select * from genre where name=:name",params,new GenreMapper());
+    }
+
+    @Override
+    public int getNextSequenceVal(){
+        return jdbcOperations.queryForObject("select genre_sq.nextval from dual",Integer.class);
     }
 
     @Override
     public List<Genre> getAll(){
-        return jdbcOperations.query("select id,name from genre",new GenreMapper());
+        return jdbcOperations.query("select * from genre",new GenreMapper());
     }
 
     private static class GenreMapper implements RowMapper<Genre> {
