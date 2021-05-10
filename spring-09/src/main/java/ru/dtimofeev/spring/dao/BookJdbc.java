@@ -30,18 +30,16 @@ public class BookJdbc implements BookDao {
         final Map<String,Object> params = new HashMap<>();
         params.put("id",book.getId());
         params.put("name",book.getName());
-        params.put("authorID",book.getAuthorID());
         params.put("genreID",book.getGenreID());
-        namedParameterJdbcOperations.update("insert into book(id,name,authorID,genreID) values(:id,:name,:authorID,:genreID)",params);
+        namedParameterJdbcOperations.update("insert into book(id,name,genreID) values(:id,:name,:genreID)",params);
     }
     @Override
     public void updateById(Book book){
         final Map<String,Object> params = new HashMap<>();
         params.put("id",book.getId());
         params.put("name",book.getName());
-        params.put("authorID",book.getAuthorID());
         params.put("genreID",book.getGenreID());
-        namedParameterJdbcOperations.update("update book set name=:name,authorID=:authorID,genreID=:genreID where id=:id",params);
+        namedParameterJdbcOperations.update("update book set name=:name,genreID=:genreID where id=:id",params);
     }
     @Override
     public void deleteById(long id){
@@ -63,12 +61,11 @@ public class BookJdbc implements BookDao {
         return namedParameterJdbcOperations.query("select * from book where genreID=:genreID",params,new BookMapper());
     }
     @Override
-    public Book getByName(String name){
+    public List<Book> getByName(String name){
         final Map<String,Object> params = new HashMap<>();
         params.put("name",name);
-        return namedParameterJdbcOperations.queryForObject("select * from book where name=:name",params,new BookMapper());
+        return namedParameterJdbcOperations.query("select * from book where name=:name",params,new BookMapper());
     }
-
 
     @Override
     public int getNextSequenceVal(){
@@ -86,9 +83,8 @@ public class BookJdbc implements BookDao {
         public Book mapRow(ResultSet resultSet, int i) throws SQLException {
             long id = resultSet.getLong("id");
             String name = resultSet.getString("name");
-            long authorID = resultSet.getLong("authorID");
             long genreID = resultSet.getLong("genreID");
-            return new Book(id,name, authorID, genreID);
+            return new Book(id,name, genreID);
         }
     }
 }

@@ -15,7 +15,7 @@ public interface BookDao {
 
     List<Book> getByGenreID(long id);
 
-    Book getByName(String name);
+    List<Book> getByName(String name);
 
     int getNextSequenceVal();
 

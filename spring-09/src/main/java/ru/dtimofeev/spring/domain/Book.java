@@ -1,16 +1,17 @@
 package ru.dtimofeev.spring.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Book {
     private final long id;
     private final String name;
-    private final long AuthorID;
     private final long GenreID;
 
-    public Book(long id, String name, long authorID, long genreID) {
+    public Book(long id, String name, long genreID) {
         this.id = id;
         this.name = name;
-        AuthorID = authorID;
-        GenreID = genreID;
+        this.GenreID = genreID;
     }
 
     @Override
@@ -24,10 +25,6 @@ public class Book {
 
     public String getName() {
         return name;
-    }
-
-    public long getAuthorID() {
-        return AuthorID;
     }
 
     public long getGenreID() {

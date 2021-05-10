@@ -5,7 +5,7 @@ public interface BookService {
 
     void printBooksOfParticularGenre(long id);
 
-    void addNewBook(String genreName, String authorName, String bookName);
+    void addNewBookWithDependentEntities(String genreName, String authorsName, String bookName);
 
     void deleteBookByID(long id);
 }

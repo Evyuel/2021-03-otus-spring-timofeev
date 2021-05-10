@@ -1,10 +1,10 @@
 package ru.dtimofeev.spring.shell;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import ru.dtimofeev.spring.dao.AuthorDao;
+import ru.dtimofeev.spring.dao.BookDao;
+import ru.dtimofeev.spring.service.BookAuthorLinkService;
 import ru.dtimofeev.spring.service.BookService;
 import ru.dtimofeev.spring.service.GenreService;
 
@@ -14,7 +14,7 @@ public class ApplicationCommands {
 
     private final GenreService genreService;
     private final BookService bookService;
-    private final AuthorDao authorDao;
+    private final BookDao bookDao;
 
     @ShellMethod(value = "Show all genres",key = "sag")
     public void getAllGenres(){
@@ -31,14 +31,19 @@ public class ApplicationCommands {
         bookService.printBooksOfParticularGenre(i);
     }
 
-    @ShellMethod(value = "Add new book to library. Example \"addBook Book_genre Book_author Book_name\"", key = "addBook")
-    public void addNewBook( String genreName, String authorName,String bookName){
-        bookService.addNewBook(genreName,authorName,bookName);
+    @ShellMethod(value = "Add new book to library. Example \"addBook \"Book_genre\" \"Book_author1,Book_author2,Book_author3\" \"Book_name\"\"", key = "addBook")
+    public void addNewBook(String genreName, String authorsName,String bookName){
+        bookService.addNewBookWithDependentEntities(genreName,authorsName,bookName);
     }
 
     @ShellMethod(value = "Delete book from library (by ID)", key = "deleteBook")
     public void addNewBook(long id){
         bookService.deleteBookByID(id);
+    }
+
+    @ShellMethod(value = "test", key = "t")
+    public void test(String name){
+        System.out.println(bookDao.getByName(name).isEmpty());
     }
 
     //Добавить книгу, првоерив:
