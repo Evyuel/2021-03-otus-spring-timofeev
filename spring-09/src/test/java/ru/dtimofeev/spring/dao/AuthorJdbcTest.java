@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import ru.dtimofeev.spring.domain.Author;
 
 import java.util.ArrayList;
@@ -34,6 +35,8 @@ class AuthorJdbcTest {
                                                                              );
     @Autowired
     private AuthorJdbc authorJdbc;
+    @Autowired
+    private JdbcTemplate jdbc;
 
     @DisplayName("корректно переключать и возвращать значение счетчика")
     @Test
@@ -42,7 +45,7 @@ class AuthorJdbcTest {
         authorJdbc.getNextSequenceVal();
         authorJdbc.getNextSequenceVal();
         authorJdbc.getNextSequenceVal();
-        assertEquals(seqCurVal+EXPECTED_SEQUENCE_INCREASE,authorJdbc.getNextSequenceVal());
+        assertEquals(seqCurVal+EXPECTED_SEQUENCE_INCREASE,jdbc.queryForObject("select author_sq.nextval from dual",Integer.class));
     }
 
     @DisplayName("корректно выбирать автора по ID")

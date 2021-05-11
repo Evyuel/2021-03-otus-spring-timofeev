@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.jdbc.core.JdbcTemplate;
 import ru.dtimofeev.spring.domain.Author;
 import ru.dtimofeev.spring.domain.Book;
 import ru.dtimofeev.spring.domain.BookAuthorLink;
@@ -45,6 +46,8 @@ class BookAuthorLinkJdbcTest {
     private BookJdbc bookJdbc;
     @Autowired
     private AuthorJdbc authorJdbc;
+    @Autowired
+    private JdbcTemplate jdbc;
 
     @DisplayName("корректно возвращать связь книги и автора по BookID")
     @Test
@@ -70,7 +73,7 @@ class BookAuthorLinkJdbcTest {
         bookAuthorLinkJdbc.getNextSequenceVal();
         bookAuthorLinkJdbc.getNextSequenceVal();
         bookAuthorLinkJdbc.getNextSequenceVal();
-        assertEquals(seqCurVal+EXPECTED_SEQUENCE_INCREASE,bookAuthorLinkJdbc.getNextSequenceVal());
+        assertEquals(seqCurVal+EXPECTED_SEQUENCE_INCREASE,jdbc.queryForObject("select bookauthorlink_sq.nextval from dual",Integer.class));
     }
 
     @DisplayName("корректно добавлять связь автора и книги")
