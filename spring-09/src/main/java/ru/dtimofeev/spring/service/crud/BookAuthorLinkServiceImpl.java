@@ -7,18 +7,34 @@ import ru.dtimofeev.spring.dao.BookAuthorLinkDao;
 import ru.dtimofeev.spring.domain.BookAuthorLink;
 
 import java.util.List;
+
 @Service
 public class BookAuthorLinkServiceImpl implements BookAuthorLinkService {
 
     private final BookAuthorLinkDao bookAuthorLinkDao;
+    private final AuthorDao authorDao;
 
     @Autowired
     public BookAuthorLinkServiceImpl(BookAuthorLinkDao bookAuthorLinkDao, AuthorDao authorDao) {
         this.bookAuthorLinkDao = bookAuthorLinkDao;
+        this.authorDao = authorDao;
     }
 
     @Override
-    public List<BookAuthorLink> getBookAuthorLinksByBookID(long bookId){
+    public List<BookAuthorLink> getBookAuthorLinksByBookID(long bookId) {
         return bookAuthorLinkDao.getBookAuthorLinksByBookID(bookId);
     }
+
+    @Override
+    public void insert(long bookId, List<String> listOfAuthorsName) {
+        for (String authorName : listOfAuthorsName) {
+            bookAuthorLinkDao.insert(new BookAuthorLink(bookAuthorLinkDao.getNextSequenceVal(), bookId, authorDao.getByFullName(authorName).getId()));
+        }
+    }
+
+    @Override
+    public void deleteByBookID(long bookId) {
+        bookAuthorLinkDao.deleteByBookId(bookId);
+    }
+
 }

@@ -3,7 +3,6 @@ package ru.dtimofeev.spring.service.existing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import ru.dtimofeev.spring.domain.Author;
 import ru.dtimofeev.spring.service.crud.AuthorService;
 
 import java.util.List;
@@ -20,22 +19,20 @@ public class AuthorExistingService implements ObjectExistingService {
     }
 
     @Override
-    public void ifAbsentThenAddNew(String authorFullName){
+    public void ifAbsentThenAddNew(String authorFullName) {
         try {
             authorService.getByFullName(authorFullName);
-        }
-        catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             authorService.insert(authorFullName);
         }
     }
 
     @Override
     public void ifAbsentThenAddNew(List<String> authorNameList) {
-        for (String authorFullName : authorNameList){
+        for (String authorFullName : authorNameList) {
             try {
                 authorService.getByFullName(authorFullName);
-            }
-            catch (EmptyResultDataAccessException e){
+            } catch (EmptyResultDataAccessException e) {
                 authorService.insert(authorFullName);
             }
         }

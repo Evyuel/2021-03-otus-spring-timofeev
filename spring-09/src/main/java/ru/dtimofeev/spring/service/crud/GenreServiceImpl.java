@@ -16,17 +16,18 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public Genre getById(long id){
+    public Genre getById(long id) {
         return genreDao.getById(id);
     }
 
     @Override
-    public Genre getByName(String name){
+    public Genre getByName(String name) {
         return genreDao.getByName(name);
     }
+
     @Override
-    public void insert(String name){
-        genreDao.insert(new Genre(genreDao.getNextSequenceVal(),name));
+    public void insert(String name) {
+        genreDao.insert(new Genre(genreDao.getNextSequenceVal(), name));
     }
 
 

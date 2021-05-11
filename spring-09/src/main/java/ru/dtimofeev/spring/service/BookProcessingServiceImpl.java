@@ -1,16 +1,15 @@
 package ru.dtimofeev.spring.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import ru.dtimofeev.spring.domain.Book;
 import ru.dtimofeev.spring.service.crud.AuthorService;
-import ru.dtimofeev.spring.service.crud.BookAuthorLinkService;
 import ru.dtimofeev.spring.service.crud.BookService;
 import ru.dtimofeev.spring.service.crud.GenreService;
 import ru.dtimofeev.spring.service.existing.ObjectExistingService;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,8 +29,8 @@ public class BookProcessingServiceImpl implements BookProcessingService {
                                      @Qualifier("authorExistingService") ObjectExistingService authorExistingService,
                                      @Qualifier("genreExistingService") ObjectExistingService genreExistingService,
                                      AuthorService authorService,
-                                     BookService bookService, GenreService genreService,
-                                     BookAuthorLinkService bookAuthorLinkService) {
+                                     BookService bookService,
+                                     GenreService genreService) {
         this.ioService = ioService;
         this.authorProcessingService = authorProcessingService;
         this.authorExistingService = authorExistingService;
@@ -56,26 +55,23 @@ public class BookProcessingServiceImpl implements BookProcessingService {
     }
 
     @Override
-    public void addNewBookWithDependentEntities(String genreName, String authorsName, String bookName) {
-        boolean isBookAlreadyExist = false;
-        List<Book> listOfBooks = bookService.getByName(bookName);
-        if (!listOfBooks.isEmpty()) {
-            for (Book b : bookService.getByName(bookName)) {
-                if (b.getGenreID() == genreService.getByName(genreName).getId() &&
-                        authorService.getAuthorListByFullNameList(Arrays.asList(authorsName.split(","))).equals(authorService.getAuthorListByBookID(b.getId()))
-                ) {
-                    isBookAlreadyExist = true;
-                }
-            }
-        }
-        if (listOfBooks.isEmpty() || !isBookAlreadyExist)
+    public void checkAndAddNewBook(String genreName, String authorsName, String bookName) {
+        try {
+            bookService.getByName(bookName);
+            ioService.out("Данная книга уже присутствует в библиотеке");
+        } catch (EmptyResultDataAccessException e) {
             addBookWithDependentEntities(genreName, authorsName, bookName);
+        }
     }
 
 
     private void addBookWithDependentEntities(String genreName, String authorsName, String bookName) {
+        List<String> authorNameList = new ArrayList<>();
+        for (String s : authorsName.split(",")) {
+            authorNameList.add(s);
+        }
         genreExistingService.ifAbsentThenAddNew(genreName);
-        authorExistingService.ifAbsentThenAddNew(Arrays.asList(authorsName.split(",")));
-        bookService.insert(bookName,genreName);
+        authorExistingService.ifAbsentThenAddNew(authorNameList);
+        bookService.insert(bookName, genreName, authorNameList);
     }
 }

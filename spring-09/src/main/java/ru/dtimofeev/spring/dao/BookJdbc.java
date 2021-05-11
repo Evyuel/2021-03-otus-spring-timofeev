@@ -26,55 +26,59 @@ public class BookJdbc implements BookDao {
     }
 
     @Override
-    public void insert(Book book){
-        final Map<String,Object> params = new HashMap<>();
-        params.put("id",book.getId());
-        params.put("name",book.getName());
-        params.put("genreID",book.getGenreID());
-        namedParameterJdbcOperations.update("insert into book(id,name,genreID) values(:id,:name,:genreID)",params);
-    }
-    @Override
-    public void updateById(Book book){
-        final Map<String,Object> params = new HashMap<>();
-        params.put("id",book.getId());
-        params.put("name",book.getName());
-        params.put("genreID",book.getGenreID());
-        namedParameterJdbcOperations.update("update book set name=:name,genreID=:genreID where id=:id",params);
-    }
-    @Override
-    public void deleteById(long id){
-        final Map<String,Object> params = new HashMap<>();
-        params.put("id",id);
-        namedParameterJdbcOperations.update("delete book where id=:id",params);
-    }
-    @Override
-    public Book getById(long id){
-        final Map<String,Object> params = new HashMap<>();
-        params.put("id",id);
-        return namedParameterJdbcOperations.queryForObject("select * from book where id=:id",params,new BookMapper());
+    public void insert(Book book) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("id", book.getId());
+        params.put("name", book.getName());
+        params.put("genreID", book.getGenreID());
+        namedParameterJdbcOperations.update("insert into book(id,name,genreID) values(:id,:name,:genreID)", params);
     }
 
     @Override
-    public List<Book> getByGenreID(long genreID){
-        final Map<String,Object> params = new HashMap<>();
-        params.put("genreID",genreID);
-        return namedParameterJdbcOperations.query("select * from book where genreID=:genreID",params,new BookMapper());
-    }
-    @Override
-    public List<Book> getByName(String name){
-        final Map<String,Object> params = new HashMap<>();
-        params.put("name",name);
-        return namedParameterJdbcOperations.query("select * from book where name=:name",params,new BookMapper());
+    public void updateById(Book book) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("id", book.getId());
+        params.put("name", book.getName());
+        params.put("genreID", book.getGenreID());
+        namedParameterJdbcOperations.update("update book set name=:name,genreID=:genreID where id=:id", params);
     }
 
     @Override
-    public int getNextSequenceVal(){
-        return jdbcOperations.queryForObject("select book_sq.nextval from dual",Integer.class);
+    public void deleteById(long id) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("id", id);
+        namedParameterJdbcOperations.update("delete book where id=:id", params);
     }
 
     @Override
-    public List<Book> getAll(){
-        return jdbcOperations.query("select * from book",new BookMapper());
+    public Book getById(long id) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("id", id);
+        return namedParameterJdbcOperations.queryForObject("select * from book where id=:id", params, new BookMapper());
+    }
+
+    @Override
+    public List<Book> getByGenreID(long genreID) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("genreID", genreID);
+        return namedParameterJdbcOperations.query("select * from book where genreID=:genreID", params, new BookMapper());
+    }
+
+    @Override
+    public Book getByName(String name) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("name", name);
+        return namedParameterJdbcOperations.queryForObject("select * from book where name=:name", params, new BookMapper());
+    }
+
+    @Override
+    public int getNextSequenceVal() {
+        return jdbcOperations.queryForObject("select book_sq.nextval from dual", Integer.class);
+    }
+
+    @Override
+    public List<Book> getAll() {
+        return jdbcOperations.query("select * from book", new BookMapper());
     }
 
     private static class BookMapper implements RowMapper<Book> {
@@ -84,7 +88,7 @@ public class BookJdbc implements BookDao {
             long id = resultSet.getLong("id");
             String name = resultSet.getString("name");
             long genreID = resultSet.getLong("genreID");
-            return new Book(id,name, genreID);
+            return new Book(id, name, genreID);
         }
     }
 }

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ru.dtimofeev.spring.domain.Genre;
 
@@ -14,8 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Класс GenreJdbc должен ")
 @JdbcTest
@@ -25,16 +24,14 @@ class GenreJdbcTest {
     private static final int EXPECTED_SEQUENCE_INCREASE = 4;
     private static final int GENRE_FOR_INSERT_ID = 10;
     private static final String GENRE_FOR_INSERT_NAME = "GenreForInsert";
-    private static final Genre GENRE_FOR_INSERT = new Genre(GENRE_FOR_INSERT_ID,GENRE_FOR_INSERT_NAME);
+    private static final Genre GENRE_FOR_INSERT = new Genre(GENRE_FOR_INSERT_ID, GENRE_FOR_INSERT_NAME);
     private static final int FIRST_GENRE_IN_DB_ID = 1;
     private static final String FIRST_GENRE_IN_DB_NAME = "Классика";
-    private static final Genre FIRST_GENRE_IN_DB = new Genre(FIRST_GENRE_IN_DB_ID,FIRST_GENRE_IN_DB_NAME);
+    private static final Genre FIRST_GENRE_IN_DB = new Genre(FIRST_GENRE_IN_DB_ID, FIRST_GENRE_IN_DB_NAME);
     private static final String FIRST_GENRE_IN_DB_NAME_UPDATED = "Классика_UpdatedName";
-    private static final Genre FIRST_GENRE_IN_DB_UPDATED = new Genre(FIRST_GENRE_IN_DB_ID,FIRST_GENRE_IN_DB_NAME_UPDATED);
-    private static final List<Genre> ALL_GENRES_IN_DB = new ArrayList<>(Arrays.asList(new Genre[]{
-            new Genre(1,"Классика"),
-            new Genre(2,"Детектив")
-    }));
+    private static final Genre FIRST_GENRE_IN_DB_UPDATED = new Genre(FIRST_GENRE_IN_DB_ID, FIRST_GENRE_IN_DB_NAME_UPDATED);
+    private static final List<Genre> ALL_GENRES_IN_DB = new ArrayList<>(Arrays.asList(new Genre(1, "Классика"),
+            new Genre(2, "Детектив")));
 
     @Autowired
     private GenreJdbc genreJdbc;
@@ -48,7 +45,7 @@ class GenreJdbcTest {
         genreJdbc.getNextSequenceVal();
         genreJdbc.getNextSequenceVal();
         genreJdbc.getNextSequenceVal();
-        assertEquals(seqCurVal+EXPECTED_SEQUENCE_INCREASE,jdbc.queryForObject("select genre_sq.nextval from dual",Integer.class));
+        assertEquals(seqCurVal + EXPECTED_SEQUENCE_INCREASE, jdbc.queryForObject("select genre_sq.nextval from dual", Integer.class));
     }
 
     @DisplayName("корректно возвращать жанр по ID")

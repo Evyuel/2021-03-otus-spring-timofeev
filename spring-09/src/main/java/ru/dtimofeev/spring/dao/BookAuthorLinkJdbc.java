@@ -26,31 +26,38 @@ public class BookAuthorLinkJdbc implements BookAuthorLinkDao {
     }
 
     @Override
-    public void insert(BookAuthorLink bookAuthorLink){
-        final Map<String,Object> params = new HashMap<>();
-        params.put("linkID",bookAuthorLink.getLinkID());
-        params.put("bookID",bookAuthorLink.getBookID());
-        params.put("authorID",bookAuthorLink.getAuthorID());
-        namedParameterJdbcOperations.update("insert into bookauthorlink(linkID,bookID,authorID) values(:linkID,:bookID,:authorID)",params);
+    public void insert(BookAuthorLink bookAuthorLink) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("linkID", bookAuthorLink.getLinkID());
+        params.put("bookID", bookAuthorLink.getBookID());
+        params.put("authorID", bookAuthorLink.getAuthorID());
+        namedParameterJdbcOperations.update("insert into bookauthorlink(linkID,bookID,authorID) values(:linkID,:bookID,:authorID)", params);
     }
 
     @Override
-    public BookAuthorLink getByLinkId(long linkId){
-        final Map<String,Object> params = new HashMap<>();
-        params.put("linkId",linkId);
-        return namedParameterJdbcOperations.queryForObject("select * from bookauthorlink  where linkId=:linkId",params,new BookAuthorLinkMapper());
+    public void deleteByBookId(long bookId) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("bookId", bookId);
+        namedParameterJdbcOperations.update("delete bookauthorlink where bookId=:bookId", params);
     }
 
     @Override
-    public List<BookAuthorLink> getBookAuthorLinksByBookID(long bookID){
-        final Map<String,Object> params = new HashMap<>();
-        params.put("bookID",bookID);
-        return namedParameterJdbcOperations.query("select * from bookauthorlink where bookID=:bookID",params,new BookAuthorLinkMapper());
+    public BookAuthorLink getByLinkId(long linkId) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("linkId", linkId);
+        return namedParameterJdbcOperations.queryForObject("select * from bookauthorlink  where linkId=:linkId", params, new BookAuthorLinkMapper());
     }
 
     @Override
-    public int getNextSequenceVal(){
-        return jdbcOperations.queryForObject("select BookAuthorLink_SQ.nextval from dual",Integer.class);
+    public List<BookAuthorLink> getBookAuthorLinksByBookID(long bookID) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("bookID", bookID);
+        return namedParameterJdbcOperations.query("select * from bookauthorlink where bookID=:bookID", params, new BookAuthorLinkMapper());
+    }
+
+    @Override
+    public int getNextSequenceVal() {
+        return jdbcOperations.queryForObject("select BookAuthorLink_SQ.nextval from dual", Integer.class);
     }
 
 
@@ -58,7 +65,7 @@ public class BookAuthorLinkJdbc implements BookAuthorLinkDao {
 
         @Override
         public BookAuthorLink mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new BookAuthorLink(rs.getLong("linkid"),rs.getLong("bookid"),rs.getLong("authorid"));
+            return new BookAuthorLink(rs.getLong("linkid"), rs.getLong("bookid"), rs.getLong("authorid"));
         }
     }
 }

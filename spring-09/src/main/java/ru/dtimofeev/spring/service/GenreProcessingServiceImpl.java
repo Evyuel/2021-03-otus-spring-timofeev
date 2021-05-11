@@ -1,6 +1,5 @@
 package ru.dtimofeev.spring.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.dtimofeev.spring.dao.GenreDao;
 import ru.dtimofeev.spring.domain.Genre;
@@ -17,8 +16,8 @@ public class GenreProcessingServiceImpl implements GenreProcessingService {
     }
 
     @Override
-    public void printAll(){
-        for (Genre g : genreDao.getAll()){
+    public void printAll() {
+        for (Genre g : genreDao.getAll()) {
             ioService.out("ID: " + g.getId() + ", " + g.getName());
         }
     }

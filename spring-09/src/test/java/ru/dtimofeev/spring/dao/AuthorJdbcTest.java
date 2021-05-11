@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @JdbcTest
 @DisplayName("Класс AuthorJdbc должен ")
@@ -27,12 +27,11 @@ class AuthorJdbcTest {
     private static final int AUTHOR_WITH_ID_1 = 1;
     private static final String AUTHOR_FOR_UPDATE_NAME = "UpdatedAuthor";
     private static final List<Author> INITIAL_LIST_OF_AUTHORS = new ArrayList<>(Arrays.asList(
-                                                                    new Author[]{new Author(1, "Михаил Булгаков"),
-                                                                                 new Author(3, "Агата Кристи"),
-                                                                                 new Author(9, "Илья Ильф"),
-                                                                                 new Author(10, "Евгений Петров")}
-                                                                                           )
-                                                                             );
+            new Author(1, "Михаил Булгаков"),
+            new Author(3, "Агата Кристи"),
+            new Author(9, "Илья Ильф"),
+            new Author(10, "Евгений Петров"))
+    );
     @Autowired
     private AuthorJdbc authorJdbc;
     @Autowired
@@ -45,19 +44,13 @@ class AuthorJdbcTest {
         authorJdbc.getNextSequenceVal();
         authorJdbc.getNextSequenceVal();
         authorJdbc.getNextSequenceVal();
-        assertEquals(seqCurVal+EXPECTED_SEQUENCE_INCREASE,jdbc.queryForObject("select author_sq.nextval from dual",Integer.class));
+        assertEquals(seqCurVal + EXPECTED_SEQUENCE_INCREASE, jdbc.queryForObject("select author_sq.nextval from dual", Integer.class));
     }
 
     @DisplayName("корректно выбирать автора по ID")
     @Test
     void shouldCorrectReturnAuthorById() {
-        assertThat(authorJdbc.getById(AUTHOR_WITH_ID_1)).usingRecursiveComparison().isEqualTo(new Author(1,"Михаил Булгаков"));
-    }
-
-    @DisplayName("корректно выбирать автора по полному имени")
-    @Test
-    void getByFullName() {
-        assertThat(authorJdbc.getByFullName("Михаил Булгаков")).usingRecursiveComparison().isEqualTo(new Author(1,"Михаил Булгаков"));
+        assertThat(authorJdbc.getById(AUTHOR_WITH_ID_1)).usingRecursiveComparison().isEqualTo(new Author(1, "Михаил Булгаков"));
     }
 
     @DisplayName("корректно выбирать всех авторов")

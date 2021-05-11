@@ -7,4 +7,8 @@ import java.util.List;
 public interface BookAuthorLinkService {
 
     List<BookAuthorLink> getBookAuthorLinksByBookID(long bookId);
+
+    void insert(long bookId, List<String> listOfAuthorsName);
+
+    void deleteByBookID(long id);
 }

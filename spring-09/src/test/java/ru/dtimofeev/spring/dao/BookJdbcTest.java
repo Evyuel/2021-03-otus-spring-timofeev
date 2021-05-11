@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @JdbcTest
 @DisplayName("Класс BookJdbc должен ")
@@ -24,21 +24,17 @@ class BookJdbcTest {
     private static final int EXPECTED_SEQUENCE_INCREASE = 4;
     private static final int BOOK_ID_FOR_INSERT = 90;
     private static final int BOOK_ID_FOR_UPDATE = 1;
-    private static final Book BOOK_FOR_INSERT = new Book(BOOK_ID_FOR_INSERT,"BookWithID90",1);
-    private static final Book BOOK_FOR_UPDATE = new Book(BOOK_ID_FOR_UPDATE,"UpdatedBook",1);
+    private static final Book BOOK_FOR_INSERT = new Book(BOOK_ID_FOR_INSERT, "BookWithID90", 1);
+    private static final Book BOOK_FOR_UPDATE = new Book(BOOK_ID_FOR_UPDATE, "UpdatedBook", 1);
     private static final int FIRST_BOOK_IN_DB_ID = 1;
     private static final String FIRST_BOOK_IN_DB_NAME = "Мастер и Маргарита";
-    private static final Book FIRST_BOOK_IN_DB = new Book(FIRST_BOOK_IN_DB_ID,"Мастер и Маргарита",1);
-    private static final List<Book> LIST_OF_BOOK_WITH_GENREID_1 = new ArrayList<>(Arrays.asList(new Book[]{
-                                                                                                      new Book(1,"Мастер и Маргарита",1),
-                                                                                                      new Book(8,"Двенадцать стульев",1)
-    }));
+    private static final Book FIRST_BOOK_IN_DB = new Book(FIRST_BOOK_IN_DB_ID, "Мастер и Маргарита", 1);
+    private static final List<Book> LIST_OF_BOOK_WITH_GENREID_1 = new ArrayList<>(Arrays.asList(new Book(1, "Мастер и Маргарита", 1),
+            new Book(8, "Двенадцать стульев", 1)));
     private static final int GENRE_WITH_ID_1 = 1;
-    private static final List<Book> LIST_OF_ALL_BOOKS = new ArrayList<>(Arrays.asList(new Book[]{
-            new Book(1,"Мастер и Маргарита",1),
-            new Book(8,"Двенадцать стульев",1),
-            new Book(3,"Десять негритят",2)
-    }));
+    private static final List<Book> LIST_OF_ALL_BOOKS = new ArrayList<>(Arrays.asList(new Book(1, "Мастер и Маргарита", 1),
+            new Book(8, "Двенадцать стульев", 1),
+            new Book(3, "Десять негритят", 2)));
 
     @Autowired
     private BookJdbc bookJdbc;
@@ -52,7 +48,7 @@ class BookJdbcTest {
         bookJdbc.getNextSequenceVal();
         bookJdbc.getNextSequenceVal();
         bookJdbc.getNextSequenceVal();
-        assertEquals(seqCurVal+EXPECTED_SEQUENCE_INCREASE,jdbc.queryForObject("select book_sq.nextval from dual",Integer.class));
+        assertEquals(seqCurVal + EXPECTED_SEQUENCE_INCREASE, jdbc.queryForObject("select book_sq.nextval from dual", Integer.class));
     }
 
     @DisplayName("корректно корректно возвращать книгу по ID")
@@ -96,8 +92,8 @@ class BookJdbcTest {
     @DisplayName("корректно возвращать книги по имени")
     @Test
     void shouldReturnCorrectListOfBooksByName() {
-        assertThat(Arrays.asList(FIRST_BOOK_IN_DB))
-                .usingFieldByFieldElementComparator()
+        assertThat(FIRST_BOOK_IN_DB)
+                .usingRecursiveComparison()
                 .isEqualTo(bookJdbc.getByName(FIRST_BOOK_IN_DB_NAME));
     }
 

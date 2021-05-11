@@ -1,7 +1,7 @@
 create table Author(ID int primary key,
                     Fullname varchar(255));
 CREATE SEQUENCE Author_SQ
-  START WITH 7
+  START WITH 11
   INCREMENT BY 1;
 
 create table Genre(ID int primary key,
@@ -15,7 +15,7 @@ create table Book(ID int primary key,
                   GenreID int,
                   foreign key (GenreID) references Genre(ID));
 CREATE SEQUENCE Book_SQ
-  START WITH 7
+  START WITH 9
   INCREMENT BY 1;
 
 create table BookAuthorLink(LinkID int primary key,

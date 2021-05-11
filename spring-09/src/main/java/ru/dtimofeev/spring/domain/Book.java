@@ -11,11 +11,6 @@ public class Book {
         this.GenreID = genreID;
     }
 
-    @Override
-    public String toString(){
-        return "Идентификатор: " + id + ", Наименование: " + name;
-    }
-
     public long getId() {
         return id;
     }

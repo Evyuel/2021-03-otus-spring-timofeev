@@ -5,5 +5,5 @@ public interface BookProcessingService {
 
     void printBooksOfParticularGenre(long id);
 
-    void addNewBookWithDependentEntities(String genreName, String authorsName, String bookName);
+    void checkAndAddNewBook(String genreName, String authorsName, String bookName);
 }

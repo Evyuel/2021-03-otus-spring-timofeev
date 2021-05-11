@@ -9,9 +9,9 @@ public interface BookService {
 
     List<Book> getByGenreID(long genreID);
 
-    List<Book> getByName(String name);
+    Book getByName(String name);
 
     void deleteBookByID(long id);
 
-    void insert(String bookName, String genreName);
+    void insert(String bookName, String genreName, List<String> listOfAuthorsName);
 }

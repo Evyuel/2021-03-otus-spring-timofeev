@@ -13,34 +13,41 @@ public class BookServiceImpl implements BookService {
 
     private final BookDao bookDao;
     private final GenreDao genreDao;
+    private final BookAuthorLinkService bookAuthorLinkService;
 
     @Autowired
-    public BookServiceImpl(BookDao bookDao, GenreDao genreDao) {
+    public BookServiceImpl(BookDao bookDao, GenreDao genreDao, BookAuthorLinkService bookAuthorLinkService) {
         this.bookDao = bookDao;
         this.genreDao = genreDao;
+        this.bookAuthorLinkService = bookAuthorLinkService;
     }
 
     @Override
-    public List<Book> getAll(){
+    public List<Book> getAll() {
         return bookDao.getAll();
     }
 
     @Override
-    public List<Book> getByGenreID(long genreID){
+    public List<Book> getByGenreID(long genreID) {
         return bookDao.getByGenreID(genreID);
     }
 
     @Override
-    public List<Book> getByName(String name){
+    public Book getByName(String name) {
         return bookDao.getByName(name);
     }
+
     @Override
     public void deleteBookByID(long id) {
+        bookAuthorLinkService.deleteByBookID(id);
         bookDao.deleteById(id);
     }
+
     @Override
-    public void insert(String bookName, String genreName){
-        bookDao.insert(new Book(bookDao.getNextSequenceVal(),bookName,genreDao.getByName(genreName).getId()));
+    public void insert(String bookName, String genreName, List<String> listOfAuthorsName) {
+        int bookId = bookDao.getNextSequenceVal();
+        bookDao.insert(new Book(bookId, bookName, genreDao.getByName(genreName).getId()));
+        bookAuthorLinkService.insert(bookId, listOfAuthorsName);
     }
 
 }
