@@ -1,5 +1,5 @@
 package ru.dtimofeev.spring.service;
 
-public interface GenreService {
+public interface GenreProcessingService {
     void printAll();
 }

@@ -1,8 +1,5 @@
 package ru.dtimofeev.spring.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Book {
     private final long id;
     private final String name;

@@ -5,16 +5,13 @@ import org.springframework.stereotype.Service;
 import ru.dtimofeev.spring.dao.GenreDao;
 import ru.dtimofeev.spring.domain.Genre;
 
-import java.util.List;
-
 @Service
-public class GenreServiceImpl implements GenreService {
+public class GenreProcessingServiceImpl implements GenreProcessingService {
 
     private final GenreDao genreDao;
     private final IOService ioService;
 
-    @Autowired
-    public GenreServiceImpl(GenreDao genreDao, IOService ioService) {
+    public GenreProcessingServiceImpl(GenreDao genreDao, IOService ioService) {
         this.genreDao = genreDao;
         this.ioService = ioService;
     }
@@ -25,7 +22,4 @@ public class GenreServiceImpl implements GenreService {
             ioService.out("ID: " + g.getId() + ", " + g.getName());
         }
     }
-
-
-
 }

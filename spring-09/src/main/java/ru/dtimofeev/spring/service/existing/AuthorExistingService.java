@@ -3,8 +3,8 @@ package ru.dtimofeev.spring.service.existing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import ru.dtimofeev.spring.dao.AuthorDao;
 import ru.dtimofeev.spring.domain.Author;
+import ru.dtimofeev.spring.service.crud.AuthorService;
 
 import java.util.List;
 
@@ -12,31 +12,31 @@ import java.util.List;
 @Service
 public class AuthorExistingService implements ObjectExistingService {
 
-    private final AuthorDao authorDao;
+    private final AuthorService authorService;
 
     @Autowired
-    public AuthorExistingService(AuthorDao authorDao) {
-        this.authorDao = authorDao;
+    public AuthorExistingService(AuthorService authorService) {
+        this.authorService = authorService;
     }
 
     @Override
-    public void ifAbsentThenAddNew(String author){
+    public void ifAbsentThenAddNew(String authorFullName){
         try {
-            authorDao.getByFullName(author);
+            authorService.getByFullName(authorFullName);
         }
         catch (EmptyResultDataAccessException e){
-            authorDao.insert(new Author(authorDao.getNextSequenceVal(),author));
+            authorService.insert(authorFullName);
         }
     }
 
     @Override
-    public void ifAbsentThenAddNew(List<String> authorList) {
-        for (String author : authorList){
+    public void ifAbsentThenAddNew(List<String> authorNameList) {
+        for (String authorFullName : authorNameList){
             try {
-                authorDao.getByFullName(author);
+                authorService.getByFullName(authorFullName);
             }
             catch (EmptyResultDataAccessException e){
-                authorDao.insert(new Author(authorDao.getNextSequenceVal(),author));
+                authorService.insert(authorFullName);
             }
         }
     }

@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
-import ru.dtimofeev.spring.domain.Author;
 import ru.dtimofeev.spring.domain.BookAuthorLink;
 
 import java.sql.ResultSet;
@@ -36,7 +35,14 @@ public class BookAuthorLinkJdbc implements BookAuthorLinkDao {
     }
 
     @Override
-    public List<BookAuthorLink> getAuthorsByBookID(long bookID){
+    public BookAuthorLink getByLinkId(long linkId){
+        final Map<String,Object> params = new HashMap<>();
+        params.put("linkId",linkId);
+        return namedParameterJdbcOperations.queryForObject("select * from bookauthorlink  where linkId=:linkId",params,new BookAuthorLinkMapper());
+    }
+
+    @Override
+    public List<BookAuthorLink> getBookAuthorLinksByBookID(long bookID){
         final Map<String,Object> params = new HashMap<>();
         params.put("bookID",bookID);
         return namedParameterJdbcOperations.query("select * from bookauthorlink where bookID=:bookID",params,new BookAuthorLinkMapper());

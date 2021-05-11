@@ -20,12 +20,12 @@ import static org.assertj.core.api.Assertions.*;
 @Import(AuthorJdbc.class)
 class AuthorJdbcTest {
 
-    public static final int EXPECTED_SEQUENCE_INCREASE = 4;
-    public static final int AUTHOR_ID = 40;
-    public static final String AUTHOR_NAME = "AuthorTestName";
-    public static final int AUTHOR_WITH_ID_1 = 1;
-    public static final String AUTHOR_FOR_UPDATE_NAME = "UpdatedAuthor";
-    public static final List<Author> INITIAL_LIST_OF_AUTHORS = new ArrayList<>(Arrays.asList(
+    private static final int EXPECTED_SEQUENCE_INCREASE = 4;
+    private static final int AUTHOR_ID = 40;
+    private static final String AUTHOR_NAME = "AuthorTestName";
+    private static final int AUTHOR_WITH_ID_1 = 1;
+    private static final String AUTHOR_FOR_UPDATE_NAME = "UpdatedAuthor";
+    private static final List<Author> INITIAL_LIST_OF_AUTHORS = new ArrayList<>(Arrays.asList(
                                                                     new Author[]{new Author(1, "Михаил Булгаков"),
                                                                                  new Author(3, "Агата Кристи"),
                                                                                  new Author(9, "Илья Ильф"),
@@ -47,7 +47,7 @@ class AuthorJdbcTest {
 
     @DisplayName("корректно выбирать автора по ID")
     @Test
-    void shouldCorrectReturnAuthor() {
+    void shouldCorrectReturnAuthorById() {
         assertThat(authorJdbc.getById(AUTHOR_WITH_ID_1)).usingRecursiveComparison().isEqualTo(new Author(1,"Михаил Булгаков"));
     }
 
@@ -93,8 +93,4 @@ class AuthorJdbcTest {
         assertThatThrownBy(() -> authorJdbc.getById(AUTHOR_ID)).isExactlyInstanceOf(EmptyResultDataAccessException.class);
 
     }
-
-
-
-
 }

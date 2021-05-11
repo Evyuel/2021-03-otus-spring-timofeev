@@ -7,7 +7,9 @@ import java.util.List;
 public interface BookAuthorLinkDao {
     void insert(BookAuthorLink bookAuthorLink);
 
-    List<BookAuthorLink> getAuthorsByBookID(long bookID);
+    BookAuthorLink getByLinkId(long linkId);
+
+    List<BookAuthorLink> getBookAuthorLinksByBookID(long bookID);
 
     int getNextSequenceVal();
 }
