@@ -5,9 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.dtimofeev.spring.dao.AuthorDao;
 import ru.dtimofeev.spring.dao.BookAuthorLinkDao;
 import ru.dtimofeev.spring.domain.Author;
-import ru.dtimofeev.spring.domain.BookAuthorLink;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,30 +21,8 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public List<Author> getAuthorListByFullNameList(List<String> fullNameList) {
-        List<Author> listOfAuthor = new ArrayList<>();
-        for (String s : fullNameList) {
-            listOfAuthor.add(authorDao.getByFullName(s));
-        }
-        return listOfAuthor;
-    }
-
-    @Override
     public List<Author> getAuthorListByBookID(long id) {
-        List<Author> authorList = new ArrayList<>();
-        for (BookAuthorLink bal : bookAuthorLinkDao.getBookAuthorLinksByBookID(id)) {
-            authorList.add(authorDao.getById(bal.getAuthorID()));
-        }
-        return authorList;
-    }
-
-    @Override
-    public List<Author> getAuthorListByBookAuthorLinkList(List<BookAuthorLink> list) {
-        final ArrayList<Author> authorList = new ArrayList<>();
-        for (BookAuthorLink bal : list) {
-            authorList.add(authorDao.getById(bal.getAuthorID()));
-        }
-        return authorList;
+        return authorDao.getByIds(bookAuthorLinkDao.getAuthorIDListByBookID(id));
     }
 
     @Override

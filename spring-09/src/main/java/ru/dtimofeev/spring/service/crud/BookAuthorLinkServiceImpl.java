@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.dtimofeev.spring.dao.AuthorDao;
 import ru.dtimofeev.spring.dao.BookAuthorLinkDao;
+import ru.dtimofeev.spring.domain.Author;
 import ru.dtimofeev.spring.domain.BookAuthorLink;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BookAuthorLinkServiceImpl implements BookAuthorLinkService {
@@ -30,6 +32,11 @@ public class BookAuthorLinkServiceImpl implements BookAuthorLinkService {
         for (String authorName : listOfAuthorsName) {
             bookAuthorLinkDao.insert(new BookAuthorLink(bookAuthorLinkDao.getNextSequenceVal(), bookId, authorDao.getByFullName(authorName).getId()));
         }
+    }
+
+    @Override
+    public Map<Long, List<Author>> getAuthorsOfAllBooks() {
+        return bookAuthorLinkDao.getAuthorsOfAllBooks();
     }
 
     @Override

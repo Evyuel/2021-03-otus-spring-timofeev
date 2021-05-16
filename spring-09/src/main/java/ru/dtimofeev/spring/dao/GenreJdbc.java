@@ -52,14 +52,14 @@ public class GenreJdbc implements GenreDao {
     public Genre getById(long id) {
         final Map<String, Object> params = new HashMap<>();
         params.put("id", id);
-        return namedParameterJdbcOperations.queryForObject("select * from genre where id=:id", params, new GenreMapper());
+        return namedParameterJdbcOperations.queryForObject("select id,name from genre where id=:id", params, new GenreMapper());
     }
 
     @Override
     public Genre getByName(String name) {
         final Map<String, Object> params = new HashMap<>();
         params.put("name", name);
-        return namedParameterJdbcOperations.queryForObject("select * from genre where name=:name", params, new GenreMapper());
+        return namedParameterJdbcOperations.queryForObject("select id,name from genre where name=:name", params, new GenreMapper());
     }
 
     @Override
@@ -69,7 +69,7 @@ public class GenreJdbc implements GenreDao {
 
     @Override
     public List<Genre> getAll() {
-        return jdbcOperations.query("select * from genre", new GenreMapper());
+        return jdbcOperations.query("select id,name from genre", new GenreMapper());
     }
 
     private static class GenreMapper implements RowMapper<Genre> {

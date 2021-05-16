@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import ru.dtimofeev.spring.dao.BookDao;
 import ru.dtimofeev.spring.dao.GenreDao;
 import ru.dtimofeev.spring.domain.Book;
+import ru.dtimofeev.spring.domain.Genre;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -41,6 +43,11 @@ public class BookServiceImpl implements BookService {
     public void deleteBookByID(long id) {
         bookAuthorLinkService.deleteByBookID(id);
         bookDao.deleteById(id);
+    }
+
+    @Override
+    public Map<Book, Genre> getAllWithGenre() {
+        return bookDao.getAllWithGenre();
     }
 
     @Override

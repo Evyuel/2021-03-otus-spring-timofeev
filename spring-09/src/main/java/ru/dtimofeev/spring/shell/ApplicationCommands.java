@@ -3,6 +3,7 @@ package ru.dtimofeev.spring.shell;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
+import ru.dtimofeev.spring.dao.BookAuthorLinkJdbc;
 import ru.dtimofeev.spring.service.BookProcessingService;
 import ru.dtimofeev.spring.service.GenreProcessingService;
 import ru.dtimofeev.spring.service.crud.BookService;
@@ -14,6 +15,7 @@ public class ApplicationCommands {
     private final GenreProcessingService genreProcessingService;
     private final BookProcessingService bookProcessingService;
     private final BookService bookService;
+    private final BookAuthorLinkJdbc bookAuthorLinkJdbc;
 
     @ShellMethod(value = "Show all genres", key = "sag")
     public void getAllGenres() {
@@ -39,6 +41,5 @@ public class ApplicationCommands {
     public void addNewBook(long id) {
         bookService.deleteBookByID(id);
     }
-
 
 }
