@@ -23,6 +23,7 @@ class AuthorJpaTest {
     private static final long FIRST_AUTHOR_ID = 1L;
     private static final List<Author> LIST_OF_ALL_AUTHORS = new ArrayList<>(Arrays.asList(new Author(1, "Михаил Булгаков"),
             new Author(3, "Агата Кристи"),
+            new Author(8, "Алексей Макеев"),
             new Author(9, "Илья Ильф"),
             new Author(10, "Евгений Петров"),
             new Author(11, "Test Author")

@@ -3,6 +3,8 @@ package ru.dtimofeev.springapp.models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.List;
@@ -25,10 +27,12 @@ public class Book {
     @JoinColumn(name = "genreid")
     private Genre genre;
 
+    @Fetch(FetchMode.SUBSELECT)
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "bookauthorlink", joinColumns = @JoinColumn(name = "bookid"), inverseJoinColumns = @JoinColumn(name = "authorid"))
     private List<Author> authors;
 
+    @Fetch(FetchMode.SUBSELECT)
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "bookid")
     private List<BookComment> bookComments;

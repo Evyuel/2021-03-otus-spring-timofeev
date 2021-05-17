@@ -13,7 +13,7 @@ create table Book(ID int primary key,
                   GenreID int,
                   foreign key (GenreID) references Genre(ID));
 CREATE SEQUENCE Book_SQ
-  START WITH 9
+  START WITH 15
   INCREMENT BY 1;
 create table BookAuthorLink(LinkID int primary key,
                             BookID int,
@@ -21,5 +21,12 @@ create table BookAuthorLink(LinkID int primary key,
                             AuthorID int,
                             foreign key (AuthorID) references Author(ID));
 CREATE SEQUENCE BookAuthorLink_SQ
-  START WITH 11
+  START WITH 12
+  INCREMENT BY 1;
+create table BookComment(ID int primary key,
+                         BookID int,
+                         foreign key (BookID) references Book(ID),
+                         CommentText varchar(255));
+CREATE SEQUENCE BookComment_SQ
+  START WITH 6
   INCREMENT BY 1;
