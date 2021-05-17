@@ -11,13 +11,13 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "genre")
-@SequenceGenerator(name = "genre_sq",initialValue = 4,allocationSize = 1)
+@SequenceGenerator(name = "genre_sq", initialValue = 4, allocationSize = 1)
 public class Genre {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "genre_sq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "genre_sq")
     private long id;
-    @Column(name = "name",nullable = false,unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 }

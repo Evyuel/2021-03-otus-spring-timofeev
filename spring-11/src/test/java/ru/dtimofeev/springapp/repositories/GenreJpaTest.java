@@ -14,14 +14,16 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 @DisplayName("Класс GenreJpa должен")
 @DataJpaTest
 @Import(GenreJpa.class)
 class GenreJpaTest {
 
-    private static final long FIRST_GENRE_ID = 1;
-    private static final List<Genre> LIST_OF_ALL_GENRES = new ArrayList<>(Arrays.asList(new Genre(1,"Классика"),new Genre(2,"Детектив") ));
+    private static final long FIRST_GENRE_ID = 1L;
+    private static final List<Genre> LIST_OF_ALL_GENRES = new ArrayList<>(Arrays.asList(new Genre(1, "Классика"), new Genre(2, "Детектив"), new Genre(3, "TestGenre")));
     private static final Genre GENRE_FOR_SAVE = new Genre(0, "NewGenre");
+    private static final long GENRE_ID_FOR_DELETE = 3L;
 
     @Autowired
     private GenreJpa genreJpa;
@@ -33,7 +35,7 @@ class GenreJpaTest {
     @Test
     void shouldCorrectReturnGenreById() {
         val actualGenre = genreJpa.findById(FIRST_GENRE_ID);
-        val expectedGenre = testEntityManager.find(Genre.class,FIRST_GENRE_ID);
+        val expectedGenre = testEntityManager.find(Genre.class, FIRST_GENRE_ID);
         assertThat(actualGenre)
                 .isPresent().get()
                 .usingRecursiveComparison()
@@ -61,16 +63,24 @@ class GenreJpaTest {
     @DisplayName(" корректно апдейтить жанр по ID")
     @Test
     void shouldCorrectUpdateGenreById() {
-        Genre genreNew = genreJpa.save(GENRE_FOR_SAVE);
-        Genre genreForUpdate = new Genre(genreNew.getId(),"UpdatedGenre");
-        testEntityManager.detach(genreNew);
+        val genreNew = genreJpa.save(GENRE_FOR_SAVE);
+        val genreForUpdate = new Genre(genreNew.getId(), "UpdatedGenre");
         genreJpa.updateById(genreForUpdate);
+        testEntityManager.refresh(genreNew);
         assertThat(genreForUpdate)
                 .usingRecursiveComparison()
-                .isEqualTo(genreJpa.findById(genreForUpdate.getId()).get());
+                .isEqualTo(genreJpa.findById(genreNew.getId()).get());
     }
 
+    @DisplayName(" корректно удалять жанр по ID")
     @Test
-    void deleteById() {
+    void shouldDeleteGenreById() {
+        val genre = genreJpa.findById(GENRE_ID_FOR_DELETE).get();
+        testEntityManager.detach(genre);
+
+        genreJpa.deleteById(genre.getId());
+
+        assertThat(genreJpa.findById(genre.getId()))
+                .isEmpty();
     }
 }

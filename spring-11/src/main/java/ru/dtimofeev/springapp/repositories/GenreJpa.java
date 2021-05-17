@@ -19,19 +19,19 @@ public class GenreJpa implements GenreDao {
     private EntityManager entityManager;
 
     @Override
-    public Optional<Genre> findById(long id){
-        return Optional.ofNullable(entityManager.find(Genre.class,id));
+    public Optional<Genre> findById(long id) {
+        return Optional.ofNullable(entityManager.find(Genre.class, id));
     }
 
     @Override
-    public List<Genre> findAll(){
-        TypedQuery<Genre> query = entityManager.createQuery("select g from Genre g",Genre.class);
+    public List<Genre> findAll() {
+        TypedQuery<Genre> query = entityManager.createQuery("select g from Genre g", Genre.class);
         return query.getResultList();
     }
 
     @Override
-    public Genre save(Genre genre){
-        if (genre.getId() == 0){
+    public Genre save(Genre genre) {
+        if (genre.getId() == 0) {
             entityManager.persist(genre);
             return genre;
         }
@@ -39,20 +39,20 @@ public class GenreJpa implements GenreDao {
     }
 
     @Override
-    public void updateById(Genre genre){
+    public void updateById(Genre genre) {
         Query query = entityManager.createQuery("update Genre g " +
                 "set g.name=:name " +
-                "where id=:id");
-        query.setParameter("id",genre.getId());
-        query.setParameter("name",genre.getName());
+                "where g.id=:id");
+        query.setParameter("id", genre.getId());
+        query.setParameter("name", genre.getName());
         query.executeUpdate();
     }
 
     @Override
-    public void deleteById(long id){
+    public void deleteById(long id) {
         Query query = entityManager.createQuery("delete Genre g " +
-                "where id=:id");
-        query.setParameter("id",id);
+                "where g.id=:id");
+        query.setParameter("id", id);
         query.executeUpdate();
     }
 }
