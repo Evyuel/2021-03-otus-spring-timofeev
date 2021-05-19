@@ -18,7 +18,7 @@ spring:
 
   shell:
     interactive:
-      enabled: false
+      enabled: true
   jpa:
     show-sql: true
     generate-ddl: false

@@ -4,3 +4,4 @@ insert into Author(id,Fullname) values (8,'Алексей Макеев');
 insert into Author(id,Fullname) values (9,'Илья Ильф');
 insert into Author(id,Fullname) values (10,'Евгений Петров');
 insert into Author(id,Fullname) values (11,'Test Author');
+insert into Author(id,Fullname) values (12,'Test SecAuthor');

@@ -48,12 +48,4 @@ public class AuthorJpa implements AuthorDao {
         query.executeUpdate();
     }
 
-    @Override
-    public void deleteById(long id) {
-        Query query = entityManager.createQuery("delete Author a " +
-                "where a.id=:id");
-        query.setParameter("id", id);
-        query.executeUpdate();
-    }
-
 }
