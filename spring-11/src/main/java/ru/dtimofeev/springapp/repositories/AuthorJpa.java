@@ -3,10 +3,7 @@ package ru.dtimofeev.springapp.repositories;
 import org.springframework.stereotype.Repository;
 import ru.dtimofeev.springapp.models.Author;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +24,18 @@ public class AuthorJpa implements AuthorDao {
     public List<Author> findAll() {
         TypedQuery<Author> query = entityManager.createQuery("select a from Author a", Author.class);
         return query.getResultList();
+    }
+
+    @Override
+    public Optional<Author> findByName(String fullName) {
+        TypedQuery<Author> query = entityManager.createQuery("select a from Author a " +
+                "where a.fullName=:fullName", Author.class);
+        query.setParameter("fullName", fullName);
+        try {
+            return Optional.ofNullable(query.getSingleResult());
+        } catch (NoResultException e) {
+        }
+        return Optional.empty();
     }
 
     @Override

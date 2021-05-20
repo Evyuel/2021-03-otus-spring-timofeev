@@ -1,6 +1,8 @@
 package ru.dtimofeev.springapp.service;
 
 
+import ru.dtimofeev.springapp.models.Book;
+
 import javax.transaction.Transactional;
 
 public interface BookProcessingService {
@@ -8,5 +10,10 @@ public interface BookProcessingService {
     void printAll();
 
     @Transactional
-    void test();
+    void printBooksOfParticularGenre(long id);
+
+    Book saveBookWithAllInfo(String genreName, String authorsName, String bookName, String comments);
+
+    @Transactional
+    void deleteBookWithAllInfoById(long id);
 }

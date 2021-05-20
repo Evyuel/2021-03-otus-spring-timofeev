@@ -1,11 +1,11 @@
 package ru.dtimofeev.springapp.models;
 
 import lombok.*;
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Setter
@@ -25,10 +25,7 @@ public class Author {
     @Column(name = "fullname", nullable = false, unique = true)
     private String fullName;
 
-    @BatchSize(size = 10000)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "bookauthorlink",
-            joinColumns = @JoinColumn(name = "authorid"),
-            inverseJoinColumns = @JoinColumn(name = "bookid"))
-    private Book book;
+    @Fetch(FetchMode.SUBSELECT)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "authors")
+    private List<Book> books;
 }

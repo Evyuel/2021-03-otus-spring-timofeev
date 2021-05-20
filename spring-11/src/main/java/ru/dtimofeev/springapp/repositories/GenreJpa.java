@@ -3,10 +3,7 @@ package ru.dtimofeev.springapp.repositories;
 import org.springframework.stereotype.Repository;
 import ru.dtimofeev.springapp.models.Genre;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +24,18 @@ public class GenreJpa implements GenreDao {
     public List<Genre> findAll() {
         TypedQuery<Genre> query = entityManager.createQuery("select g from Genre g", Genre.class);
         return query.getResultList();
+    }
+
+    @Override
+    public Optional<Genre> findByName(String genreName) {
+        TypedQuery<Genre> query = entityManager.createQuery(" select g from Genre g " +
+                "where g.name=:name", Genre.class);
+        query.setParameter("name", genreName);
+        try {
+            return Optional.ofNullable(query.getSingleResult());
+        } catch (NoResultException e) {
+        }
+        return Optional.empty();
     }
 
     @Override

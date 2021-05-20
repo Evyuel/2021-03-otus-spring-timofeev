@@ -10,6 +10,8 @@ public interface AuthorDao {
 
     List<Author> findAll();
 
+    Optional<Author> findByName(String fullName);
+
     Author save(Author author);
 
     void updateById(Author author);

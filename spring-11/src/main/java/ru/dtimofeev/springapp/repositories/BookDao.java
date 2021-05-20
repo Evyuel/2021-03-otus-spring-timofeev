@@ -10,6 +10,10 @@ public interface BookDao {
 
     List<Book> findAll();
 
+    List<Book> findByGenreID(long genreId);
+
+    Optional<Book> findByName(String bookName);
+
     Book save(Book book);
 
     void updateById(Book book);

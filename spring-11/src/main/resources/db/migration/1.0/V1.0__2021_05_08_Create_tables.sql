@@ -15,14 +15,10 @@ create table Book(ID int primary key,
 CREATE SEQUENCE Book_SQ
   START WITH 9
   INCREMENT BY 1;
-create table BookAuthorLink(LinkID int primary key,
-                            BookID int,
+create table BookAuthorLink(BookID int,
                             foreign key (BookID) references Book(ID),
                             AuthorID int,
                             foreign key (AuthorID) references Author(ID));
-CREATE SEQUENCE BookAuthorLink_SQ
-  START WITH 11
-  INCREMENT BY 1;
 create table BookComment(ID int primary key,
                          BookID int,
                          foreign key (BookID) references Book(ID),

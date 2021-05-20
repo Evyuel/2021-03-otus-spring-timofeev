@@ -1,7 +1,6 @@
 package ru.dtimofeev.springapp.models;
 
 import lombok.*;
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -27,18 +26,26 @@ public class Book {
     @NonNull
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "genreid")
     @NonNull
     private Genre genre;
 
     @Fetch(FetchMode.SUBSELECT)
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "book")
-    //@JoinTable(name = "bookauthorlink", joinColumns = @JoinColumn(name = "bookid"), inverseJoinColumns = @JoinColumn(name = "authorid"))
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "bookauthorlink",
+            joinColumns = @JoinColumn(name = "bookid"),
+            inverseJoinColumns = @JoinColumn(name = "authorid"))
     private List<Author> authors;
 
-    //@Fetch(FetchMode.SUBSELECT)
-    //@OneToMany(fetch = FetchType.LAZY,orphanRemoval = true)
-    //@JoinColumn(name = "bookid",nullable = false)
-   // private List<BookComment> bookComments;
+    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
+    private List<BookComment> bookComments;
+
+    public Book(@NonNull long id, @NonNull String name, @NonNull Genre genre, List<Author> authors) {
+        this.id = id;
+        this.name = name;
+        this.genre = genre;
+        this.authors = authors;
+    }
 }
