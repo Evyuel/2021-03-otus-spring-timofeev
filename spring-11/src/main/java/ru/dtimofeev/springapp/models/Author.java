@@ -11,7 +11,6 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "author")
 @SequenceGenerator(name = "author_sq", initialValue = 11, allocationSize = 1)

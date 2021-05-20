@@ -7,7 +7,6 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "bookcomment")
 @SequenceGenerator(name = "bookcomment_sq", initialValue = 5, allocationSize = 1)
@@ -26,4 +25,10 @@ public class BookComment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bookid")
     private Book book;
+
+    public BookComment(@NonNull long id, @NonNull String commentText, Book book) {
+        this.id = id;
+        this.commentText = commentText;
+        this.book = book;
+    }
 }

@@ -8,10 +8,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
-@AllArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "book")
 @SequenceGenerator(name = "book_sq", initialValue = 9, allocationSize = 1)

@@ -22,7 +22,11 @@ public class BookProcessingServiceImpl implements BookProcessingService {
     private final BookCommentProcessingService bookCommentProcessingService;
 
     @Autowired
-    public BookProcessingServiceImpl(IOService io, BookDao bookDao, GenreProcessingService genreProcessingService, AuthorProcessingService authorProcessingService, BookCommentProcessingService bookCommentProcessingService) {
+    public BookProcessingServiceImpl(IOService io,
+                                     BookDao bookDao,
+                                     GenreProcessingService genreProcessingService,
+                                     AuthorProcessingService authorProcessingService,
+                                     BookCommentProcessingService bookCommentProcessingService) {
         this.io = io;
         this.bookDao = bookDao;
         this.genreProcessingService = genreProcessingService;
