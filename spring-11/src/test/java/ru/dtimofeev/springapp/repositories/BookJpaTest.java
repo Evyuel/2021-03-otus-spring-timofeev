@@ -19,7 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import({BookJpa.class, GenreJpa.class})
 class BookJpaTest {
 
-    private static final long FIRST_BOOK_ID = 1L;private static final Genre FIRST_BOOK_GENRE = new Genre(1, "Классика");
+    private static final long FIRST_BOOK_ID = 1L;
+    private static final Genre FIRST_BOOK_GENRE = new Genre(1, "Классика");
     private static final Book BOOK_FOR_SAVE = new Book(0, "TestBook", FIRST_BOOK_GENRE, Collections.emptyList(), Collections.emptyList());
 
     @Autowired

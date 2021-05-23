@@ -29,9 +29,9 @@ public class BookCommentProcessingServiceImpl implements BookCommentProcessingSe
     }
 
     @Override
-    public void deleteCommentsByStringList(List<BookComment> listOfBookComments){
+    public void deleteCommentsByStringList(List<BookComment> listOfBookComments) {
         List<Long> ids = new ArrayList<>();
-        for (BookComment b : listOfBookComments){
+        for (BookComment b : listOfBookComments) {
             ids.add(b.getId());
         }
         bookCommentDao.deleteByIds(ids);

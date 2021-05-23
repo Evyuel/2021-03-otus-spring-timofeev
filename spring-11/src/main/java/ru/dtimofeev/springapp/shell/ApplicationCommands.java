@@ -32,6 +32,7 @@ public class ApplicationCommands {
     public void addNewBook(String genreName, String authorsName, String bookName, String comments) {
         bookProcessingService.saveBookWithAllInfo(genreName, authorsName, bookName, comments);
     }
+
     @ShellMethod(value = "Delete book from library (by ID)", key = "deleteBook")
     public void addNewBook(long id) {
         bookProcessingService.deleteBookWithAllInfoById(id);
@@ -39,8 +40,8 @@ public class ApplicationCommands {
 
     @ShellMethod(value = "Update book from library (by Name)/ Example \"updBook \"Book_name\" \"BookGenre\" \"Author1,Author2\" \"Comment1,Comment2\"",
             key = "updBook")
-    public void updateBookByName(String bookName,String genreName,String authorsName,String comments) {
-        bookProcessingService.updateBookWithAllInfoByName(bookName,genreName,authorsName,comments);
+    public void updateBookByName(String bookName, String genreName, String authorsName, String comments) {
+        bookProcessingService.updateBookWithAllInfoByName(bookName, genreName, authorsName, comments);
     }
 
 }
