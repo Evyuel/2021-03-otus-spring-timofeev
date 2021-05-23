@@ -13,6 +13,4 @@ public interface AuthorDao {
     Optional<Author> findByName(String fullName);
 
     Author save(Author author);
-
-    void updateById(Author author);
 }

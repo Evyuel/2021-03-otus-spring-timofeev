@@ -47,14 +47,4 @@ public class AuthorJpa implements AuthorDao {
         return entityManager.merge(author);
     }
 
-    @Override
-    public void updateById(Author author) {
-        Query query = entityManager.createQuery("update Author a " +
-                "set a.fullName=:fullName " +
-                "where a.id=:id");
-        query.setParameter("id", author.getId());
-        query.setParameter("fullName", author.getFullName());
-        query.executeUpdate();
-    }
-
 }

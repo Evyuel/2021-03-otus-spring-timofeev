@@ -6,8 +6,8 @@ import ru.dtimofeev.springapp.models.Author;
 import ru.dtimofeev.springapp.models.Book;
 import ru.dtimofeev.springapp.models.BookComment;
 import ru.dtimofeev.springapp.models.Genre;
-import ru.dtimofeev.springapp.repositories.BookCommentDao;
 import ru.dtimofeev.springapp.repositories.BookDao;
+import ru.dtimofeev.springapp.repositories.GenreDao;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -20,18 +20,20 @@ public class BookProcessingServiceImpl implements BookProcessingService {
     private final GenreProcessingService genreProcessingService;
     private final AuthorProcessingService authorProcessingService;
     private final BookCommentProcessingService bookCommentProcessingService;
+    private final GenreDao genreDao;
 
     @Autowired
     public BookProcessingServiceImpl(IOService io,
                                      BookDao bookDao,
                                      GenreProcessingService genreProcessingService,
                                      AuthorProcessingService authorProcessingService,
-                                     BookCommentProcessingService bookCommentProcessingService) {
+                                     BookCommentProcessingService bookCommentProcessingService, GenreDao genreDao) {
         this.io = io;
         this.bookDao = bookDao;
         this.genreProcessingService = genreProcessingService;
         this.authorProcessingService = authorProcessingService;
         this.bookCommentProcessingService = bookCommentProcessingService;
+        this.genreDao = genreDao;
     }
 
     @Transactional
@@ -79,8 +81,21 @@ public class BookProcessingServiceImpl implements BookProcessingService {
     @Override
     public void deleteBookWithAllInfoById(long id){
         Book b = bookDao.findById(id).get();
-        bookCommentProcessingService.deleteCommentsByList(b.getBookComments());
+        bookCommentProcessingService.deleteCommentsByStringList(b.getBookComments());
         bookDao.deleteById(b.getId());
+    }
+
+    @Transactional
+    @Override
+    public void updateBookWithAllInfoByName(String bookName,String genreName,String authorsName,String comments){
+        List<Author> listOfAuthors = authorProcessingService.saveAuthorList(authorsName);
+        Book b = bookDao.findByName(bookName).get();
+        Book updBook = new Book(b.getId(),b.getName(),genreDao.findByName(genreName).get(),b.getAuthors(),b.getBookComments());
+        bookDao.save(updBook);
+        b.getAuthors().clear();
+        b.getAuthors().addAll(listOfAuthors);
+        bookCommentProcessingService.deleteCommentsByStringList(b.getBookComments());
+        bookCommentProcessingService.saveBookCommentList(comments,b);
     }
 
     private String getAuthorsFullNameInLine(List<Author> listOfAuthors) {

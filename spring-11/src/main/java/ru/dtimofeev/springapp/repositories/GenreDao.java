@@ -13,6 +13,4 @@ public interface GenreDao {
     Optional<Genre> findByName(String genreName);
 
     Genre save(Genre genre);
-
-    void updateById(Genre genre);
 }

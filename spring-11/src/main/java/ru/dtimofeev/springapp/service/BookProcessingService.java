@@ -16,4 +16,7 @@ public interface BookProcessingService {
 
     @Transactional
     void deleteBookWithAllInfoById(long id);
+
+    @Transactional
+    void updateBookWithAllInfoByName(String bookName,String genreName,String authors,String comments);
 }

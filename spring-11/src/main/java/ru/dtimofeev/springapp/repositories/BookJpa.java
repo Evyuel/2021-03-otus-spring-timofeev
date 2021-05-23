@@ -65,17 +65,6 @@ public class BookJpa implements BookDao {
     }
 
     @Override
-    public void updateById(Book book) {
-        Query query = entityManager.createQuery("update Book b " +
-                "set b.name=:name, b.genre=:genre " +
-                "where b.id=:id");
-        query.setParameter("name", book.getName());
-        query.setParameter("genre", book.getGenre());
-        query.setParameter("id", book.getId());
-        query.executeUpdate();
-    }
-
-    @Override
     public void deleteById(long id) {
         Query query = entityManager.createQuery("delete Book b " +
                 "where id=:id");

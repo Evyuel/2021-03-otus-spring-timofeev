@@ -3,14 +3,16 @@ package ru.dtimofeev.springapp.models;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "author")
 @SequenceGenerator(name = "author_sq", initialValue = 11, allocationSize = 1)

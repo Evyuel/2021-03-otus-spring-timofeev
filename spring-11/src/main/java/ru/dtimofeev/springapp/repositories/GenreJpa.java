@@ -46,14 +46,4 @@ public class GenreJpa implements GenreDao {
         }
         return entityManager.merge(genre);
     }
-
-    @Override
-    public void updateById(Genre genre) {
-        Query query = entityManager.createQuery("update Genre g " +
-                "set g.name=:name " +
-                "where g.id=:id");
-        query.setParameter("id", genre.getId());
-        query.setParameter("name", genre.getName());
-        query.executeUpdate();
-    }
 }

@@ -6,6 +6,7 @@ import ru.dtimofeev.springapp.models.BookComment;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.List;
 
 @Repository
 public class BookCommentJpa implements BookCommentDao {
@@ -27,6 +28,14 @@ public class BookCommentJpa implements BookCommentDao {
         Query query = entityManager.createQuery("delete BookComment b " +
                 "where id=:id");
         query.setParameter("id", id);
+        query.executeUpdate();
+    }
+
+    @Override
+    public void deleteByIds(List<Long> ids) {
+        Query query = entityManager.createQuery("delete BookComment b " +
+                "where id in (:ids)");
+        query.setParameter("ids", ids);
         query.executeUpdate();
     }
 }

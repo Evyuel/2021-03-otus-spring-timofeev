@@ -37,4 +37,10 @@ public class ApplicationCommands {
         bookProcessingService.deleteBookWithAllInfoById(id);
     }
 
+    @ShellMethod(value = "Update book from library (by Name)/ Example \"updBook \"Book_name\" \"BookGenre\" \"Author1,Author2\" \"Comment1,Comment2\"",
+            key = "updBook")
+    public void updateBookByName(String bookName,String genreName,String authorsName,String comments) {
+        bookProcessingService.updateBookWithAllInfoByName(bookName,genreName,authorsName,comments);
+    }
+
 }
