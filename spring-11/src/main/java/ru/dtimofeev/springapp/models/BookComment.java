@@ -23,7 +23,7 @@ public class BookComment {
     @Column(name = "commenttext", nullable = false)
     private String commentText;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "bookid")
     private Book book;
 

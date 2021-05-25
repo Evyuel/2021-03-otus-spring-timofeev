@@ -87,7 +87,7 @@ class BookProcessingServiceImplTest {
 
         bookProcessingService.deleteBookWithAllInfoById(newBook.getId());
         entityManager.flush();
-        entityManager.clear();
+        //entityManager.clear();
 
         assertThat(bookJpa.findById(newBook.getId())).isEmpty();
     }

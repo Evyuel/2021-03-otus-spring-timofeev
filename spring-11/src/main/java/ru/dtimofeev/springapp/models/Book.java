@@ -38,7 +38,7 @@ public class Book {
     private List<Author> authors;
 
     @Fetch(FetchMode.SUBSELECT)
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
+    @OneToMany(mappedBy = "book",orphanRemoval = true)
     private List<BookComment> bookComments;
 
     public Book(@NonNull long id, @NonNull String name, @NonNull Genre genre, List<Author> authors) {
