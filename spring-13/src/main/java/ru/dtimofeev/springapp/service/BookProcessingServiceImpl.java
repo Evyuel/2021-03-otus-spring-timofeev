@@ -86,8 +86,7 @@ public class BookProcessingServiceImpl implements BookProcessingService {
     @Override
     public void deleteBookWithAllInfoById(long id) {
         Book b = bookRepository.findById(id).get();
-        bookCommentRepository.deleteInBatch(b.getBookComments());
-        bookRepository.deleteById(b.getId());
+        bookRepository.delete(b);
     }
 
     @Transactional

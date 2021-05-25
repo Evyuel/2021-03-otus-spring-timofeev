@@ -13,19 +13,15 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
 
     @Query("select b from Book b inner join fetch b.genre")
-    @Override
     List<Book> findAll();
 
     @Query("select b from Book b inner join fetch b.genre " +
             "where b.id=:id")
     Optional<Book> findById(@Param("id") Long id);
 
-    @Override
     Book save(Book b);
 
-    @Override
-    void deleteById(Long id);
-
+    void delete(Book b);
 
     @Query(value = "select b from Book b where b.genre.id=:genreid")
     List<Book> findByGenreId(@Param(value = "genreid") long genreid);

@@ -7,7 +7,6 @@ import java.util.Optional;
 
 public interface AuthorRepository extends JpaRepository<Author, Long> {
 
-    @Override
     Author save(Author author);
 
     Optional<Author> findByFullName(String fullName);

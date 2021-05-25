@@ -8,11 +8,9 @@ import java.util.Optional;
 
 public interface GenreRepository extends JpaRepository<Genre, Long> {
 
-    @Override
     Genre save(Genre genre);
 
     Optional<Genre> findByName(String name);
 
-    @Override
     List<Genre> findAll();
 }
