@@ -31,14 +31,14 @@ public class Book {
     private Genre genre;
 
     @Fetch(FetchMode.SUBSELECT)
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "bookauthorlink",
             joinColumns = @JoinColumn(name = "bookid"),
             inverseJoinColumns = @JoinColumn(name = "authorid"))
     private List<Author> authors;
 
     @Fetch(FetchMode.SUBSELECT)
-    @OneToMany(mappedBy = "book",orphanRemoval = true)
+    @OneToMany(mappedBy = "book", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<BookComment> bookComments;
 
     public Book(@NonNull long id, @NonNull String name, @NonNull Genre genre, List<Author> authors) {

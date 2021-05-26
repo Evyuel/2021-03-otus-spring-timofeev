@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.dtimofeev.springapp.models.Author;
 import ru.dtimofeev.springapp.models.Book;
 import ru.dtimofeev.springapp.models.BookComment;
-import ru.dtimofeev.springapp.models.Genre;
 import ru.dtimofeev.springapp.repositories.BookDao;
 import ru.dtimofeev.springapp.repositories.GenreDao;
 
@@ -67,11 +66,15 @@ public class BookProcessingServiceImpl implements BookProcessingService {
     @Override
     public Book saveBookWithAllInfo(String genreName, String authorsName, String bookName, String comments) {
         if (bookDao.findByName(bookName).isEmpty()) {
-            Genre genre = genreProcessingService.saveGenre(genreName);
-            List<Author> listOfAuthors = authorProcessingService.saveAuthorList(authorsName);
-            Book book = bookDao.save(new Book(0, bookName, genre, listOfAuthors));
-            bookCommentProcessingService.saveBookCommentList(comments, book);
-            return book;
+            Book bookForSave = bookDao.save(
+                    new Book(
+                            0,
+                            bookName,
+                            genreProcessingService.saveGenre(genreName),
+                            authorProcessingService.saveAuthorList(authorsName)));
+            List<BookComment> bookCommentsList = bookCommentProcessingService.parseStringForListOfComments(comments, bookForSave);
+            bookForSave.setBookComments(bookCommentsList);
+            return bookForSave;
         } else {
             return bookDao.findByName(bookName).get();
         }
@@ -91,10 +94,12 @@ public class BookProcessingServiceImpl implements BookProcessingService {
         Book b = bookDao.findByName(bookName).get();
         Book updBook = new Book(b.getId(), b.getName(), genreDao.findByName(genreName).get(), b.getAuthors(), b.getBookComments());
         bookDao.save(updBook);
-        b.getAuthors().clear();
-        b.getAuthors().addAll(listOfAuthors);
-        bookCommentProcessingService.deleteCommentsByStringList(b.getBookComments());
-        bookCommentProcessingService.saveBookCommentList(comments, b);
+        updBook.getAuthors().clear();
+        updBook.getAuthors().addAll(listOfAuthors);
+        updBook.getBookComments().clear();
+        List<BookComment> bl = bookCommentProcessingService.parseStringForListOfComments(comments, updBook);
+        updBook.getBookComments().addAll(bl);
+
     }
 
     private String getAuthorsFullNameInLine(List<Author> listOfAuthors) {

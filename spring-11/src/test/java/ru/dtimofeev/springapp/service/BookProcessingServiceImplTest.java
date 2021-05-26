@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Import;
 import ru.dtimofeev.springapp.models.Book;
 import ru.dtimofeev.springapp.models.Genre;
 import ru.dtimofeev.springapp.repositories.AuthorJpa;
-import ru.dtimofeev.springapp.repositories.BookCommentJpa;
 import ru.dtimofeev.springapp.repositories.BookJpa;
 import ru.dtimofeev.springapp.repositories.GenreJpa;
 
@@ -18,10 +17,6 @@ import javax.persistence.PersistenceContext;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-//@SpringBootTest(properties =
-//        {InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
-//                ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"}
-//)
 @DisplayName("Класс BookProcessingServiceImpl должен")
 @Import({BookProcessingServiceImpl.class,
         IOServiceImpl.class,
@@ -30,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
         GenreJpa.class,
         AuthorProcessingServiceImpl.class,
         BookCommentProcessingServiceImpl.class,
-        BookCommentJpa.class,
         AuthorJpa.class})
 @DataJpaTest
 class BookProcessingServiceImplTest {
@@ -39,15 +33,6 @@ class BookProcessingServiceImplTest {
     private EntityManager entityManager;
 
     private final static Genre NEW_GENRE = new Genre(0, "NewGenre");
-//    private final static List<Author> NEW_BOOK_LIST_OF_AUTHORS = new ArrayList<>(Arrays.asList(
-//            new Author(0,"NewAuthor1"),
-//            new Author(0,"NewAuthor2")
-//    ));
-//    private final static Book NEW_BOOK = new Book(0,"NewBook",NEW_GENRE,NEW_BOOK_LIST_OF_AUTHORS);
-//    private final static List<BookComment> NEW_BOOK_LIST_OF_COMMENTS = new ArrayList<>(Arrays.asList(
-//            new BookComment(0,"Wow1!"),
-//            new BookComment(0,"Wow2!")
-//    ));
 
     private final static String STRING_GENRE = "NewGenre";
     private final static String STRING_AUTHORS = "NewAuthor1,NewAuthor2";
@@ -87,7 +72,7 @@ class BookProcessingServiceImplTest {
 
         bookProcessingService.deleteBookWithAllInfoById(newBook.getId());
         entityManager.flush();
-        //entityManager.clear();
+        entityManager.clear();
 
         assertThat(bookJpa.findById(newBook.getId())).isEmpty();
     }

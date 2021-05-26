@@ -6,12 +6,17 @@ import org.springframework.shell.standard.ShellMethod;
 import ru.dtimofeev.springapp.service.BookProcessingService;
 import ru.dtimofeev.springapp.service.GenreProcessingService;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 @ShellComponent
 @RequiredArgsConstructor
 public class ApplicationCommands {
 
     private final BookProcessingService bookProcessingService;
     private final GenreProcessingService genreProcessingService;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @ShellMethod(value = "Show all genres", key = "sag")
     public void getAllGenres() {

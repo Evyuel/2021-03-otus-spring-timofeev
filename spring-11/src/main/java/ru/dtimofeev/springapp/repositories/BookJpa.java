@@ -3,7 +3,10 @@ package ru.dtimofeev.springapp.repositories;
 import org.springframework.stereotype.Repository;
 import ru.dtimofeev.springapp.models.Book;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -23,14 +26,14 @@ public class BookJpa implements BookDao {
     @Override
     public List<Book> findAll() {
         TypedQuery<Book> query = entityManager.createQuery("select b from Book b " +
-                "join fetch b.genre ", Book.class);
+                "join fetch b.genre", Book.class);
         return query.getResultList();
     }
 
     @Override
     public List<Book> findByGenreID(long genreId) {
         TypedQuery<Book> query = entityManager.createQuery("select b from Book b " +
-                "join fetch b.genre g " +
+                "join fetch b.genre " +
                 "where b.genre.id = :genreId", Book.class);
         query.setParameter("genreId", genreId);
         return query.getResultList();
@@ -39,7 +42,7 @@ public class BookJpa implements BookDao {
     @Override
     public Optional<Book> findByName(String bookName) {
         TypedQuery<Book> query = entityManager.createQuery("select b from Book b " +
-                "join fetch b.genre g " +
+                "join fetch b.genre " +
                 "where b.name = :bookName", Book.class);
         query.setParameter("bookName", bookName);
         try {
