@@ -6,5 +6,5 @@ import ru.dtimofeev.springapp.models.BookComment;
 import java.util.List;
 
 public interface BookCommentProcessingService {
-    List<BookComment> saveBookCommentList(String bookComments, Book book);
+    List<BookComment> parseStringForCommentList(String bookComments, Book book);
 }

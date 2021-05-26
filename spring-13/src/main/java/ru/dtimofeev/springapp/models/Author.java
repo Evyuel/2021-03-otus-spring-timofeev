@@ -26,6 +26,6 @@ public class Author {
     private String fullName;
 
     @Fetch(FetchMode.SUBSELECT)
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "authors")
+    @ManyToMany(mappedBy = "authors")
     private List<Book> books;
 }

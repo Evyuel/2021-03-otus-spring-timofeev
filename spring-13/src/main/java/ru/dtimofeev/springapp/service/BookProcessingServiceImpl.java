@@ -6,8 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.dtimofeev.springapp.models.Author;
 import ru.dtimofeev.springapp.models.Book;
 import ru.dtimofeev.springapp.models.BookComment;
-import ru.dtimofeev.springapp.models.Genre;
-import ru.dtimofeev.springapp.repositories.BookCommentRepository;
 import ru.dtimofeev.springapp.repositories.BookRepository;
 import ru.dtimofeev.springapp.repositories.GenreRepository;
 
@@ -20,7 +18,6 @@ public class BookProcessingServiceImpl implements BookProcessingService {
     private final GenreProcessingService genreProcessingService;
     private final AuthorProcessingService authorProcessingService;
     private final BookCommentProcessingService bookCommentProcessingService;
-    private final BookCommentRepository bookCommentRepository;
     private final GenreRepository genreRepository;
     private final BookRepository bookRepository;
 
@@ -29,7 +26,6 @@ public class BookProcessingServiceImpl implements BookProcessingService {
                                      GenreProcessingService genreProcessingService,
                                      AuthorProcessingService authorProcessingService,
                                      BookCommentProcessingService bookCommentProcessingService,
-                                     BookCommentRepository bookCommentRepository,
                                      GenreRepository genreRepository,
                                      BookRepository bookRepository) {
         this.io = io;
@@ -37,7 +33,6 @@ public class BookProcessingServiceImpl implements BookProcessingService {
         this.genreProcessingService = genreProcessingService;
         this.authorProcessingService = authorProcessingService;
         this.bookCommentProcessingService = bookCommentProcessingService;
-        this.bookCommentRepository = bookCommentRepository;
         this.genreRepository = genreRepository;
     }
 
@@ -72,11 +67,15 @@ public class BookProcessingServiceImpl implements BookProcessingService {
     @Override
     public Book saveBookWithAllInfo(String genreName, String authorsName, String bookName, String comments) {
         if (bookRepository.findByName(bookName).isEmpty()) {
-            Genre genre = genreProcessingService.saveGenre(genreName);
-            List<Author> listOfAuthors = authorProcessingService.saveAuthorList(authorsName);
-            Book book = bookRepository.save(new Book(0, bookName, genre, listOfAuthors));
-            bookCommentProcessingService.saveBookCommentList(comments, book);
-            return book;
+            Book bookForSave = bookRepository.save(
+                    new Book(
+                            0,
+                            bookName,
+                            genreProcessingService.saveGenre(genreName),
+                            authorProcessingService.saveAuthorList(authorsName)));
+            List<BookComment> listOfBookComments = bookCommentProcessingService.parseStringForCommentList(comments, bookForSave);
+            bookForSave.setBookComments(listOfBookComments);
+            return bookForSave;
         } else {
             return bookRepository.findByName(bookName).get();
         }
@@ -98,8 +97,8 @@ public class BookProcessingServiceImpl implements BookProcessingService {
         bookRepository.save(updBook);
         b.getAuthors().clear();
         b.getAuthors().addAll(listOfAuthors);
-        bookCommentRepository.deleteInBatch(b.getBookComments());
-        bookCommentProcessingService.saveBookCommentList(comments, b);
+        b.getBookComments().clear();
+        b.getBookComments().addAll(bookCommentProcessingService.parseStringForCommentList(comments, b));
     }
 
     private String getAuthorsFullNameInLine(List<Author> listOfAuthors) {
