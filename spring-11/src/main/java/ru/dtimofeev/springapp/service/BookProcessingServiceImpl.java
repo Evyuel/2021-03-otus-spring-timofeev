@@ -52,7 +52,7 @@ public class BookProcessingServiceImpl implements BookProcessingService {
     @Transactional(readOnly = true)
     @Override
     public void printBooksOfParticularGenre(long id) {
-        for (Book book : bookDao.findByGenreID(id)) {
+        for (Book book : bookDao.findByGenre(genreDao.findById(id).get())) {
             io.out("ID: " + book.getId() + "; "
                     + book.getGenre().getName() + "; "
                     + getAuthorsFullNameInLine(book.getAuthors()) + "; "

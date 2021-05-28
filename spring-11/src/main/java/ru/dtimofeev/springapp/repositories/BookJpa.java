@@ -2,21 +2,21 @@ package ru.dtimofeev.springapp.repositories;
 
 import org.springframework.stereotype.Repository;
 import ru.dtimofeev.springapp.models.Book;
+import ru.dtimofeev.springapp.models.Genre;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 @Transactional
+
 public class BookJpa implements BookDao {
 
     @PersistenceContext
     private EntityManager entityManager;
+
 
     @Override
     public Optional<Book> findById(long id) {
@@ -25,25 +25,28 @@ public class BookJpa implements BookDao {
 
     @Override
     public List<Book> findAll() {
-        TypedQuery<Book> query = entityManager.createQuery("select b from Book b " +
-                "join fetch b.genre", Book.class);
+        EntityGraph<?> eg = entityManager.getEntityGraph("book.genre");
+        TypedQuery<Book> query = entityManager.createQuery("select b from Book b ", Book.class);
+        query.setHint("javax.persistence.fetchgraph",eg);
         return query.getResultList();
     }
 
     @Override
-    public List<Book> findByGenreID(long genreId) {
+    public List<Book> findByGenre(Genre genre) {
+        EntityGraph<?> eg = entityManager.getEntityGraph("book.genre");
         TypedQuery<Book> query = entityManager.createQuery("select b from Book b " +
-                "join fetch b.genre " +
-                "where b.genre.id = :genreId", Book.class);
-        query.setParameter("genreId", genreId);
+                "where b.genre = :genre", Book.class);
+        query.setHint("javax.persistence.fetchgraph",eg);
+        query.setParameter("genre", genre);
         return query.getResultList();
     }
 
     @Override
     public Optional<Book> findByName(String bookName) {
+        EntityGraph<?> eg = entityManager.getEntityGraph("book.genre");
         TypedQuery<Book> query = entityManager.createQuery("select b from Book b " +
-                "join fetch b.genre " +
                 "where b.name = :bookName", Book.class);
+        query.setHint("javax.persistence.fetchgraph",eg);
         query.setParameter("bookName", bookName);
         try {
             return Optional.ofNullable(query.getSingleResult());
