@@ -14,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Table(name = "book")
 @SequenceGenerator(name = "book_sq", initialValue = 9, allocationSize = 1)
+@NamedEntityGraph(name = "book.genre",attributeNodes = @NamedAttributeNode(value = "genre"))
 public class Book {
     @Id
     @Column(name = "id")
@@ -25,8 +26,8 @@ public class Book {
     @NonNull
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "genreid")
+    @ManyToOne
+    @JoinColumn(name = "genreid",nullable = false)
     @NonNull
     private Genre genre;
 
