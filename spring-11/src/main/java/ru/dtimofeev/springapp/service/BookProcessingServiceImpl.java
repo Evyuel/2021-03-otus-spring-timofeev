@@ -35,7 +35,7 @@ public class BookProcessingServiceImpl implements BookProcessingService {
         this.genreDao = genreDao;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public void printAll() {
         for (Book book : bookDao.findAll()) {
@@ -49,7 +49,7 @@ public class BookProcessingServiceImpl implements BookProcessingService {
 
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public void printBooksOfParticularGenre(long id) {
         for (Book book : bookDao.findByGenreID(id)) {
