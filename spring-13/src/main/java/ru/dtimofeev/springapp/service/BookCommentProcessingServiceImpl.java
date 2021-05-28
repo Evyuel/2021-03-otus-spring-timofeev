@@ -1,6 +1,5 @@
 package ru.dtimofeev.springapp.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.dtimofeev.springapp.models.Book;
 import ru.dtimofeev.springapp.models.BookComment;

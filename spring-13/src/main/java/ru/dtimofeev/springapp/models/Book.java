@@ -3,7 +3,6 @@ package ru.dtimofeev.springapp.models;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.springframework.data.jpa.repository.EntityGraph;
 
 import javax.persistence.*;
 import java.util.List;
@@ -39,7 +38,7 @@ public class Book {
     private List<Author> authors;
 
     @Fetch(FetchMode.SUBSELECT)
-    @OneToMany(mappedBy = "book",orphanRemoval = true,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "book", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<BookComment> bookComments;
 
     public Book(@NonNull long id, @NonNull String name, @NonNull Genre genre, List<Author> authors) {

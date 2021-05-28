@@ -4,7 +4,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import ru.dtimofeev.springapp.models.Book;
 import ru.dtimofeev.springapp.repositories.BookRepository;
@@ -13,7 +12,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 @DataJpaTest
 @DisplayName("Класс BookProcessingServiceImpl должен")
 @Import({BookProcessingServiceImpl.class,
@@ -41,7 +41,7 @@ class BookProcessingServiceImplTest {
 
     @Test
     @DisplayName("корректно сохранять книгу с авторами,жанрами и комментариями, если отсутствуют в БД")
-    void shouldCorrectAddBookWithAllInfo(){
+    void shouldCorrectAddBookWithAllInfo() {
         Book newBook = bookProcessingService.saveBookWithAllInfo(STRING_GENRE, STRING_AUTHORS, STRING_BOOK, STRING_BOOK_COMMENTS);
         entityManager.flush();
         entityManager.clear();
