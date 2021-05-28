@@ -36,7 +36,7 @@ public class BookProcessingServiceImpl implements BookProcessingService {
         this.genreRepository = genreRepository;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public void printAll() {
         for (Book book : bookRepository.findAll()) {
@@ -50,7 +50,7 @@ public class BookProcessingServiceImpl implements BookProcessingService {
 
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public void printBooksOfParticularGenre(long id) {
         for (Book book : bookRepository.findByGenreId(id)) {
