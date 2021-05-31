@@ -25,10 +25,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @EntityGraph(value = "book.genre")
     List<Book> findByGenreId( long genreid);
 
-    //@Query("select b from Book b inner join fetch b.genre " +
-    //        "where b.name=:name")
-    Здесь првоерить без Query!
-    Optional<Book> findByName(@Param("name") String bookName);
+    @EntityGraph(value = "book.genre")
+    Optional<Book> findByName(String bookName);
 
 
 }

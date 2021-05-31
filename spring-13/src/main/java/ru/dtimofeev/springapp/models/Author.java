@@ -25,7 +25,6 @@ public class Author {
     @Column(name = "fullname", nullable = false, unique = true)
     private String fullName;
 
-    @Fetch(FetchMode.SUBSELECT)
     @ManyToMany(mappedBy = "authors")
     private List<Book> books;
 }
