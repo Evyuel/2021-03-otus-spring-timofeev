@@ -16,8 +16,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 class AuthorJpaTest {
 
     private static final long FIRST_AUTHOR_ID = 1L;
-    private static final Author AUTHOR_FOR_SAVE = new Author(0, "NewAuthor", null);
-
     @Autowired
     private TestEntityManager testEntityManager;
     @Autowired

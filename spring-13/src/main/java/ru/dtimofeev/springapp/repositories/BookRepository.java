@@ -2,7 +2,6 @@ package ru.dtimofeev.springapp.repositories;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ru.dtimofeev.springapp.models.Book;
 
@@ -23,7 +22,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     void delete(Book b);
 
     @EntityGraph(value = "book.genre")
-    List<Book> findByGenreId( long genreid);
+    List<Book> findByGenreId(long genreid);
 
     @EntityGraph(value = "book.genre")
     Optional<Book> findByName(String bookName);

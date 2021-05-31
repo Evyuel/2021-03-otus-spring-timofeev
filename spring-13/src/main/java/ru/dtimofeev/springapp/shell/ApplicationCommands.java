@@ -34,7 +34,7 @@ public class ApplicationCommands {
     }
 
     @ShellMethod(value = "Delete book from library (by ID)", key = "deleteBook")
-    public void addNewBook(long id) {
+    public void deleteBook(long id) {
         bookProcessingService.deleteBookWithAllInfoById(id);
     }
 

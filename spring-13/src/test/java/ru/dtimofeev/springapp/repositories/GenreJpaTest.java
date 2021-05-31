@@ -13,14 +13,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 class GenreJpaTest {
 
-    private static final long FIRST_GENRE_ID = 1L;
     private static final Genre GENRE_FOR_SAVE = new Genre(0, "NewGenre");
 
     @Autowired
     private GenreRepository genreRepository;
-
-    @Autowired
-    private TestEntityManager testEntityManager;
 
     @DisplayName(" корректно сохранять жанр")
     @Test
