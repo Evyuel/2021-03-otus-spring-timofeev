@@ -1,14 +1,14 @@
 package ru.dtimofeev.springapp.models;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Table(name = "bookcomment")
 @SequenceGenerator(name = "bookcomment_sq", initialValue = 5, allocationSize = 1)
 public class BookComment {

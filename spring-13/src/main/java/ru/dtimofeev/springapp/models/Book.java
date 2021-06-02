@@ -1,6 +1,9 @@
 package ru.dtimofeev.springapp.models;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -11,7 +14,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 @Table(name = "book")
 @SequenceGenerator(name = "book_sq", initialValue = 9, allocationSize = 1)
 @NamedEntityGraph(name = "book.genre", attributeNodes = @NamedAttributeNode(value = "genre"))

@@ -1,15 +1,16 @@
 package ru.dtimofeev.springapp.models;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@AllArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "author")
 @SequenceGenerator(name = "author_sq", initialValue = 11, allocationSize = 1)
