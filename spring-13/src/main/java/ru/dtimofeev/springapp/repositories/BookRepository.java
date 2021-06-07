@@ -17,10 +17,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @EntityGraph(value = "book.genre")
     Optional<Book> findById(@Param("id") Long id);
 
-    Book save(Book b);
-
-    void delete(Book b);
-
     @EntityGraph(value = "book.genre")
     List<Book> findByGenreId(long genreid);
 
