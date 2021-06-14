@@ -1,0 +1,10 @@
+insert into BookAuthorLink(BookID,AuthorID) values (1,1);
+insert into BookAuthorLink(BookID,AuthorID) values (2,2);
+insert into BookAuthorLink(BookID,AuthorID) values (3,3);
+insert into BookAuthorLink(BookID,AuthorID) values (4,4);
+insert into BookAuthorLink(BookID,AuthorID) values (5,5);
+insert into BookAuthorLink(BookID,AuthorID) values (6,6);
+insert into BookAuthorLink(BookID,AuthorID) values (7,7);
+insert into BookAuthorLink(BookID,AuthorID) values (7,8);
+insert into BookAuthorLink(BookID,AuthorID) values (8,9);
+insert into BookAuthorLink(BookID,AuthorID) values (8,10);
