@@ -11,7 +11,5 @@ public class BookCommentDto {
     private long id;
     private String commentText;
 
-    public static BookCommentDto toDto(BookComment bookComment) {
-        return new BookCommentDto(bookComment.getId(), bookComment.getCommentText());
-    }
+
 }

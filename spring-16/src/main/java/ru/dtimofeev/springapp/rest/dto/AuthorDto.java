@@ -11,8 +11,4 @@ public class AuthorDto {
     private long id;
     private String fullName;
 
-    public static AuthorDto toDto(Author author) {
-        return new AuthorDto(author.getId(), author.getFullName());
-    }
-
 }

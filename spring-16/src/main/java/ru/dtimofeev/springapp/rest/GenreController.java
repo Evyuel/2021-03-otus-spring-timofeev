@@ -1,55 +1,59 @@
 package ru.dtimofeev.springapp.rest;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.dtimofeev.springapp.models.Genre;
 import ru.dtimofeev.springapp.repositories.GenreRepository;
 import ru.dtimofeev.springapp.rest.dto.GenreDto;
+import ru.dtimofeev.springapp.rest.dto.mapping.GenreMapping;
 import ru.dtimofeev.springapp.rest.exception.ObjectNotFoundException;
+import ru.dtimofeev.springapp.service.GenreService;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 
 @RestController
-@RequiredArgsConstructor
 public class GenreController {
 
-    private final GenreRepository genreRepository;
-    private final String objectName = "Genre";
+    private final GenreService genreService;
+
+    @Autowired
+    public GenreController(GenreService genreService) {
+        this.genreService = genreService;
+    }
 
     @GetMapping(value = "/api/genre/{id}")
     public ResponseEntity<GenreDto> getById(@PathVariable("id") long id) {
-        Genre genre = genreRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(objectName, "id", id));
-        return new ResponseEntity<GenreDto>(GenreDto.toDto(genre), HttpStatus.OK);
+        return new ResponseEntity<GenreDto>(genreService.getById(id), HttpStatus.OK);
     }
 
     @GetMapping(value = "/api/genre/")
     public List<GenreDto> getAll() {
-        return genreRepository.findAll().stream().map(genre -> GenreDto.toDto(genre)).collect(Collectors.toList());
+        return genreService.getAll();
     }
 
     @GetMapping(value = "/api/genre/search")
     public GenreDto getByName(@RequestParam("name") String name) {
-        Genre genre = genreRepository.findByName(name).orElseThrow(() -> new ObjectNotFoundException(objectName, "name", name));
-        return GenreDto.toDto(genre);
+        return genreService.getByName(name);
     }
 
     @PutMapping(value = "/api/genre/{id}")
-    public ResponseEntity<GenreDto> update(@PathVariable("id") long id, @RequestBody Genre genre) {
-        return new ResponseEntity<GenreDto>(GenreDto.toDto(genreRepository.save(genre)), HttpStatus.OK);
+    public ResponseEntity<GenreDto> update(@PathVariable("id") long id, @RequestBody GenreDto genredto) {
+        return new ResponseEntity<GenreDto>(genreService.update(id,genredto), HttpStatus.OK);
     }
 
     @PostMapping(value = "/api/genre")
-    public ResponseEntity<GenreDto> save(@RequestBody Genre genre) {
-        return new ResponseEntity<GenreDto>(GenreDto.toDto(genreRepository.save(new Genre(0, genre.getName()))), HttpStatus.CREATED);
+    public ResponseEntity<GenreDto> save(@RequestBody GenreDto genredto) {
+        return new ResponseEntity<GenreDto>(genreService.save(genredto), HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/api/genre/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") long id) {
-        genreRepository.deleteById(id);
+        genreService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 

@@ -10,6 +10,10 @@ import ru.dtimofeev.springapp.models.Book;
 import ru.dtimofeev.springapp.models.BookComment;
 import ru.dtimofeev.springapp.models.Genre;
 import ru.dtimofeev.springapp.repositories.BookRepository;
+import ru.dtimofeev.springapp.rest.dto.mapping.AuthorMapping;
+import ru.dtimofeev.springapp.rest.dto.mapping.BookCommentMapping;
+import ru.dtimofeev.springapp.rest.dto.mapping.BookMapping;
+import ru.dtimofeev.springapp.rest.dto.mapping.GenreMapping;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,8 +23,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @DisplayName("Класс BookProcessingServiceImpl должен")
-@Import({BookProcessingServiceImpl.class})
-class BookProcessingServiceImplTest {
+@Import({BookServiceImpl.class,BookMapping.class, AuthorMapping.class, GenreMapping.class, BookCommentMapping.class})
+class BookServiceImplTest {
 
 
     private static final Book BOOK_FOR_SAVE = new Book(0,
@@ -39,7 +43,10 @@ class BookProcessingServiceImplTest {
     private EntityManager entityManager;
 
     @Autowired
-    private BookProcessingServiceImpl bookProcessingService;
+    private BookServiceImpl bookProcessingService;
+
+    @Autowired
+    private BookMapping bookMapping;
 
     @Autowired
     private BookRepository bookRepository;
@@ -47,7 +54,7 @@ class BookProcessingServiceImplTest {
     @Test
     @DisplayName("корректно сохранять книгу")
     void shouldCorrectSaveBook() {
-        Book savedBook = bookProcessingService.saveBookWithAllInfo(BOOK_FOR_SAVE);
+        Book savedBook = bookMapping.toEntity(bookProcessingService.save(bookMapping.toDto(BOOK_FOR_SAVE)));
         entityManager.flush();
         entityManager.clear();
 
@@ -63,7 +70,7 @@ class BookProcessingServiceImplTest {
     @DisplayName("корректно апдейтить книгу")
     void shouldCorrectUpdateBook() {
 
-        Book updatedBook = bookProcessingService.updateBookWithAllInfoByName(BOOK_FOR_UPDATE.getId(), BOOK_FOR_UPDATE);
+        Book updatedBook = bookMapping.toEntity(bookProcessingService.update(BOOK_FOR_UPDATE.getId(), bookMapping.toDto(BOOK_FOR_UPDATE)));
         entityManager.flush();
         entityManager.clear();
 

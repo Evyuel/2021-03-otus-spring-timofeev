@@ -16,11 +16,9 @@ import javax.persistence.*;
 public class Genre {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id",nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "genre_sq")
-    @NonNull
     private long id;
     @Column(name = "name", nullable = false, unique = true)
-    @NonNull
     private String name;
 }

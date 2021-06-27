@@ -12,6 +12,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ru.dtimofeev.springapp.models.Author;
 import ru.dtimofeev.springapp.repositories.AuthorRepository;
 import ru.dtimofeev.springapp.rest.dto.AuthorDto;
+import ru.dtimofeev.springapp.rest.dto.mapping.AuthorMapping;
+import ru.dtimofeev.springapp.service.AuthorServiceImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(AuthorController.class)
+@WebMvcTest({AuthorController.class,AuthorMapping.class, AuthorServiceImpl.class})
 @DisplayName("Класс AuthorControllerTest должен ")
 class AuthorControllerTest {
     private static final Author AUTHOR_WITH_ID_1 = new Author(1, "Михаил Булгаков");
@@ -35,6 +37,9 @@ class AuthorControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
+    @Autowired
+    private AuthorMapping authorMapping;
+
     @MockBean
     private AuthorRepository authorRepository;
 
@@ -43,7 +48,7 @@ class AuthorControllerTest {
     @Test
     void shouldCorrectReturnAuthorById() throws Exception {
         given(authorRepository.findById(AUTHOR_WITH_ID_1.getId())).willReturn(Optional.of(AUTHOR_WITH_ID_1));
-        AuthorDto expectedAuthor = AuthorDto.toDto(AUTHOR_WITH_ID_1);
+        AuthorDto expectedAuthor = authorMapping.toDto(AUTHOR_WITH_ID_1);
 
         mvc.perform(get("/api/author/1"))
                 .andExpect(status().isOk())
@@ -57,7 +62,7 @@ class AuthorControllerTest {
         List<Author> listOfAuthors = List.of(new Author(1, "First"), new Author(2, "Second"));
         given(authorRepository.findAll()).willReturn(listOfAuthors);
 
-        List<AuthorDto> expectedAuthorList = listOfAuthors.stream().map(author -> AuthorDto.toDto(author)).collect(Collectors.toList());
+        List<AuthorDto> expectedAuthorList = listOfAuthors.stream().map(author -> authorMapping.toDto(author)).collect(Collectors.toList());
 
         mvc.perform(get("/api/author/"))
                 .andExpect(status().isOk())
@@ -69,11 +74,11 @@ class AuthorControllerTest {
     @Test
     void shouldCorrectSaveAuthor() throws Exception {
 
-        given(authorRepository.save(new Author(0, AUTHOR_FOR_SAVE.getFullName()))).willReturn(new Author(5, AUTHOR_FOR_SAVE.getFullName()));
-        AuthorDto expectedAuthor = AuthorDto.toDto(AUTHOR_FOR_SAVE);
+        given(authorRepository.save(AUTHOR_FOR_SAVE)).willReturn(new Author(5, AUTHOR_FOR_SAVE.getFullName()));
+        AuthorDto expectedAuthor = authorMapping.toDto(AUTHOR_FOR_SAVE);
 
         mvc.perform(post("/api/author")
-                .content(mapper.writeValueAsString(AUTHOR_FOR_SAVE))
+                .content(mapper.writeValueAsString(authorMapping.toDto(AUTHOR_FOR_SAVE)))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())

@@ -12,6 +12,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ru.dtimofeev.springapp.models.Genre;
 import ru.dtimofeev.springapp.repositories.GenreRepository;
 import ru.dtimofeev.springapp.rest.dto.GenreDto;
+import ru.dtimofeev.springapp.rest.dto.mapping.GenreMapping;
+import ru.dtimofeev.springapp.service.GenreService;
+import ru.dtimofeev.springapp.service.GenreServiceImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(GenreController.class)
+@WebMvcTest({GenreController.class,GenreMapping.class, GenreServiceImpl.class})
 @DisplayName("Класс GenreController должен ")
 class GenreControllerTest {
 
@@ -35,6 +38,9 @@ class GenreControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
+    @Autowired
+    private GenreMapping genreMapping;
+
     @MockBean
     private GenreRepository genreRepository;
 
@@ -42,7 +48,7 @@ class GenreControllerTest {
     @Test
     void shouldCorrectReturnGenreById() throws Exception {
         given(genreRepository.findById(GENRE_WITH_ID_1.getId())).willReturn(Optional.of(GENRE_WITH_ID_1));
-        GenreDto expectedGenre = GenreDto.toDto(GENRE_WITH_ID_1);
+        GenreDto expectedGenre = genreMapping.toDto(GENRE_WITH_ID_1);
 
         mvc.perform(get("/api/genre/1"))
                 .andExpect(status().isOk())
@@ -56,7 +62,7 @@ class GenreControllerTest {
 
         given(genreRepository.findAll()).willReturn(ALL_GENRES);
 
-        List<GenreDto> expectedGenreList = ALL_GENRES.stream().map(genre -> GenreDto.toDto(genre)).collect(Collectors.toList());
+        List<GenreDto> expectedGenreList = ALL_GENRES.stream().map(genre -> genreMapping.toDto(genre)).collect(Collectors.toList());
 
         mvc.perform(get("/api/genre/"))
                 .andExpect(status().isOk())
@@ -69,7 +75,7 @@ class GenreControllerTest {
     void shouldCorrectReturnGenreByParam() throws Exception {
 
         given(genreRepository.findByName("Классика")).willReturn(Optional.of(GENRE_WITH_ID_1));
-        GenreDto expectedGenre = GenreDto.toDto(GENRE_WITH_ID_1);
+        GenreDto expectedGenre = genreMapping.toDto(GENRE_WITH_ID_1);
 
         mvc.perform(get("/api/genre/search?name=Классика"))
                 .andExpect(status().isOk())
@@ -82,7 +88,7 @@ class GenreControllerTest {
     void shouldCorrectUpdateGenre() throws Exception {
 
         given(genreRepository.save(GENRE_FOR_SAVE)).willReturn(GENRE_FOR_SAVE);
-        GenreDto expectedGenre = GenreDto.toDto(GENRE_FOR_SAVE);
+        GenreDto expectedGenre = genreMapping.toDto(GENRE_FOR_SAVE);
 
         mvc.perform(put("/api/genre/{id}", GENRE_FOR_SAVE.getId())
                 .content(mapper.writeValueAsString(GENRE_FOR_SAVE))
@@ -96,11 +102,11 @@ class GenreControllerTest {
     @Test
     void shouldCorrectSaveGenre() throws Exception {
 
-        given(genreRepository.save(new Genre(0, GENRE_FOR_SAVE.getName()))).willReturn(new Genre(4, GENRE_FOR_SAVE.getName()));
-        GenreDto expectedGenre = GenreDto.toDto(GENRE_FOR_SAVE);
+        given(genreRepository.save(GENRE_FOR_SAVE)).willReturn(new Genre(4, GENRE_FOR_SAVE.getName()));
+        GenreDto expectedGenre = genreMapping.toDto(GENRE_FOR_SAVE);
 
         mvc.perform(post("/api/genre")
-                .content(mapper.writeValueAsString(GENRE_FOR_SAVE))
+                .content(mapper.writeValueAsString(genreMapping.toDto(GENRE_FOR_SAVE)))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())

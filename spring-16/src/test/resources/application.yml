@@ -15,10 +15,6 @@ spring:
 
   flyway:
     enabled: true
-
-  shell:
-    interactive:
-      enabled: false
   jpa:
     show-sql: true
     generate-ddl: false

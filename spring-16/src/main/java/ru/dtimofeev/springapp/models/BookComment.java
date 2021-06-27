@@ -10,18 +10,15 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Table(name = "bookcomment")
 @SequenceGenerator(name = "bookcomment_sq", initialValue = 5, allocationSize = 1)
 public class BookComment {
 
     @Id
-    @Column(name = "id")
-    @NonNull
+    @Column(name = "id",nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bookcomment_sq")
     private long id;
 
-    @NonNull
     @Column(name = "commenttext", nullable = false)
     private String commentText;
 
@@ -33,5 +30,10 @@ public class BookComment {
         this.id = id;
         this.commentText = commentText;
         this.book = book;
+    }
+
+    public BookComment(long id, String commentText) {
+        this.id = id;
+        this.commentText = commentText;
     }
 }

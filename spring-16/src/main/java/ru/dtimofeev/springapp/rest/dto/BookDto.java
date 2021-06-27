@@ -18,11 +18,5 @@ public class BookDto {
     private List<AuthorDto> authors;
     private List<BookCommentDto> bookComments = new ArrayList<>();
 
-    public static BookDto toDto(Book book) {
-        return new BookDto(book.getId(),
-                book.getName(),
-                GenreDto.toDto(book.getGenre()),
-                book.getAuthors().stream().map(author -> AuthorDto.toDto(author)).collect(Collectors.toList()),
-                book.getBookComments().stream().map(bookComment -> BookCommentDto.toDto(bookComment)).collect(Collectors.toList()));
-    }
+
 }
