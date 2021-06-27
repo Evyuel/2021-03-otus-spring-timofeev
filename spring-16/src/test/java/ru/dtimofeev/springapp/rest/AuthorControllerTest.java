@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest({AuthorController.class,AuthorMapping.class, AuthorServiceImpl.class})
+@WebMvcTest({AuthorController.class, AuthorMapping.class, AuthorServiceImpl.class})
 @DisplayName("Класс AuthorControllerTest должен ")
 class AuthorControllerTest {
     private static final Author AUTHOR_WITH_ID_1 = new Author(1, "Михаил Булгаков");

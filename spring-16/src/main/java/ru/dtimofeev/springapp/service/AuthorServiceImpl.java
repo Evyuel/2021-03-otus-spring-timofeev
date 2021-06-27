@@ -1,6 +1,5 @@
 package ru.dtimofeev.springapp.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.dtimofeev.springapp.models.Author;
@@ -13,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class AuthorServiceImpl implements AuthorService{
+public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepository authorRepository;
     private final AuthorMapping authorMapping;
@@ -26,16 +25,18 @@ public class AuthorServiceImpl implements AuthorService{
     }
 
     @Override
-    public AuthorDto getById(long id){
+    public AuthorDto getById(long id) {
         Author author = authorRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(objectName, "id", id));
         return authorMapping.toDto(author);
     }
+
     @Override
-    public List<AuthorDto> getAll(){
+    public List<AuthorDto> getAll() {
         return authorRepository.findAll().stream().map(author -> authorMapping.toDto(author)).collect(Collectors.toList());
     }
+
     @Override
-    public AuthorDto save(AuthorDto authordto){
+    public AuthorDto save(AuthorDto authordto) {
         Author a = authorRepository.save(authorMapping.toEntity(authordto));
         return authorMapping.toDto(a);
     }

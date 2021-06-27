@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class GenreServiceImpl implements GenreService{
+public class GenreServiceImpl implements GenreService {
 
     private final GenreRepository genreRepository;
     private final GenreMapping genreMapping;
@@ -25,31 +25,36 @@ public class GenreServiceImpl implements GenreService{
     }
 
     @Override
-    public GenreDto getById(long id){
+    public GenreDto getById(long id) {
         Genre genre = genreRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(objectName, "id", id));
         return genreMapping.toDto(genre);
     }
+
     @Override
-    public List<GenreDto> getAll(){
+    public List<GenreDto> getAll() {
         return genreRepository.findAll().stream().map(genre -> genreMapping.toDto(genre)).collect(Collectors.toList());
     }
+
     @Override
-    public GenreDto getByName(String name){
+    public GenreDto getByName(String name) {
         Genre genre = genreRepository.findByName(name).orElseThrow(() -> new ObjectNotFoundException(objectName, "name", name));
         return genreMapping.toDto(genre);
     }
+
     @Override
-    public GenreDto update(long id, GenreDto genredto){
+    public GenreDto update(long id, GenreDto genredto) {
         Genre g = genreRepository.save(genreMapping.toEntity(genredto));
         return genreMapping.toDto(g);
     }
+
     @Override
-    public GenreDto save(GenreDto genredto){
+    public GenreDto save(GenreDto genredto) {
         Genre g = genreRepository.save(genreMapping.toEntity(genredto));
         return genreMapping.toDto(g);
     }
+
     @Override
-    public void deleteById(long id){
+    public void deleteById(long id) {
         genreRepository.deleteById(id);
     }
 }

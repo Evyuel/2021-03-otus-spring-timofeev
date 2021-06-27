@@ -22,7 +22,6 @@ import ru.dtimofeev.springapp.rest.dto.mapping.GenreMapping;
 import ru.dtimofeev.springapp.service.BookServiceImpl;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.mockito.BDDMockito.given;

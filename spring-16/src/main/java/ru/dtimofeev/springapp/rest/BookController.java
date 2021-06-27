@@ -37,7 +37,7 @@ public class BookController {
 
     @PutMapping(value = "/api/book/{id}")
     public ResponseEntity<BookDto> update(@PathVariable("id") long id, @RequestBody BookDto bookdto) {
-        return new ResponseEntity<>(bookService.update(id,bookdto), HttpStatus.OK);
+        return new ResponseEntity<>(bookService.update(id, bookdto), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/api/book/{id}")

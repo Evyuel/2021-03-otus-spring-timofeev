@@ -13,7 +13,6 @@ import ru.dtimofeev.springapp.models.Genre;
 import ru.dtimofeev.springapp.repositories.GenreRepository;
 import ru.dtimofeev.springapp.rest.dto.GenreDto;
 import ru.dtimofeev.springapp.rest.dto.mapping.GenreMapping;
-import ru.dtimofeev.springapp.service.GenreService;
 import ru.dtimofeev.springapp.service.GenreServiceImpl;
 
 import java.util.List;
@@ -25,7 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest({GenreController.class,GenreMapping.class, GenreServiceImpl.class})
+@WebMvcTest({GenreController.class, GenreMapping.class, GenreServiceImpl.class})
 @DisplayName("Класс GenreController должен ")
 class GenreControllerTest {
 
