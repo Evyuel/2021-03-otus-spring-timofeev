@@ -27,12 +27,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/api/**").authenticated()
-                    .antMatchers("/authenticated","/success").authenticated()
-                    .antMatchers("/public").anonymous()
+                .antMatchers("/api/**").authenticated()
+                .antMatchers("/authenticated", "/success").authenticated()
+                .antMatchers("/public").anonymous()
                 .and()
                 .formLogin()
-                    .defaultSuccessUrl("/success");
+                .defaultSuccessUrl("/success");
     }
 
     @Bean

@@ -1,19 +1,13 @@
 package ru.dtimofeev.springapp.rest;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.dtimofeev.springapp.models.Genre;
-import ru.dtimofeev.springapp.repositories.GenreRepository;
 import ru.dtimofeev.springapp.rest.dto.GenreDto;
-import ru.dtimofeev.springapp.rest.dto.mapping.GenreMapping;
-import ru.dtimofeev.springapp.rest.exception.ObjectNotFoundException;
 import ru.dtimofeev.springapp.service.GenreService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -43,7 +37,7 @@ public class GenreController {
 
     @PutMapping(value = "/api/genre/{id}")
     public ResponseEntity<GenreDto> update(@PathVariable("id") long id, @RequestBody GenreDto genredto) {
-        return new ResponseEntity<GenreDto>(genreService.update(id,genredto), HttpStatus.OK);
+        return new ResponseEntity<GenreDto>(genreService.update(id, genredto), HttpStatus.OK);
     }
 
     @PostMapping(value = "/api/genre")

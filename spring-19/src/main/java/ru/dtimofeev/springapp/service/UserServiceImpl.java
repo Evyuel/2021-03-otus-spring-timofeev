@@ -7,7 +7,7 @@ import ru.dtimofeev.springapp.models.User;
 import ru.dtimofeev.springapp.repositories.UserRepository;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getByLogin(String login){
+    public User getByLogin(String login) {
         User u = userRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException("User with login: " + login + "not found."));
         return u;
     }

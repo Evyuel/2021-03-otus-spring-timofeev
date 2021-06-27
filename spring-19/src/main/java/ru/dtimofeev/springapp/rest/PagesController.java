@@ -22,7 +22,7 @@ public class PagesController {
     }
 
     @GetMapping("/success")
-    public String successPage(){
+    public String successPage() {
         return "success";
     }
 
