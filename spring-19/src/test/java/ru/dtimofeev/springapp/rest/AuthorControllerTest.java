@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ru.dtimofeev.springapp.models.Author;
@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest({AuthorController.class,AuthorMapping.class, AuthorServiceImpl.class, SecurityConfig.class})
+@WebMvcTest({AuthorController.class, AuthorMapping.class, AuthorServiceImpl.class, SecurityConfig.class})
 @DisplayName("Класс AuthorControllerTest должен ")
 class AuthorControllerTest {
     private static final Author AUTHOR_WITH_ID_1 = new Author(1, "Михаил Булгаков");

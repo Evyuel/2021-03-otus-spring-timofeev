@@ -26,7 +26,6 @@ import ru.dtimofeev.springapp.service.BookServiceImpl;
 
 import javax.sql.DataSource;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.mockito.BDDMockito.given;

@@ -2,8 +2,6 @@ package ru.dtimofeev.springapp.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,7 +13,7 @@ import java.util.List;
 @SequenceGenerator(name = "author_sq", initialValue = 11, allocationSize = 1)
 public class Author {
     @Id
-    @Column(name = "id",nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_sq")
     private long id;
 

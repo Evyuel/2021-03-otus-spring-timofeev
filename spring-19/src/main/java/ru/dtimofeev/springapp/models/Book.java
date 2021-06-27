@@ -19,7 +19,7 @@ import java.util.List;
 @NamedEntityGraph(name = "book.genre", attributeNodes = @NamedAttributeNode(value = "genre"))
 public class Book {
     @Id
-    @Column(name = "id",nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_sq")
     private long id;
 
@@ -27,7 +27,7 @@ public class Book {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "genreid",nullable = false)
+    @JoinColumn(name = "genreid", nullable = false)
     private Genre genre;
 
     @Fetch(FetchMode.SUBSELECT)

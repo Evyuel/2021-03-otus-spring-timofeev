@@ -28,13 +28,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto getById(long id){
+    public BookDto getById(long id) {
         Book book = bookRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(objectName, "id", id));
         return bookMapping.toDto(book);
     }
 
     @Override
-    public List<BookDto> getAll(){
+    public List<BookDto> getAll() {
         return bookRepository.findAll().stream().map(book -> bookMapping.toDto(book)).collect(Collectors.toList());
     }
 
@@ -69,8 +69,9 @@ public class BookServiceImpl implements BookService {
                         bcList));
         return bookMapping.toDto(bookForUpd);
     }
+
     @Override
-    public void deleteById(long id){
+    public void deleteById(long id) {
         bookRepository.deleteById(id);
     }
 }

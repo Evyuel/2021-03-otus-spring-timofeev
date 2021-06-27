@@ -16,7 +16,6 @@ import ru.dtimofeev.springapp.rest.dto.GenreDto;
 import ru.dtimofeev.springapp.rest.dto.mapping.GenreMapping;
 import ru.dtimofeev.springapp.security.CustomUserDetailService;
 import ru.dtimofeev.springapp.security.SecurityConfig;
-import ru.dtimofeev.springapp.service.GenreService;
 import ru.dtimofeev.springapp.service.GenreServiceImpl;
 
 import javax.sql.DataSource;
@@ -28,7 +27,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest({GenreController.class,GenreMapping.class, GenreServiceImpl.class, SecurityConfig.class})
+@WebMvcTest({GenreController.class, GenreMapping.class, GenreServiceImpl.class, SecurityConfig.class})
 @DisplayName("Класс GenreController должен ")
 class GenreControllerTest {
 

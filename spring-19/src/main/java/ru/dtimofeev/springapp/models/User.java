@@ -13,7 +13,7 @@ import java.util.List;
 public class User {
 
     @Id
-    @Column(name = "id",nullable = false)
+    @Column(name = "id", nullable = false)
     private long id;
 
     @Column(name = "login")
@@ -23,6 +23,6 @@ public class User {
     private String password;
 
     @Fetch(FetchMode.SUBSELECT)
-    @OneToMany(mappedBy = "user",orphanRemoval = true,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<UserAuthority> userAuthorities;
 }

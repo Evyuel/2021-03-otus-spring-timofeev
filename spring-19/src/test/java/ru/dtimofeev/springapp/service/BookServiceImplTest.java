@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @DisplayName("Класс BookProcessingServiceImpl должен")
-@Import({BookServiceImpl.class,BookMapping.class, AuthorMapping.class, GenreMapping.class, BookCommentMapping.class})
+@Import({BookServiceImpl.class, BookMapping.class, AuthorMapping.class, GenreMapping.class, BookCommentMapping.class})
 class BookServiceImplTest {
 
 
