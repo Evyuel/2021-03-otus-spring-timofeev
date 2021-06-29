@@ -13,7 +13,7 @@ import java.util.List;
 @SequenceGenerator(name = "author_sq", initialValue = 11, allocationSize = 1)
 public class Author {
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_sq")
     private long id;
 

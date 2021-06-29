@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class BookComment {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bookcomment_sq")
     private long id;
 

@@ -19,7 +19,7 @@ import java.util.List;
 @NamedEntityGraph(name = "book.genre", attributeNodes = @NamedAttributeNode(value = "genre"))
 public class Book {
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_sq")
     private long id;
 
