@@ -1,6 +1,8 @@
 package ru.dtimofeev.springapp.models;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -10,6 +12,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "users")
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -25,4 +28,10 @@ public class User {
     @Fetch(FetchMode.SUBSELECT)
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<UserAuthority> userAuthorities;
+
+    public User(long id, String login, String password) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+    }
 }

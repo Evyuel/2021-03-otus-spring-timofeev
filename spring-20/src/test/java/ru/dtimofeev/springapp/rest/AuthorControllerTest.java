@@ -26,7 +26,8 @@ import java.util.stream.Collectors;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest({AuthorController.class, AuthorMapping.class, AuthorServiceImpl.class, SecurityConfig.class})
 @DisplayName("Класс AuthorControllerTest должен ")
@@ -53,8 +54,8 @@ class AuthorControllerTest {
     private CustomUserDetailService customUserDetailService;
 
     @WithMockUser(
-            username = "admin",
-            authorities = {"ROLE_ADMIN"}
+            username = "SomeUser",
+            authorities = {"ROLE_USER"}
     )
     @DisplayName("корректно возвращать автора по ID")
     @Test
@@ -69,8 +70,8 @@ class AuthorControllerTest {
     }
 
     @WithMockUser(
-            username = "admin",
-            authorities = {"ROLE_ADMIN"}
+            username = "SomeUser",
+            authorities = {"ROLE_USER"}
     )
     @DisplayName("корректно возвращать всех авторов")
     @Test
@@ -87,8 +88,8 @@ class AuthorControllerTest {
     }
 
     @WithMockUser(
-            username = "admin",
-            authorities = {"ROLE_ADMIN"}
+            username = "SomeUser",
+            authorities = {"ROLE_USER"}
     )
     @DisplayName("корректно сохранять автора")
     @Test
@@ -105,13 +106,16 @@ class AuthorControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.fullName").value(AUTHOR_FOR_SAVE.getFullName()));
     }
 
-    @DisplayName("запросить авторизацию")
+    @WithMockUser(
+            username = "admin",
+            authorities = {"ROLE_ADMIN"}
+    )
+    @DisplayName("запретить доступ не со своей ролью")
     @Test
     void shouldRedirect() throws Exception {
         mvc.perform(get("/api/author")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isFound())
-                .andExpect(redirectedUrlTemplate("http://localhost/login"));
+                .andExpect(status().isForbidden());
 
     }
 

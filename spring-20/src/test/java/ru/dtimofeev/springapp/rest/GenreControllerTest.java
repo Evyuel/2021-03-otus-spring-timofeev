@@ -25,7 +25,8 @@ import java.util.stream.Collectors;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest({GenreController.class, GenreMapping.class, GenreServiceImpl.class, SecurityConfig.class})
 @DisplayName("Класс GenreController должен ")
@@ -153,13 +154,16 @@ class GenreControllerTest {
                 .andExpect(status().isAccepted());
     }
 
-    @DisplayName("запросить авторизацию")
+    @WithMockUser(
+            username = "SomeUser",
+            authorities = {"ROLE_USER"}
+    )
+    @DisplayName("запретить доступ не со своей ролью")
     @Test
     void shouldRedirect() throws Exception {
         mvc.perform(get("/api/genre")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isFound())
-                .andExpect(redirectedUrlTemplate("http://localhost/login"));
+                .andExpect(status().isForbidden());
 
     }
 

@@ -30,7 +30,8 @@ import java.util.stream.Collectors;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest({BookController.class,
         BookMapping.class, AuthorMapping.class, GenreMapping.class, BookCommentMapping.class,
@@ -80,8 +81,8 @@ class BookControllerTest {
     private CustomUserDetailService customUserDetailService;
 
     @WithMockUser(
-            username = "admin",
-            authorities = {"ROLE_ADMIN"}
+            username = "SomeUser",
+            authorities = {"ROLE_USER"}
     )
     @DisplayName("корректно возвращать книгу по ID")
     @Test
@@ -97,8 +98,8 @@ class BookControllerTest {
     }
 
     @WithMockUser(
-            username = "admin",
-            authorities = {"ROLE_ADMIN"}
+            username = "SomeUser",
+            authorities = {"ROLE_USER"}
     )
     @DisplayName("корректно возвращать все книги")
     @Test
@@ -113,8 +114,8 @@ class BookControllerTest {
     }
 
     @WithMockUser(
-            username = "admin",
-            authorities = {"ROLE_ADMIN"}
+            username = "SomeUser",
+            authorities = {"ROLE_USER"}
     )
     @DisplayName("корректно сохранять книгу")
     @Test
@@ -136,8 +137,8 @@ class BookControllerTest {
     }
 
     @WithMockUser(
-            username = "admin",
-            authorities = {"ROLE_ADMIN"}
+            username = "SomeUser",
+            authorities = {"ROLE_USER"}
     )
     @DisplayName("корректно апдейтить книгу")
     @Test
@@ -156,8 +157,8 @@ class BookControllerTest {
     }
 
     @WithMockUser(
-            username = "admin",
-            authorities = {"ROLE_ADMIN"}
+            username = "SomeUser",
+            authorities = {"ROLE_USER"}
     )
     @DisplayName("корректно удалять книгу")
     @Test
@@ -167,13 +168,16 @@ class BookControllerTest {
                 .andExpect(status().isAccepted());
     }
 
-    @DisplayName("запросить авторизацию")
+    @WithMockUser(
+            username = "admin",
+            authorities = {"ROLE_ADMIN"}
+    )
+    @DisplayName("запретить доступ не со своей ролью")
     @Test
     void shouldRedirect() throws Exception {
         mvc.perform(get("/api/book")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isFound())
-                .andExpect(redirectedUrlTemplate("http://localhost/login"));
+                .andExpect(status().isForbidden());
 
     }
 

@@ -6,10 +6,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
@@ -18,7 +15,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final DataSource dataSource;
     private final CustomUserDetailService customUserDetailService;
-    private final UserDetailsServiceI
 
     @Autowired
     public SecurityConfig(DataSource dataSource, CustomUserDetailService customUserDetailService) {
@@ -28,16 +24,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http
+                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/**").authenticated()
+                .antMatchers("/api/genre/**").hasRole("ADMIN")
+                .antMatchers("/api/**").hasRole("USER")
                 .antMatchers("/authenticated", "/success").authenticated()
                 .antMatchers("/public").anonymous()
+                .antMatchers("/login").permitAll()
                 .and()
-                .addFilter(new JWTAuthenticationFilter(au))
-                .formLogin()
-                .usernameParameter("login")
-                .defaultSuccessUrl("/success");
+                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager()));
     }
 
     @Bean
