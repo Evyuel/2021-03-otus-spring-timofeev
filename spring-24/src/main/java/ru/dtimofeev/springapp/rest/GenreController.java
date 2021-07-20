@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.dtimofeev.springapp.aop.Loggable;
 import ru.dtimofeev.springapp.rest.dto.GenreDto;
 import ru.dtimofeev.springapp.service.GenreService;
 
 import java.util.List;
 
-
+@Loggable
 @RestController
 public class GenreController {
 
