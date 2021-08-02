@@ -6,6 +6,7 @@ services:
       context: .
     environment:
       - DBNAME=${DBNAME}
+      - DBHOSTNAME=${DBHOSTNAME}
     ports:
       - 8080:8080
     networks:
@@ -18,8 +19,8 @@ services:
     environment:
       - POSTGRES_PASSWORD=12345
       - POSTGRES_USER=postgres
-      - POSTGRES_DB=appdb
-    hostname: ${DBNAME}
+      - POSTGRES_DB=${DBNAME}
+    hostname: ${DBHOSTNAME}
     ports:
       - 5432:5432
     networks:
