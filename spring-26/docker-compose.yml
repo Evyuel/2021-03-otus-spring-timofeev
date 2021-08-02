@@ -6,3 +6,19 @@ services:
       context: .
     ports:
       - 8080:8080
+    networks:
+      - app_network
+  mydb:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=appdb
+    ports:
+      - 5432:5432
+    networks:
+      - app_network
+networks:
+  app_network: 
+    driver: bridge
