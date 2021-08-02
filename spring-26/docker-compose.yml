@@ -4,17 +4,22 @@ services:
   my-app:
     build:
       context: .
+    environment:
+      - DBNAME=${DBNAME}
     ports:
       - 8080:8080
     networks:
       - app_network
-  mydb:
+    depends_on: 
+      - db
+  db:
     image: postgres
     restart: always
     environment:
       - POSTGRES_PASSWORD=12345
       - POSTGRES_USER=postgres
       - POSTGRES_DB=appdb
+    hostname: ${DBNAME}
     ports:
       - 5432:5432
     networks:
