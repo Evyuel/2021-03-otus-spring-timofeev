@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  my-app:
+    build:
+      context: .
+    environment:
+      - DBNAME=${DBNAME}
+      - DBHOSTNAME=${DBHOSTNAME}
+    ports:
+      - 8080:8080
+    networks:
+      - app_network
+    depends_on: 
+      - db
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=${DBNAME}
+    hostname: ${DBHOSTNAME}
+    ports:
+      - 5432:5432
+    networks:
+      - app_network
+networks:
+  app_network: 
+    driver: bridge
