@@ -1,0 +1,52 @@
+server:
+  port: ${producerport:8080}
+spring:
+  datasource:
+    url: jdbc:postgresql://${DBHOSTNAME}:5432/${DBPRODUCERNAME}
+    username: postgres
+    password: 12345
+    driver-class-name: org.postgresql.Driver
+  kafka:
+    bootstrap-servers: ${KAFKA_HOST}:9092
+    properties:
+      sasl:
+        jaas:
+          config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${kafka_username:'admin'} password=${kafka_password:'admin'};
+        mechanism: PLAIN
+      security:
+        protocol: SASL_PLAINTEXT
+    producer:
+      client-id: producer
+      key-serializer: org.apache.kafka.common.serialization.LongSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      retries: 2
+      jaas:
+        enabled: true
+  flyway:
+    enabled: true
+
+  jpa:
+    show-sql: true
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  health:
+    defaults:
+      enabled: true
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+    file: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+  level:
+    root: INFO
+    ru.dtimofeev.springapp.aop: INFO
+  file:
+    name: logs/aspect.log
